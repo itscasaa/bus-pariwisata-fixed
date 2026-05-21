@@ -1,0 +1,46 @@
+{
+  "name": "bus_pariwisata",
+  "version": "1.0.0",
+  "description": "Web Penyewaan bus pariwisata surya tour trans",
+  "main": "index.js",
+  "scripts": {
+    "start": "webpack serve --mode development",
+    "build": "webpack --mode production",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Topan221867/bus_pariwisata.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Topan221867/bus_pariwisata/issues"
+  },
+  "homepage": "https://github.com/Topan221867/bus_pariwisata#readme",
+  "devDependencies": {
+    "@babel/core": "^7.29.0",
+    "@babel/preset-env": "^7.29.5",
+    "@babel/preset-react": "^7.28.5",
+    "babel-loader": "^10.1.1",
+    "css-loader": "^7.1.4",
+    "html-webpack-plugin": "^5.6.7",
+    "postcss-loader": "^8.2.1",
+    "style-loader": "^4.0.0",
+    "webpack": "^5.106.2",
+    "webpack-cli": "^7.0.2",
+    "webpack-dev-server": "^5.2.4"
+  },
+  "dependencies": {
+    "@fortawesome/fontawesome-free": "^7.2.0",
+    "autoprefixer": "^10.5.0",
+    "bootstrap": "^5.3.8",
+    "postcss": "^8.5.14",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "react-router-dom": "^7.15.1",
+    "swiper": "^12.1.4",
+    "tailwindcss": "^3.4.19"
+  }
+}

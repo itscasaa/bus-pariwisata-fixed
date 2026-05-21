@@ -1,0 +1,49 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+@import '@fortawesome/fontawesome-free/css/all.min.css';
+@import 'swiper/css/bundle';
+
+/* Custom palette */
+:root {
+  --color-primary: #1d6ec5; /* main blue */
+  --color-primary-light: #60a5fa; /* lighter blue */
+  --color-bg-page: #ffffff; /* white background */
+  --color-bg-section: #f8fbff; /* subtle off‑white for sections */
+  --color-text-primary: #1a202c; /* dark gray */
+  --color-text-muted: #4a5568; /* medium gray */
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: var(--color-bg-page);
+  color: var(--color-text-primary);
+}
+
+/* Smooth scroll */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Swiper custom */
+.swiper-pagination-bullet-active {
+  background: var(--color-primary) !important;
+}
+
+/* Infinite scroll animation for partners */
+@keyframes scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-scroll {
+  animation: scroll 30s linear infinite;
+}
+
+.animate-scroll:hover {
+  animation-play-state: paused;
+}

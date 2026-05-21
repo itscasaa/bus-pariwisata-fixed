@@ -1,0 +1,85 @@
+
+        :root {
+            --primary-navy: #1a2226; /* Warna khas sidebar/navbar AdminLTE */
+            --accent-orange: #f39c12; /* Warna orange Surya Tour */
+            --dark-red: #c0392b;
+        }
+
+        body { 
+            font-family: 'Poppins', sans-serif; 
+            background-color: #f4f6f9;
+            /* UBAH BAGIAN INI: Hilangkan padding-top 70px dan reset margin bawaan browser */
+            margin: 0;
+            padding-top: 0;
+        }
+
+        /* Styling Section Pencarian mirip Beranda */
+        .bg-search-custom { 
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('../public/images/bus1.jpeg');
+            background-color: var(--primary-navy); 
+            background-size: cover;
+            background-position: center;
+            padding: 60px 0; 
+            color: white; 
+            text-align: center; 
+        }
+
+        /* ... sisa kode CSS kamu ke bawah tetap sama ... */
+
+        .text-orange { color: var(--accent-orange) !important; }
+        
+        .btn-orange { 
+            background-color: var(--accent-orange); 
+            color: white; 
+            font-weight: 600;
+            border: none;
+        }
+
+        .btn-orange:hover { 
+            background-color: #e67e22; 
+            color: white; 
+        }
+
+        .btn-dark-search { 
+            background-color: #222d32; 
+            color: white; 
+            border: none;
+            padding: 10px 30px; 
+            transition: 0.3s;
+        }
+
+        .btn-dark-search:hover { background-color: #000; color: var(--accent-orange); }
+
+        /* Styling Tabel agar matching dengan Kontak/Beranda */
+        .table thead {
+            background-color: var(--primary-navy);
+            color: #fff;
+        }
+
+        .card {
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .input-group-text {
+            background-color: var(--accent-orange);
+            color: white;
+            border: none;
+        }
+
+         body { font-family: 'Poppins', sans-serif; }
+        .hero-section {
+            /* Perbaikan Path Gambar Background */
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('../public/images/bus3.jpeg');
+            background-size: cover;
+            background-position: center;
+            min-height: 500px;
+            display: flex;
+            align-items: center;
+            color: white;
+        }
+        .card-img-top {
+            height: 200px;
+            object-fit: cover;
+        }
+        .navbar-brand { font-weight: 700; letter-spacing: 1px; }
