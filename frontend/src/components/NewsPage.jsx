@@ -8,21 +8,17 @@ const NewsPage = () => {
     <>
       {/* ===== HERO BANNER ===== */}
       <div className="bg-gradient-to-br from-[#0d4a8a] to-[#1d6ec5] pt-16 lg:pt-20 pb-14 text-white relative overflow-hidden">
-        {/* Dot pattern dekoratif */}
         <div
           className="absolute inset-0 opacity-10"
           style={{
-            backgroundImage:
-              'repeating-linear-gradient(45deg, #fff 0, #fff 1px, transparent 0, transparent 50%)',
+            backgroundImage: 'repeating-linear-gradient(45deg, #fff 0, #fff 1px, transparent 0, transparent 50%)',
             backgroundSize: '20px 20px',
           }}
         ></div>
-        {/* Lingkaran dekoratif */}
         <div className="absolute -top-20 -left-20 w-80 h-80 bg-white/5 rounded-full pointer-events-none"></div>
         <div className="absolute -bottom-24 -right-20 w-96 h-96 bg-white/5 rounded-full pointer-events-none"></div>
 
         <div className="container mx-auto px-4 relative z-10 text-center">
-          {/* Label kecil */}
           <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 text-blue-100 text-xs font-semibold uppercase tracking-widest px-4 py-2 rounded-full mb-5">
             <i className="fas fa-newspaper text-yellow-300"></i>
             Informasi &amp; Berita Terkini
@@ -35,7 +31,6 @@ const NewsPage = () => {
             Dapatkan informasi terbaru seputar promo wisata, tips perjalanan, dan berita terkini dari Surya Tour Trans
           </p>
 
-          {/* Stats bar */}
           <div className="inline-flex flex-wrap justify-center gap-6 bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl px-8 py-4">
             <div className="flex items-center gap-2 text-sm">
               <i className="fas fa-tag text-yellow-300"></i>
@@ -74,17 +69,11 @@ const NewsPage = () => {
           {news.length === 0 ? (
             /* === EMPTY STATE === */
             <div className="max-w-md mx-auto text-center py-10">
-              <div className="mb-8">
-                <img
-                  src="/images/searchnotfound.png"
-                  alt="Belum ada berita"
-                  className="w-48 h-48 object-contain mx-auto"
-                  onError={(e) => { e.target.style.display = 'none'; }}
-                />
-              </div>
-              <div className="w-16 h-16 bg-blue-100 text-[#1d6ec5] rounded-full flex items-center justify-center mx-auto mb-5">
-                <i className="fas fa-newspaper text-2xl"></i>
-              </div>
+              <img
+                src="/images/searchnotfound.png"
+                alt="Belum ada berita"
+                className="w-64 h-64 object-contain mx-auto mb-6 drop-shadow-md"
+              />
               <h2 className="text-2xl font-bold text-gray-800 mb-3">
                 Belum Ada Berita Terbaru
               </h2>

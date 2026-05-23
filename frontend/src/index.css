@@ -3,6 +3,8 @@
 @tailwind utilities;
 
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap');
 @import '@fortawesome/fontawesome-free/css/all.min.css';
 @import 'swiper/css/bundle';
 
@@ -22,6 +24,32 @@ body {
   padding: 0;
   background-color: var(--color-bg-page);
   color: var(--color-text-primary);
+}
+
+/* Admin Dashboard Styles */
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
+
+.custom-shadow {
+  box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.03);
+}
+
+.sidebar-active {
+  background: linear-gradient(135deg, #4f46e5, #4338ca);
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #e4e1ee;
+  border-radius: 10px;
 }
 
 /* Smooth scroll */

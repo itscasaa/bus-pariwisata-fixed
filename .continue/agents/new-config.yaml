@@ -1,0 +1,11 @@
+models:
+  - title: DeepSeek Coder V2 (VPS)
+    provider: ollama
+    model: deepseek-coder-v2
+    apiBase: http://20.204.16.209:11434
+
+tabAutocompleteModel:
+  title: DeepSeek Coder V2 (VPS)
+  provider: ollama
+  model: deepseek-coder-v2
+  apiBase: http://20.204.16.209:11434

@@ -1,334 +1,208 @@
 {
   "metadata": {
-    "version": "2.2.0",
-    "lastUpdated": "2026-05-21T15:00:00Z",
+    "version": "4.0.0",
+    "lastUpdated": "2026-05-23T03:52:00Z",
     "projectName": "Bus Pariwisata - Surya Tour Trans",
     "brandName": "Mafina Trans / Surya Tour Trans",
-    "description": "Web platform untuk penyewaan bus pariwisata (tour bus rental) berbasis Tangerang",
-    "repository": "https://github.com/Topan221867/bus_pariwisata.git",
-    "author": "Topan221867",
-    "notes": "FILE INI ADALAH SUMBER KONTEKS UTAMA. Selalu baca file ini PERTAMA sebelum melakukan pekerjaan apapun. Jangan scan ulang seluruh project. Hanya baca file yang relevan dengan task yang diminta.",
+    "description": "Web platform penyewaan bus pariwisata berbasis Tangerang",
+    "repository": "https://github.com/itscasaa/Bckup-Bus-Pariwisata.git",
+    "author": "itscasaa (original: Topan221867)",
+    "notes": "FILE INI ADALAH SUMBER KONTEKS UTAMA. Selalu baca file ini PERTAMA sebelum melakukan pekerjaan apapun. JANGAN scan ulang seluruh project. Hanya baca file spesifik yang relevan dengan task.",
+    "scanStatus": "FULL SCAN v4.0.0 - Semua state terkini sudah diverifikasi dari file & git remote",
+    "git": {
+      "remote": "https://github.com/itscasaa/Bckup-Bus-Pariwisata.git",
+      "latestCommit": "3fb340870f648ff91ae9a4e5ca1de34ba280fc3d",
+      "commitMessage": "clean upload",
+      "totalCommits": 1
+    },
     "changelog": [
-      "v2.2.0 (2026-05-21): Fix BusFleet text-white -> text-gray-800 (judul + nama bus). Fix Navbar duplikat footer dihapus. Fix Footer.jsx dirapi jadi 3 kolom (info, navigasi, sosmed). Partners dihapus dari HomePage & App.js. Update fasilitas 11 item semua bus (Seat 3-2, LCD TV, Dispenser, AC, Audio, Android, Karaoke, Cooler Box, USB, Bagasi, Lampu Baca). Update getFacilityIcon BusDetailPage.jsx. Tabel price_list di-DROP & CREATE ulang dengan kolom durasi + 35 data sesuai dokumen 2025-2026. SQL: database/price_list_setup.sql (PERLU DIJALANKAN). api/price_list.php updated include kolom durasi (PERLU DIUPDATE via MCP - timeout).",
-      "v2.1.0 (2026-05-21): Upgrade banner ArmadaPage + PaketWisataPage + NewsPage — dot pattern, label pill, stats bar, info strip (seragam dengan PriceListPage). Fix bug JSX >> di ArmadaPage. NewsPage empty state + tombol WA.",
-      "v2.0.0 (2026-05-21): Full re-scan & analisis lengkap semua komponen, route, DB schema, API, dan struktur direktori",
-      "v1.2.0 (2026-05-20): Setup tabel bus + bus_images, insert 5 data bus, update api/buses.php include gambar fasilitas, update BusFleet.jsx"
+      "v4.0.0 (2026-05-23): FULL RE-ANALYSIS + vibechecker fixed & running. Fix baseURL 3000->3003, watchPath ./src->../frontend/src. Dependencies installed. Vibechecker functional.",
+      "v3.2.0 (2026-05-22): FIXED - Deskripsi semua bus di DB langsung di-UPDATE via MySQL.",
+      "v3.1.0 (2026-05-22): Bus diupdate: 4 Pratama Trans + 2 Malika Wisata.",
+      "v3.0.0 (2026-05-22): FULL SCAN semua file selesai.",
+      "v2.3.0 (2026-05-22): Verifikasi price_list API & komponen.",
+      "v2.2.0 (2026-05-21): Fix BusFleet, Navbar, Footer, hapus Partners, update fasilitas 11 item.",
+      "v2.0.0 (2026-05-21): Full re-scan & analisis struktur."
     ]
   },
   "brand": {
     "primaryName": "Mafina Trans",
     "altName": "Surya Tour Trans",
     "tagline": "Penyewaan Bus Pariwisata",
-    "location": "Kota Tangerang",
+    "location": "Kota Tangerang, Banten",
     "contact": {
       "phone": "087785598639",
       "whatsapp": "6287785598639",
       "whatsappAlt": "6289652594745",
-      "email": "info@mafinatrans.co.id"
+      "email": "info@mafinatrans.co.id",
+      "address": "Kota Tangerang"
     },
     "primaryColor": "#1d6ec5",
     "darkColor": "#0d4a8a",
-    "lightColor": "var(--color-primary-light)"
+    "cssVar": "var(--color-primary)"
   },
   "architecture": {
-    "type": "HYBRID_STACK",
-    "summary": "React SPA (frontend) + PHP REST API (backend) + MySQL DB",
+    "type": "HYBRID_STACK + DUAL ADMIN + VIBECHECKER",
+    "summary": "React SPA (frontend) + PHP REST API (backend) + PHP Admin Panel (admin/) + React Admin Panel (admin-panel/) + MySQL DB + VibeChecker monitoring",
     "frontend": {
       "framework": "React 18.0.0",
       "buildTool": "Webpack 5.106.2",
-      "language": "JavaScript/JSX",
       "styling": "Tailwind CSS 3.4.19 + Bootstrap 5.3.8 + PostCSS + CSS Variables",
-      "router": "React Router v7.15.1 (BrowserRouter, historyApiFallback)",
+      "router": "React Router v7.15.1",
       "devServer": "webpack-dev-server port 3003",
       "entryPoint": "frontend/src/index.js",
       "mainApp": "frontend/src/App.js",
       "bundleOutput": "frontend/dist/bundle.js",
       "carouselLibrary": "Swiper 12.1.4",
       "iconLibrary": "FontAwesome Free 7.2.0",
-      "transpiler": "Babel @7.29.0 (@babel/preset-react, @babel/preset-env)"
+      "transpiler": "Babel @7.29.0"
     },
     "backend": {
       "language": "PHP (Procedural)",
       "type": "REST API",
-      "database": "MySQL/MariaDB",
-      "databaseName": "bus_pariwisata",
-      "connectionFile": "config/koneksi.php",
-      "connectionConfig": {
-        "host": "localhost",
-        "user": "root",
-        "password": "",
-        "charset": "utf8"
-      }
+      "database": "MySQL/MariaDB bus_pariwisata",
+      "connectionFile": "config/koneksi.php"
     },
-    "otherTools": {
-      "fileWatcher": "memory-watcher.js + Chokidar 5.0.0",
-      "adminPanel": "PHP based (admin/ directory)"
+    "vibechecker": {
+      "path": "vibechecker/",
+      "status": "FIXED & RUNNING",
+      "files": [
+        "watcher.js - Main entry (default watchPath = ../frontend/src, --once mode tersedia)",
+        "validator.js - Static analysis + Playwright test runner",
+        "errorParser.js - 12 error patterns + component impact detection",
+        "ui.js - Banner, spinner, result display dengan chalk/boxen/ora",
+        "playwright.config.js - baseURL = localhost:3003 (FIXED)",
+        "src/ - folder test (belum ada .spec.js files)"
+      ],
+      "dependencies": "chokidar, chalk, ora, boxen, @playwright/test (all installed)",
+      "usage": "cd vibechecker && node watcher.js (watch mode) || node watcher.js --once (one-shot check)",
+      "note": "Run dev server dulu (npm run start di frontend/) baru browser tests bisa jalan"
     }
   },
   "directoryStructure": {
     "root": {
       "frontend/": "React SPA - UI utama (AKTIF)",
       "api/": "PHP REST API endpoints (AKTIF)",
-      "config/": "Koneksi DB + SQL setup",
+      "config/": "koneksi.php",
       "database/": "SQL migration/setup files",
-      "admin/": "Panel admin PHP (armada CRUD, dashboard - ISI KOSONG/belum diisi)",
-      "componen/": "PHP components legacy (header, footer, navbar)",
-      "layout/": "PHP layout templates legacy",
+      "admin/": "Panel admin PHP - SUDAH TERISI FUNGSIONAL",
+      "admin-panel/": "Panel admin React - TERDETEKSI, BELUM DIANALISIS",
+      "vibechecker/": "Playwright testing suite - FIXED & RUNNING",
+      "componen/": "PHP components legacy",
+      "layout/": "PHP layout legacy",
       "pages/": "PHP pages legacy",
-      "proses/": "PHP processing scripts",
+      "proses/": "PHP processing scripts legacy",
       "assets/": "Static assets root",
-      "public/": "Public static files",
-      "Topan/": "Folder git clone lama - tidak aktif"
-    },
-    "frontend_src_detail": {
-      "App.js": "Root component - semua Route. Partners sudah DIHAPUS dari import & HomePage",
-      "index.js": "ReactDOM.createRoot entry point",
-      "index.css": "Global styles",
-      "components/": "Semua React components",
-      "config/api.js": "Shared API_BASE URL config",
-      "data/siteData.js": "Semua data statis",
-      "assets/logo.png": "Logo Mafina Trans"
-    },
-    "api_files": {
-      "buses.php": "GET semua bus / GET bus by ?id=N (include gambar fasilitas dari bus_images) - auto-detect kolom",
-      "price_list.php": "GET price list ?keyword=xxx - PERLU UPDATE kolom durasi (MCP timeout saat update)",
-      "booking.php": "POST create booking",
-      "contact.php": "POST contact form",
-      "health.php": "GET health check",
-      "buses_debug.php": "Debug endpoint - bisa dihapus",
-      "price_list_debug.php": "Debug endpoint - bisa dihapus"
-    },
-    "database_files": {
-      "bus_fix.sql": "ALTER + INSERT data 5 bus + INSERT bus_images (SUDAH DIJALANKAN)",
-      "bus_setup.sql": "Setup awal tabel bus",
-      "price_list_setup.sql": "DROP + CREATE + INSERT 35 destinasi dengan kolom durasi (BELUM DIJALANKAN - perlu dijalankan di phpMyAdmin)",
-      "update_fasilitas.sql": "UPDATE fasilitas 11 item + deskripsi per bus (BELUM DIJALANKAN - perlu dijalankan)"
+      "public/": "Public static files (Destinasi/ subfolder)",
+      "Topan/": "Folder git clone lama - tidak aktif",
+      "memory-watcher.js": "File watcher script (Chokidar)",
+      "project_memory.json": "KONTEKS UTAMA - file ini",
+      "write_memory.php": "PHP helper untuk write memory",
+      "about.php": "PHP legacy",
+      "layanan.php": "PHP legacy"
     }
   },
   "routes": {
-    "frontendRoutes": {
-      "devURL": "http://localhost:3003",
-      "prodURL": "http://localhost/bus_pariwisata",
-      "/": {
-        "component": "HomePage (inline App.js)",
-        "sections": ["Hero", "Features", "Destinations", "BusFleet", "PromoBanner", "TourPackages", "Testimonials"],
-        "removed": ["Partners - sudah dihapus v2.2.0"]
-      },
+    "devURL": "http://localhost:3003",
+    "prodURL": "http://localhost/bus_pariwisata",
+    "list": {
+      "/": { "component": "HomePage (inline)", "sections": ["Hero","Features","Destinations","BusFleet","PromoBanner","TourPackages","Testimonials"] },
       "/bus-wisata": { "component": "ArmadaPage" },
       "/bus/:id": { "component": "BusDetailPage" },
       "/price-list": { "component": "PriceListPage" },
       "/paket-wisata": { "component": "PaketWisataPage" },
       "/news": { "component": "NewsPage" },
-      "/kontak": { "status": "MISSING - link ada di navbar tapi Route belum dibuat di App.js" }
+      "/kontak": { "status": "MISSING" }
     }
+  },
+  "siteDataSummary": {
+    "file": "frontend/src/data/siteData.js",
+    "busFleet_fallback": "MASIH NAMA LAMA (Zahra Ayu, Wong Kudus, dll) - PERLU UPDATE ke Pratama Trans / Malika Wisata",
+    "destinations_durations": "Format object {value,label} ✅",
+    "heroSearch": "Masih alert() - belum fungsional",
+    "news": "[] KOSONG",
+    "footer_copyright": "© 2024 - perlu update ke 2026",
+    "social_media": "Semua link masih #"
+  },
+  "vibecheckerDetails": {
+    "watchPath_default": "../frontend/src (FIXED dari ./src)",
+    "baseURL_default": "http://localhost:3003 (FIXED dari 3000)",
+    "runningCommand": "cd vibechecker && node watcher.js",
+    "oneShotCommand": "cd vibechecker && node watcher.js --once",
+    "whatItDoes": [
+      "1. Static analysis (console.log, TODO, empty catch, optional chaining)",
+      "2. Dependency impact detection (test files yang reference file yang berubah)",
+      "3. Playwright browser tests (jika ada .spec.js & dev server running)"
+    ],
+    "errorPatterns": "12 pattern: null/undefined, typeerror, referenceerror, module not found, syntaxerror, fetch failed, timeout, locator not found, CORS, 401/403, 404",
+    "testFiles": "vibechecker/tests/ - BELUM ADA .spec.js files"
   },
   "databaseSchema": {
     "database": "bus_pariwisata",
     "tables": {
-      "bus": {
-        "columns": {
-          "id": "INT PRIMARY KEY AUTO_INCREMENT",
-          "nama_bus": "VARCHAR(100)",
-          "tipe": "VARCHAR(50) - big_bus | medium_bus",
-          "kapasitas": "INT",
-          "harga_sewa": "BIGINT",
-          "gambar_utama": "VARCHAR(255) - path relatif dari IMAGE_BASE",
-          "deskripsi": "TEXT NULL",
-          "fasilitas_json": "TEXT NULL - JSON array 11 fasilitas",
-          "created_at": "TIMESTAMP"
-        },
-        "data_count": 5,
-        "fasilitas_list": [
-          "Seat 3-2", "2 Unit LCD TV", "Dispenser", "AC", "Audio Set",
-          "Android Entertainment System", "Karaoke + Microphone",
-          "Cooler Box", "Port USB", "Kompartemen Bagasi Atas + Bawah", "Lampu Baca"
-        ],
-        "bus_data": [
-          { "id": 1, "nama": "Zahra Ayu",   "tipe": "big_bus",    "kapasitas": 45, "harga": 4500000 },
-          { "id": 2, "nama": "Wong Kudus",  "tipe": "medium_bus", "kapasitas": 30, "harga": 3000000 },
-          { "id": 3, "nama": "William",     "tipe": "big_bus",    "kapasitas": 45, "harga": 4500000 },
-          { "id": 4, "nama": "White Horse", "tipe": "big_bus",    "kapasitas": 45, "harga": 5000000 },
-          { "id": 5, "nama": "Starbus",     "tipe": "medium_bus", "kapasitas": 30, "harga": 3500000 }
-        ],
-        "pending_sql": "database/update_fasilitas.sql - belum dijalankan"
-      },
-      "bus_images": {
-        "columns": {
-          "id": "INT PRIMARY KEY AUTO_INCREMENT",
-          "bus_id": "INT FK -> bus(id) ON DELETE CASCADE",
-          "path": "VARCHAR(255)",
-          "label": "VARCHAR(100)",
-          "urutan": "INT DEFAULT 0"
-        }
-      },
-      "price_list": {
-        "columns": {
-          "id": "INT PRIMARY KEY AUTO_INCREMENT",
-          "nama_destinasi": "VARCHAR(200)",
-          "durasi": "VARCHAR(50) - '4 Jam','8 Jam','12 Jam','15 Jam','18 Jam','2 Hari',dst",
-          "harga_hiace": "BIGINT",
-          "harga_elf": "BIGINT",
-          "harga_medium": "BIGINT",
-          "harga_big": "BIGINT",
-          "created_at": "TIMESTAMP"
-        },
-        "data_count": 35,
-        "notes": "harga=0 tampilkan 'Hubungi Kami'. Source: dokumen Harga Bus Pariwisata 2025-2026",
-        "pending_sql": "database/price_list_setup.sql - BELUM DIJALANKAN",
-        "nb_footer": [
-          "Harga sudah termasuk: sewa bus, BBM, driver, helper, asuransi jiwa",
-          "Harga belum termasuk: Toll, parkir, tips, penyeberangan (Kapal Ferry), retribusi daerah, tiket masuk wisata",
-          "Penggunaan bus menginap: mulai jam 05:00 WIB s/d 24:00 WIB di hari terakhir"
-        ]
-      },
-      "booking": {
-        "columns": {
-          "id": "INT PK", "nama": "VARCHAR wajib", "no_hp": "VARCHAR wajib",
-          "email": "VARCHAR opsional", "tanggal": "VARCHAR wajib",
-          "tujuan": "VARCHAR wajib", "jumlah": "INT opsional", "bus_id": "INT opsional"
-        }
-      },
-      "pesan_masuk": {
-        "columns": {
-          "id": "INT PK", "nama": "VARCHAR wajib", "email": "VARCHAR wajib",
-          "judul": "VARCHAR wajib", "pesan": "TEXT wajib"
-        }
-      }
-    },
-    "imageBase": "http://localhost/bus_pariwisata/frontend/assets/images/",
-    "imageFolders": {
-      "bus1/": "Zahra Ayu - bu1.jpeg, bangku_depan.jpeg, bangku_belakang.jpeg",
-      "bus2/": "Wong Kudus - mini_bus2.jpeg, bangku_depan.jpeg, bangku_depan2.jpeg, bangku_belakang.jpeg, supir.jpeg",
-      "bus3/": "William - bus3.jpeg, bangku_depan.jpeg, bangku_depan1.jpeg, bangku_depan2.jpeg, bangku_belakang.jpeg",
-      "bus4/": "White Horse - bus4.jpeg, bangku_depan.jpeg, bangku_belakang.jpeg, bangku_belakang2.jpeg, dispenser.jpeg",
-      "bus5/": "Starbus - bus5.jpeg, depan_bus5.jpeg, bangku_depan.jpeg, bangku_depan2.jpeg, bangku_belakang.jpeg, bangku_belakang2.jpeg"
-    }
-  },
-  "reactComponents": {
-    "basePath": "frontend/src/components/",
-    "sharedConfig": "frontend/src/config/api.js (API_BASE = http://localhost/bus_pariwisata/api)",
-    "sharedData": "frontend/src/data/siteData.js",
-    "components": {
-      "Navbar.jsx": {
-        "status": "FIXED v2.2.0 - duplikat footer di dalam nav sudah dihapus",
-        "features": ["Fixed top", "backdrop-blur", "active link highlight", "mobile hamburger"]
-      },
-      "Footer.jsx": {
-        "status": "UPDATED v2.2.0 - dirapi jadi 3 kolom",
-        "layout": "Grid 3 kolom: (1) Info perusahaan + kontak, (2) Link navigasi, (3) Sosial media",
-        "bottomBar": "Copyright dari siteData.footer.copyright"
-      },
-      "BusFleet.jsx": {
-        "status": "FIXED v2.2.0 - text-white -> text-gray-800 (judul Bus Pariwisata + nama bus)",
-        "apiFetch": "GET API_BASE/buses.php",
-        "features": ["Swiper carousel", "loading spinner", "fallback static", "gambar dari gambar_utama || gambar"]
-      },
-      "BusDetailPage.jsx": {
-        "status": "UPDATED v2.2.0 - getFacilityIcon diperluas 11 fasilitas",
-        "iconMap": {
-          "AC": "fa-snowflake", "Seat/Kursi": "fa-chair", "LCD/TV/Monitor": "fa-tv",
-          "Dispenser": "fa-tint", "Audio/Sound": "fa-volume-up",
-          "Android/Entertainment": "fa-tablet-alt", "Karaoke/Microphone": "fa-microphone",
-          "Cooler/Box": "fa-box", "USB/Port": "fa-plug",
-          "Bagasi/Kompartemen": "fa-suitcase", "Lampu/Baca": "fa-lightbulb",
-          "Bantal/Selimut": "fa-bed"
-        }
-      },
-      "ArmadaPage.jsx": { "status": "OK", "apiFetch": "GET API_BASE/buses.php" },
-      "PriceListPage.jsx": {
-        "status": "PERLU UPDATE - belum ada kolom durasi di tabel frontend",
-        "pendingTask": "Tambah kolom Durasi di tabel, tambah NB footer sesuai dokumen 2025-2026",
-        "apiFetch": "GET API_BASE/price_list.php?keyword=xxx"
-      },
-      "Partners.jsx": {
-        "status": "DIHAPUS dari HomePage v2.2.0 - import & JSX sudah dihapus dari App.js"
-      },
-      "Hero.jsx": { "status": "OK" },
-      "Features.jsx": { "status": "OK" },
-      "Destinations.jsx": { "status": "OK" },
-      "PromoBanner.jsx": { "status": "OK" },
-      "TourPackages.jsx": { "status": "OK" },
-      "Testimonials.jsx": { "status": "OK" },
-      "PaketWisataPage.jsx": { "status": "OK" },
-      "NewsPage.jsx": { "status": "OK" },
-      "WhatsAppButton.jsx": { "status": "OK" }
+      "bus": {"count":6,"brands":{"Pratama Trans":"id1-4","Malika Wisata":"id5-6"}},
+      "bus_images": {"detail":"Lihat bus_fix.sql untuk data lengkap"},
+      "price_list": {"target":"35 destinasi","pending":"price_list_setup.sql BELUM DIJALANKAN"},
+      "booking": {},
+      "pesan_masuk": {},
+      "admin": {"note":"Untuk login panel admin PHP"}
     }
   },
   "apiDetails": {
     "API_BASE": "http://localhost/bus_pariwisata/api",
     "endpoints": {
-      "GET /buses.php": {
-        "returns_fields": ["id","nama_bus","tipe","kapasitas","harga_sewa","gambar","gambar_utama","deskripsi","fasilitas (array)","images (array)"],
-        "notes": "Auto-detect kolom gambar vs gambar_utama, fasilitas vs fasilitas_json"
-      },
-      "GET /price_list.php": {
-        "status": "PERLU UPDATE - kolom durasi belum ada di response (MCP timeout)",
-        "returns_fields": ["id","nama_destinasi","durasi","harga_hiace","harga_elf","harga_medium","harga_big"],
-        "queryParams": "?keyword=xxx (opsional)"
-      },
-      "POST /booking.php": { "required": ["nama","no_hp","tanggal","tujuan"] },
-      "POST /contact.php": { "required": ["nama","email","judul","pesan"] },
-      "GET /health.php": { "description": "Health check" }
+      "GET /buses.php": "?id=N optional",
+      "GET /price_list.php": "?keyword=xxx optional",
+      "POST /booking.php": "booking form",
+      "POST /contact.php": "contact form",
+      "GET /health.php": "health check",
+      "KANDIDAT HAPUS": ["buses_debug.php", "price_list_debug.php"]
     }
   },
   "pendingTasks": {
     "high": [
-      "Jalankan database/price_list_setup.sql di phpMyAdmin (DROP+CREATE+INSERT 35 destinasi dengan kolom durasi)",
-      "Jalankan database/update_fasilitas.sql di phpMyAdmin (update 11 fasilitas + deskripsi semua bus)",
-      "Update api/price_list.php - tambah kolom durasi di SELECT & response (file sudah disiapkan, MCP timeout saat write)",
-      "Update PriceListPage.jsx - tampilkan kolom Durasi + catatan kaki NB dari dokumen 2025-2026"
+      "Jalankan database/bus_fix.sql di phpMyAdmin",
+      "Jalankan database/update_fasilitas.sql di phpMyAdmin",
+      "Jalankan database/price_list_setup.sql di phpMyAdmin (35 destinasi)"
     ],
     "medium": [
-      "Buat halaman /kontak (route + komponen belum ada di React)",
-      "Hapus file debug: api/buses_debug.php, api/price_list_debug.php"
+      "Buat KontakPage.jsx + Route /kontak di App.js",
+      "Hapus api/buses_debug.php dan api/price_list_debug.php",
+      "Fix Hero search: tombol Cari Paket masih alert()",
+      "Update fallback busFleet di siteData.js (ganti nama lama ke Pratama Trans / Malika Wisata)",
+      "Buat test spec files di vibechecker/tests/ untuk deteksi error otomatis"
     ],
     "low": [
-      "Isi konten admin/ panel",
+      "Analisis admin-panel/ (React admin) - belum didokumentasikan",
       "Isi siteData.news dengan artikel",
-      "Implementasi halaman detail paket wisata"
+      "Update sosial media link di footer",
+      "Footer copyright 2024 → 2026",
+      "Detail halaman paket wisata (klik langsung WA)",
+      "Bus6 tambah foto interior",
+      "Partners.jsx tidak terpakai - hapus atau gunakan"
     ]
   },
   "knownIssues": {
-    "missingRoute_kontak": "/kontak ada di navbar tapi Route & komponen belum dibuat di React",
-    "priceListDurasi": "Kolom durasi sudah ada di DB schema baru tapi api/price_list.php & PriceListPage.jsx belum diupdate (MCP timeout)",
-    "adminEmpty": "admin/dashboard.php dan admin/armada.php isinya kosong",
-    "newsDataEmpty": "siteData.news = [] - section berita tidak ada konten"
-  },
-  "buildAndDeploy": {
-    "frontend": {
-      "dev": "cd frontend && npm run start (webpack serve port 3003)",
-      "build": "cd frontend && npm run build (output ke frontend/dist/)"
-    },
-    "backend": {
-      "serve": "XAMPP - akses via http://localhost/bus_pariwisata/",
-      "requirements": "PHP + MySQL"
-    }
+    "missingRoute_kontak": "Route /kontak belum dibuat",
+    "priceListDB": "35 destinasi belum masuk DB",
+    "heroSearchDummy": "alert() not functional",
+    "busFleetFallbackNamaLama": "siteData.busFleet masih Zahra Ayu dll",
+    "copyrightTahunLama": "© 2024",
+    "socialMediaPlaceholder": "Semua link #",
+    "newsKosong": "news = []",
+    "vibechecker_noTests": "vibechecker/tests/ masih kosong - belum ada .spec.js"
   },
   "quickReferences": {
-    "apiBaseUrl": "http://localhost/bus_pariwisata/api",
-    "imageBaseUrl": "http://localhost/bus_pariwisata/frontend/assets/images/",
-    "reactDevPort": 3003,
-    "databaseName": "bus_pariwisata",
-    "mainAppFile": "frontend/src/App.js",
-    "dbConnectionFile": "config/koneksi.php",
-    "siteDataFile": "frontend/src/data/siteData.js",
-    "apiConfigFile": "frontend/src/config/api.js",
-    "primaryColor": "#1d6ec5",
-    "darkColor": "#0d4a8a",
-    "waNumber": "6289652594745",
-    "waNumberAlt": "6287785598639"
-  },
-  "bannerDesignSystem": {
-    "description": "Semua halaman menggunakan banner pattern yang sama",
-    "elements": [
-      "bg-gradient-to-br from-[#0d4a8a] to-[#1d6ec5]",
-      "dot pattern opacity-10 diagonal 45deg",
-      "2 lingkaran dekoratif bg-white/5",
-      "label pill: bg-white/10 border border-white/20",
-      "h1 font-extrabold tracking-tight",
-      "subtitle text-blue-100",
-      "stats bar: bg-white/10 backdrop-blur border border-white/20 rounded-2xl",
-      "info strip: bg-blue-50 border-b border-blue-100 text-xs"
-    ]
+    "apiBase": "http://localhost/bus_pariwisata/api",
+    "imageBase": "http://localhost/bus_pariwisata/frontend/assets/images/",
+    "devPort": 3003,
+    "dbName": "bus_pariwisata",
+    "mainApp": "frontend/src/App.js",
+    "siteData": "frontend/src/data/siteData.js",
+    "waMain": "6289652594745",
+    "waAlt": "6287785598639",
+    "adminPHP": "admin/index.php",
+    "vibechecker": "vibechecker/watcher.js (--once for one-shot)",
+    "bannerDesign": "bg-gradient-to-br from-[#0d4a8a] to-[#1d6ec5] + dot pattern + lingkaran + pill + stats bar"
   }
 }

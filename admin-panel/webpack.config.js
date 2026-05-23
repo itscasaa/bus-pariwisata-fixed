@@ -7,18 +7,33 @@ module.exports = {
     path: path.resolve(__dirname, 'dist'),
     filename: 'bundle.js',
     publicPath: '/',
-    clean: true,
   },
   module: {
     rules: [
       {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
-        use: { loader: 'babel-loader' },
+        use: {
+          loader: 'babel-loader',
+        },
       },
       {
         test: /\.css$/,
-        use: ['style-loader', 'css-loader', 'postcss-loader'],
+        use: [
+          'style-loader',
+          'css-loader',
+          {
+            loader: 'postcss-loader',
+            options: {
+              postcssOptions: {
+                plugins: [
+                  require('tailwindcss'),
+                  require('autoprefixer'),
+                ],
+              },
+            },
+          },
+        ],
       },
       {
         test: /\.(png|jpg|jpeg|gif|svg)$/i,
@@ -32,19 +47,16 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: './public/index.html',
-      title: 'Admin Panel - Mafina Trans',
+      filename: 'index.html',
     }),
   ],
   devServer: {
+    static: {
+      directory: path.join(__dirname, 'public'),
+    },
+    compress: true,
     port: 3004,
-    historyApiFallback: true,
     hot: true,
-    proxy: [
-      {
-        context: ['/api'],
-        target: 'http://localhost/bus_pariwisata',
-        changeOrigin: true,
-      },
-    ],
+    historyApiFallback: true,
   },
 };

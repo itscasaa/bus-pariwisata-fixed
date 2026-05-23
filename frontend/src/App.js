@@ -15,6 +15,7 @@ import BusDetailPage from './components/BusDetailPage';
 import ArmadaPage from './components/ArmadaPage';
 import Footer from './components/Footer';
 import WhatsAppButton from './components/WhatsAppButton';
+import AdminDashboard from './components/AdminDashboard';
 
 const HomePage = () => (
   <>
@@ -31,17 +32,30 @@ const HomePage = () => (
 const App = () => {
   return (
     <div className="min-h-screen bg-white">
-      <Navbar />
       <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/price-list" element={<PriceListPage />} />
-        <Route path="/bus-wisata" element={<ArmadaPage />} />
-        <Route path="/paket-wisata" element={<PaketWisataPage />} />
-        <Route path="/news" element={<NewsPage />} />
-        <Route path="/bus/:id" element={<BusDetailPage />} />
+        {/* Public Routes */}
+        <Route
+          path="/*"
+          element={
+            <>
+              <Navbar />
+              <Routes>
+                <Route path="/" element={<HomePage />} />
+                <Route path="/price-list" element={<PriceListPage />} />
+                <Route path="/bus-wisata" element={<ArmadaPage />} />
+                <Route path="/paket-wisata" element={<PaketWisataPage />} />
+                <Route path="/news" element={<NewsPage />} />
+                <Route path="/bus/:id" element={<BusDetailPage />} />
+              </Routes>
+              <Footer />
+              <WhatsAppButton />
+            </>
+          }
+        />
+
+        {/* Admin Routes */}
+        <Route path="/admin/dashboard" element={<AdminDashboard />} />
       </Routes>
-      <Footer />
-      <WhatsAppButton />
     </div>
   );
 };
