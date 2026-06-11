@@ -1,6 +1,5 @@
 import React from 'react';
-import AdminSidebar from '../components/AdminSidebar';
-import AdminTopBar from '../components/AdminTopBar';
+import PageHeader from '../components/PageHeader';
 import StatisticsCards from '../components/StatisticsCards';
 import ArmadaTable from '../components/ArmadaTable';
 import QuickActions from '../components/QuickActions';
@@ -8,38 +7,26 @@ import BeritaTerbaru from '../components/BeritaTerbaru';
 
 const Dashboard = () => {
   return (
-    <div className="flex min-h-screen bg-background text-on-surface">
-      {/* Sidebar */}
-      <AdminSidebar />
+    <main className="flex-1 p-4 lg:p-unit-xl space-y-6">
+      <PageHeader title="Dashboard" subtitle="Ringkasan data operasional Mafina Trans" />
 
-      {/* Main Content */}
-      <div className="ml-sidebar-width flex-1 min-h-screen">
-        {/* Top Bar */}
-        <AdminTopBar />
+      {/* Statistics Cards */}
+      <StatisticsCards />
 
-        {/* Main Content Area */}
-        <main className="p-unit-xl space-y-gutter">
-          {/* Statistics Cards */}
-          <StatisticsCards />
+      {/* Bottom Layout */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* Armada Table (spans 2 cols) */}
+        <ArmadaTable />
 
-          {/* Bottom Layout: Armada Table & Right Sidebar */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-card-gap">
-            {/* Armada Table (2 columns on large screens) */}
-            <ArmadaTable />
-
-            {/* Right Sidebar (1 column on large screens) */}
-            <div className="space-y-card-gap">
-              {/* Quick Actions */}
-              <QuickActions />
-
-              {/* Berita Terbaru */}
-              <BeritaTerbaru />
-            </div>
-          </div>
-        </main>
+        {/* Right Column */}
+        <div className="space-y-6">
+          <QuickActions />
+          <BeritaTerbaru />
+        </div>
       </div>
-    </div>
+    </main>
   );
 };
 
 export default Dashboard;
+

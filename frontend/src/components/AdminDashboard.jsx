@@ -17,12 +17,23 @@ const AdminDashboard = () => {
     totalFoto: 89,
   });
 
-  // Update date time every minute
   useEffect(() => {
+    // Inject Material Symbols stylesheet dynamically to optimize public landing page load
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = 'https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap';
+    document.head.appendChild(link);
+
     const timer = setInterval(() => {
       setCurrentDateTime(new Date());
     }, 60000);
-    return () => clearInterval(timer);
+
+    return () => {
+      clearInterval(timer);
+      if (document.head.contains(link)) {
+        document.head.removeChild(link);
+      }
+    };
   }, []);
 
   const handleLogout = () => {

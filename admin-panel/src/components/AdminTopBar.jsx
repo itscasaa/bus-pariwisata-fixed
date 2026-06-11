@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 const AdminTopBar = () => {
   const [currentDate, setCurrentDate] = useState('');
+  const adminUser = localStorage.getItem('admin_nama') || 'Admin User';
 
   useEffect(() => {
     const updateDateTime = () => {
@@ -52,11 +53,11 @@ const AdminTopBar = () => {
           {/* Profile Section */}
           <div className="flex items-center gap-3 pl-4 border-l border-outline-variant">
             <div className="text-right">
-              <p className="text-label-sm font-bold text-on-surface">Admin User</p>
+              <p className="text-label-sm font-bold text-on-surface">{adminUser}</p>
               <p className="text-label-sm text-outline">Super Admin</p>
             </div>
             <img
-              src="https://ui-avatars.com/api/?name=Admin+User&background=4f46e5&color=fff&size=128"
+              src={`https://ui-avatars.com/api/?name=${encodeURIComponent(adminUser)}&background=4f46e5&color=fff&size=128`}
               alt="Admin User Profile"
               className="w-10 h-10 rounded-full object-cover ring-2 ring-primary-container"
             />

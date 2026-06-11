@@ -42,12 +42,35 @@ const getFacilityIcon = (facility) => {
   return 'fa-check-circle';
 };
 
+const getCategoryLabel = (tipe) => {
+  const mapping = {
+    exterior: 'Eksterior',
+    interior: 'Interior',
+    seat: 'Tempat Duduk',
+    facility: 'Fasilitas',
+    other: 'Lainnya'
+  };
+  return mapping[tipe] || 'Foto';
+};
+
+const getCategoryBadgeClass = (tipe) => {
+  const mapping = {
+    exterior: 'bg-green-100 text-green-800 border-green-200',
+    interior: 'bg-blue-100 text-blue-800 border-blue-200',
+    seat: 'bg-indigo-100 text-indigo-800 border-indigo-200',
+    facility: 'bg-orange-100 text-orange-800 border-orange-200',
+    other: 'bg-gray-100 text-gray-800 border-gray-200'
+  };
+  return mapping[tipe] || 'bg-gray-100 text-gray-800 border-gray-200';
+};
+
 const BusDetailPage = () => {
   const { id } = useParams();
   const [bus, setBus] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
+  const [activeCategory, setActiveCategory] = useState('all');
 
   useEffect(() => {
     setLoading(true);
@@ -70,23 +93,24 @@ const BusDetailPage = () => {
 
   if (loading) {
     return (
-      <div className="pt-28 pb-20 min-h-screen bg-gray-50 flex flex-col items-center justify-center">
-        <div className="w-12 h-12 border-4 border-[#1d6ec5] border-t-transparent rounded-full animate-spin mb-4"></div>
-        <p className="text-gray-500 font-semibold">Memuat spesifikasi unit...</p>
+      <div className="pt-28 pb-20 min-h-screen bg-transparent flex flex-col items-center justify-center">
+        <div className="w-12 h-12 border-4 rounded-full animate-spin mb-4" style={{ borderColor: 'var(--color-blue)', borderTopColor: 'transparent' }}></div>
+        <p className="font-semibold" style={{ color: 'var(--color-muted)' }}>Memuat spesifikasi unit...</p>
       </div>
     );
   }
 
   if (error || !bus) {
     return (
-      <div className="pt-28 pb-20 min-h-screen bg-gray-50 flex flex-col items-center justify-center px-4">
-        <div className="bg-white p-8 rounded-2xl shadow-md text-center max-w-md w-full">
+      <div className="pt-28 pb-20 min-h-screen bg-transparent flex flex-col items-center justify-center px-4">
+        <div className="glass-card p-8 rounded-2xl text-center max-w-md w-full">
           <i className="fas fa-exclamation-circle text-5xl text-red-500 mb-4"></i>
-          <h2 className="text-2xl font-bold text-gray-800 mb-2">Unit Tidak Ditemukan</h2>
-          <p className="text-gray-500 mb-6">{error || 'Data spesifikasi bus tidak tersedia.'}</p>
+          <h2 className="text-2xl font-bold mb-2" style={{ color: 'var(--color-primary)' }}>Unit Tidak Ditemukan</h2>
+          <p className="mb-6" style={{ color: 'var(--color-muted)' }}>{error || 'Data spesifikasi bus tidak tersedia.'}</p>
           <Link
             to="/bus-wisata"
-            className="inline-flex items-center gap-2 bg-[#1d6ec5] text-white font-semibold px-6 py-3 rounded-lg hover:bg-blue-600 transition"
+            className="inline-flex items-center gap-2 text-white font-semibold px-6 py-3 rounded-lg hover:opacity-90 transition"
+            style={{ background: 'var(--color-blue)' }}
           >
             <i className="fas fa-arrow-left"></i> Kembali ke Armada
           </Link>
@@ -100,35 +124,39 @@ const BusDetailPage = () => {
   const galleryImages = bus.images && bus.images.length > 0 ? bus.images : [{ path: bus.gambar_utama, label: 'Eksterior Bus' }];
 
   return (
-    <div className="pt-16 lg:pt-20 min-h-screen bg-gray-50">
+    <div className="pt-16 lg:pt-20 min-h-screen bg-white">
       {/* Header Banner */}
-      <section className="bg-gradient-to-r from-[#0d4a8a] to-[#1d6ec5] text-white py-12 md:py-16">
-        <div className="container mx-auto px-4 lg:px-8">
+      <section
+        className="text-white py-12 md:py-16 relative overflow-hidden"
+        style={{ background: 'linear-gradient(135deg, #073B78 0%, #062D5F 50%, #0B5CA8 100%)' }}
+      >
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,rgba(255,210,63,0.08),transparent)] pointer-events-none"></div>
+        <div className="container mx-auto px-4 lg:px-8 relative z-10">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div>
               <div className="flex items-center gap-2 mb-2">
-                <Link to="/bus-wisata" className="text-blue-200 hover:text-white text-sm transition">
+                <Link to="/bus-wisata" className="text-white/60 hover:text-white text-sm transition">
                   Armada
                 </Link>
-                <span className="text-blue-300 text-xs">/</span>
+                <span className="text-white/40 text-xs">/</span>
                 <span className="text-white text-sm font-semibold">{bus.nama_bus}</span>
               </div>
-              <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight">
+              <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight">
                 {bus.nama_bus}
               </h1>
-              <p className="text-blue-100 text-base mt-2 flex items-center gap-2">
-                <span className="bg-blue-800/60 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider">
+              <div className="text-white/80 text-base mt-2 flex items-center gap-2">
+                <span className="px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider bg-white/10">
                   {bus.tipe.replace('_', ' ')}
                 </span>
                 <span>•</span>
                 <span className="flex items-center gap-1">
-                  <i className="fas fa-users text-xs"></i> {bus.kapasitas} Kursi Penumpang
+                  <i className="fas fa-users text-xs text-[#FFD23F]"></i> {bus.kapasitas} Kursi Penumpang
                 </span>
-              </p>
+              </div>
             </div>
-            <div className="bg-white/10 backdrop-blur-md rounded-xl p-4 md:p-6 text-right border border-white/20">
-              <p className="text-blue-100 text-xs uppercase tracking-wider font-semibold">Harga Sewa Mulai</p>
-              <h2 className="text-2xl md:text-3xl font-extrabold text-yellow-300 mt-1">
+            <div className="rounded-2xl p-4 md:p-6 text-right border border-white/15" style={{ background: 'rgba(255,255,255,0.08)', backdropFilter: 'blur(12px)' }}>
+              <p className="text-white/60 text-xs uppercase tracking-wider font-semibold">Harga Sewa Mulai</p>
+              <h2 className="text-2xl md:text-3xl font-extrabold text-[#FFD23F] mt-1">
                 Rp {formatRupiah(bus.harga_sewa)}
                 <span className="text-sm font-normal text-white"> / Hari</span>
               </h2>
@@ -138,7 +166,7 @@ const BusDetailPage = () => {
       </section>
 
       {/* Main Content Layout */}
-      <section className="py-12">
+      <section className="py-12 bg-white">
         <div className="container mx-auto px-4 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             
@@ -146,14 +174,14 @@ const BusDetailPage = () => {
             <div className="lg:col-span-2 space-y-8">
               
               {/* Image Carousel */}
-              <div className="bg-white p-4 rounded-2xl shadow-sm border border-gray-100">
+              <div className="bg-white border border-[#DDEAF6] p-4 rounded-3xl shadow-sm">
                 <Swiper
                   spaceBetween={10}
                   navigation={true}
                   autoplay={{ delay: 5000, disableOnInteraction: false }}
                   thumbs={{ swiper: thumbsSwiper && !thumbsSwiper.destroyed ? thumbsSwiper : null }}
                   modules={[Navigation, Autoplay, Thumbs]}
-                  className="rounded-xl overflow-hidden aspect-[16/9] mb-4 shadow-sm"
+                  className="rounded-2xl overflow-hidden aspect-[16/9] mb-4 shadow-sm"
                 >
                   {galleryImages.map((img, index) => (
                     <SwiperSlide key={index}>
@@ -164,8 +192,8 @@ const BusDetailPage = () => {
                           className="w-full h-full object-cover"
                           onError={(e) => { e.target.src = '/images/default-bus.jpg'; }}
                         />
-                        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent p-6 text-white">
-                          <span className="bg-[#1d6ec5] text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider mb-2 inline-block">
+                        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent p-6 text-white">
+                          <span className="text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider mb-2 inline-block" style={{ background: '#0B5CA8' }}>
                             {img.label}
                           </span>
                         </div>
@@ -185,8 +213,8 @@ const BusDetailPage = () => {
                     className="thumbs-swiper cursor-pointer"
                   >
                     {galleryImages.map((img, index) => (
-                      <SwiperSlide key={index} className="rounded-lg overflow-hidden border-2 border-transparent transition-all duration-300 opacity-60 hover:opacity-100">
-                        <div className="aspect-[4/3] bg-gray-100">
+                      <SwiperSlide key={index} className="rounded-xl overflow-hidden border-2 border-transparent transition-all duration-300 opacity-60 hover:opacity-100">
+                        <div className="aspect-[4/3] bg-[#F3FAFF]">
                           <img
                             src={img.path}
                             alt={img.label}
@@ -201,109 +229,156 @@ const BusDetailPage = () => {
               </div>
 
               {/* Bus Description */}
-              <div className="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-gray-100">
-                <h3 className="text-xl font-bold text-gray-800 mb-4 pb-2 border-b border-gray-100">
+              <div className="bg-white border border-[#DDEAF6] p-6 md:p-8 rounded-3xl shadow-sm">
+                <h3 className="text-xl font-extrabold text-[#10233F] mb-4 pb-2 border-b border-[#DDEAF6]">
                   Deskripsi Armada
                 </h3>
-                <p className="text-gray-600 leading-relaxed whitespace-pre-line text-sm md:text-base">
+                <p className="leading-relaxed whitespace-pre-line text-sm md:text-base text-[#64748B]">
                   {bus.deskripsi || `${bus.nama_bus} merupakan salah satu unit unggulan kami dengan kapasitas ${bus.kapasitas} kursi. Armada ini dirancang khusus untuk memastikan kenyamanan rombongan pariwisata, ziarah, kunjungan industri, maupun perjalanan dinas Anda tetap optimal di sepanjang jalan.`}
                 </p>
               </div>
 
               {/* Amenity Icons Grid */}
               {bus.fasilitas && bus.fasilitas.length > 0 && (
-                <div className="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-gray-100">
-                  <h3 className="text-xl font-bold text-gray-800 mb-5 pb-2 border-b border-gray-100">
+                <div className="bg-white border border-[#DDEAF6] p-6 md:p-8 rounded-3xl shadow-sm">
+                  <h3 className="text-xl font-extrabold text-[#10233F] mb-5 pb-2 border-b border-[#DDEAF6]">
                     Fasilitas Kenyamanan
                   </h3>
                   <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
                     {bus.fasilitas.map((fac, idx) => (
                       <div
                         key={idx}
-                        className="flex flex-col items-center p-4 bg-gray-50 rounded-xl border border-gray-100 text-center hover:bg-blue-50/50 hover:border-blue-100 transition-all duration-300"
+                        className="flex flex-col items-center p-4 rounded-2xl text-center border border-[#DDEAF6] bg-[#F3FAFF] transition-all duration-300"
                       >
-                        <span className="w-12 h-12 bg-blue-100 text-[#1d6ec5] flex items-center justify-center rounded-full text-lg mb-3 shadow-sm">
+                        <span
+                          className="w-12 h-12 flex items-center justify-center rounded-full text-lg mb-3 shadow-sm bg-[#EAF6FF] text-[#073B78]"
+                        >
                           <i className={`fas ${getFacilityIcon(fac)}`}></i>
                         </span>
-                        <span className="font-semibold text-gray-700 text-sm">{fac}</span>
+                        <span className="font-bold text-sm text-[#10233F]">{fac}</span>
                       </div>
                     ))}
                   </div>
                 </div>
               )}
 
-              {/* Visual Interactive Gallery (Fasilitas Detail beserta Keterangannya) */}
-              {bus.images && bus.images.length > 0 && (
-                <div className="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-gray-100">
-                  <h3 className="text-xl font-bold text-gray-800 mb-6 pb-2 border-b border-gray-100">
-                    Galeri & Detail Fasilitas
-                  </h3>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {bus.images.map((img, idx) => (
-                      <div
-                        key={idx}
-                        className="group overflow-hidden rounded-xl bg-gray-50 border border-gray-100 hover:shadow-md transition-all duration-300"
-                      >
-                        <div className="aspect-[16/10] overflow-hidden bg-gray-200 relative">
-                          <img
-                            src={img.path}
-                            alt={img.label}
-                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                            onError={(e) => { e.target.src = '/images/default-bus.jpg'; }}
-                          />
-                          <div className="absolute top-3 left-3 bg-[#1d6ec5]/90 backdrop-blur-sm text-white text-xs font-bold px-3 py-1 rounded-full">
-                            {img.label}
+              {/* Visual Interactive Gallery */}
+              {bus.images && bus.images.length > 0 && (() => {
+                const availableCategories = ['all', ...new Set(bus.images.map(img => img.tipe_gambar || 'other'))];
+                const filteredImages = activeCategory === 'all'
+                  ? bus.images
+                  : bus.images.filter(img => (img.tipe_gambar || 'other') === activeCategory);
+
+                return (
+                  <div className="bg-white border border-[#DDEAF6] p-6 md:p-8 rounded-3xl shadow-sm">
+                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6 pb-2 border-b border-[#DDEAF6]">
+                      <h3 className="text-xl font-extrabold text-[#10233F]">
+                        Galeri & Detail Fasilitas
+                      </h3>
+                      <span className="text-xs font-semibold text-[#64748B]">
+                        Menampilkan {filteredImages.length} dari {bus.images.length} foto
+                      </span>
+                    </div>
+
+                    {/* Category Filter Buttons */}
+                    {availableCategories.length > 2 && (
+                      <div className="flex flex-wrap gap-2 mb-6">
+                        {availableCategories.map(cat => (
+                          <button
+                            key={cat}
+                            onClick={() => setActiveCategory(cat)}
+                            className={`px-4 py-2 rounded-full text-xs font-bold border transition-all ${
+                              activeCategory === cat
+                                ? 'text-white shadow-sm'
+                                : 'hover:opacity-85'
+                            }`}
+                            style={activeCategory === cat
+                              ? { background: '#0B5CA8', borderColor: '#0B5CA8' }
+                              : { background: '#F3FAFF', color: '#64748B', borderColor: '#DDEAF6' }
+                            }
+                          >
+                            {cat === 'all' ? 'Semua Foto' : getCategoryLabel(cat)}
+                          </button>
+                        ))}
+                      </div>
+                    )}
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      {filteredImages.map((img, idx) => (
+                        <div
+                          key={idx}
+                          className="group overflow-hidden rounded-2xl bg-white border border-[#DDEAF6] hover:shadow-md transition-all duration-300"
+                        >
+                          <div className="aspect-[16/10] overflow-hidden relative bg-[#F3FAFF]">
+                            <img
+                              src={img.path}
+                              alt={img.label || getCategoryLabel(img.tipe_gambar)}
+                              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                              onError={(e) => { e.target.src = '/images/default-bus.jpg'; }}
+                            />
+                            <div className="absolute top-3 left-3 flex gap-1.5">
+                              <span className={`backdrop-blur-sm border text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider ${getCategoryBadgeClass(img.tipe_gambar)}`}>
+                                {getCategoryLabel(img.tipe_gambar)}
+                              </span>
+                              {img.is_cover === 1 && (
+                                <span className="bg-green-100 text-green-800 border border-green-200 text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">
+                                  Cover
+                                </span>
+                              )}
+                            </div>
+                          </div>
+                          <div className="p-4">
+                            <h4 className="font-extrabold text-base mb-1 text-[#10233F]">
+                              {img.label || getCategoryLabel(img.tipe_gambar)}
+                            </h4>
+                            <p className="text-xs md:text-sm leading-relaxed text-[#64748B]">
+                              {getFacilityDescription(img.label || getCategoryLabel(img.tipe_gambar))}
+                            </p>
                           </div>
                         </div>
-                        <div className="p-4">
-                          <h4 className="font-bold text-gray-800 text-base mb-1">
-                            {img.label}
-                          </h4>
-                          <p className="text-gray-500 text-xs md:text-sm leading-relaxed">
-                            {getFacilityDescription(img.label)}
-                          </p>
-                        </div>
-                      </div>
-                    ))}
+                      ))}
+                    </div>
                   </div>
-                </div>
-              )}
+                );
+              })()}
 
             </div>
 
             {/* Right Column: Sticky Pricing & Action Widget */}
             <div className="lg:col-span-1">
-              <div className="bg-white rounded-2xl shadow-md border border-gray-100 p-6 sticky top-24 space-y-6">
+              <div className="bg-white border border-[#DDEAF6] shadow-md rounded-3xl p-6 sticky top-24 space-y-6">
                 <div>
-                  <h4 className="text-gray-800 font-bold text-lg mb-2">Sewa Unit Ini</h4>
-                  <p className="text-gray-500 text-xs leading-relaxed">
-                    Dapatkan armada bus premium terbaik untuk mengawal kegiatan penting Anda bersama Surya Tour Trans.
+                  <h4 className="font-extrabold text-lg mb-2 text-[#10233F]">Sewa Unit Ini</h4>
+                  <p className="text-xs leading-relaxed text-[#64748B]">
+                    Dapatkan armada bus premium terbaik untuk mengawal kegiatan penting Anda bersama Mafina Trans.
                   </p>
                 </div>
 
-                <div className="border-t border-b border-gray-100 py-4 space-y-3">
+                <div className="py-4 space-y-3 border-t border-b border-[#DDEAF6]">
                   <div className="flex justify-between items-center text-sm">
-                    <span className="text-gray-500">Kapasitas Maksimal</span>
-                    <span className="font-bold text-gray-800">{bus.kapasitas} Kursi</span>
+                    <span className="text-[#64748B]">Kapasitas Maksimal</span>
+                    <span className="font-bold text-[#10233F]">{bus.kapasitas} Kursi</span>
                   </div>
                   <div className="flex justify-between items-center text-sm">
-                    <span className="text-gray-500">Tipe Armada</span>
-                    <span className="font-bold text-gray-800 uppercase text-xs bg-blue-50 text-[#1d6ec5] px-2.5 py-1 rounded">
+                    <span className="text-[#64748B]">Tipe Armada</span>
+                    <span
+                      className="font-bold uppercase text-xs px-2.5 py-1 rounded bg-[#EAF6FF] text-[#0B5CA8]"
+                    >
                       {bus.tipe.replace('_', ' ')}
                     </span>
                   </div>
                   <div className="flex justify-between items-center text-sm">
-                    <span className="text-gray-500">Sopir & BBM</span>
+                    <span className="text-[#64748B]">Sopir & BBM</span>
                     <span className="font-bold text-green-600">Sudah Termasuk</span>
                   </div>
                 </div>
 
                 <div className="space-y-3">
                   <a
-                    href={`https://wa.me/${siteData.whatsapp.number}?text=Halo%20Surya%20Tour%20Trans%2C%20saya%20tertarik%20untuk%20menyewa%20armada%20${encodeURIComponent(bus.nama_bus)}%20kapasitas%20${bus.kapasitas}%20kursi.%20Boleh%20tanya%20ketersediaan%20jadwalnya%3F`}
+                    href={`https://wa.me/${siteData.whatsapp.number}?text=Halo%20Mafina%20Trans%2C%20saya%20tertarik%20untuk%20menyewa%20armada%20${encodeURIComponent(bus.nama_bus)}%20kapasitas%20${bus.kapasitas}%20kursi.%20Boleh%20tanya%20ketersediaan%20jadwalnya%3F`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3.5 rounded-xl transition-all duration-300 flex items-center justify-center gap-2 hover:shadow-lg hover:shadow-green-100"
+                    className="w-full bg-[#128C7E] hover:bg-[#0b655b] text-white font-bold py-3.5 rounded-xl transition-all duration-300 flex items-center justify-center gap-2 hover:shadow-lg"
                   >
                     <i className="fab fa-whatsapp text-lg"></i>
                     <span>Sewa via WhatsApp</span>
@@ -311,15 +386,15 @@ const BusDetailPage = () => {
                   
                   <Link
                     to="/price-list"
-                    className="w-full border border-gray-200 hover:border-[#1d6ec5] hover:text-[#1d6ec5] text-gray-600 font-bold py-3.5 rounded-xl transition-all duration-300 flex items-center justify-center gap-2 text-sm"
+                    className="w-full font-bold py-3.5 rounded-xl transition-all duration-300 flex items-center justify-center gap-2 text-sm border border-[#DDEAF6] text-[#64748B] hover:bg-[#F3FAFF]"
                   >
                     <i className="fas fa-tags"></i>
                     <span>Cek Daftar Harga Lengkap</span>
                   </Link>
                 </div>
 
-                <div className="bg-yellow-50/50 border border-yellow-100 rounded-xl p-4 text-center">
-                  <p className="text-xs text-yellow-800 leading-relaxed">
+                <div className="rounded-2xl p-4 text-center border border-amber-200 bg-amber-50/50">
+                  <p className="text-xs leading-relaxed text-amber-800">
                     <i className="fas fa-info-circle mr-1"></i> Harga sewa dapat berubah tergantung jarak tempuh, durasi pemakaian, dan rute perjalanan.
                   </p>
                 </div>

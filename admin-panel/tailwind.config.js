@@ -70,6 +70,7 @@ module.exports = {
         'container-padding': '2rem',
         'card-gap': '1.5rem',
         'sidebar-width': '280px',
+        '18': '4.5rem',   // bottom nav height
       },
       fontFamily: {
         sans: ['Inter', 'sans-serif'],

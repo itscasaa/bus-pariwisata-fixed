@@ -2,7 +2,7 @@
     <div class="container">
         <div class="row g-4 mb-5">
             <div class="col-md-4">
-                <h5 class="fw-bold mb-4" style="color: #ffc107;">SURYA TOUR & TRANS</h5>
+                <h5 class="fw-bold mb-4" style="color: #ffc107;">MAFINA TRANS</h5>
                 <p class="text-white-50 small mb-4" style="line-height: 1.8;">
                     Solusi transportasi bus pariwisata terbaik untuk perjalanan wisata, ziarah, dan instansi Anda. Kami mengutamakan kenyamanan dan keamanan di setiap perjalanan.
                 </p>
@@ -49,7 +49,7 @@
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-md-6 text-center text-md-start">
-                    <small class="text-white-50">&copy; 2026 <strong>Surya Tour & Trans</strong>. All Rights Reserved.</small>
+                    <small class="text-white-50">&copy; 2026 <strong>Mafina Trans</strong>. All Rights Reserved.</small>
                 </div>
                 <div class="col-md-6 text-center text-md-end mt-3 mt-md-0">
                     <small class="text-white-50 me-2">Jasa Sewa Bus Pariwisata Terpercaya</small>
@@ -115,19 +115,19 @@
             <i class="bi bi-x-circle-fill cursor-pointer" onclick="toggleWa()" style="cursor: pointer;"></i>
         </div>
         <div class="wa-card-body">
-            <a href="https://wa.me/089519276539?text=Halo%20Surya%20Tour%20Trans,%20saya%20ingin%20tanya%20layanan%20bus." target="_blank" class="wa-admin-link">
-                <img src="../public/images/foto5.jpeg" alt="Admin">
+            <a href="https://wa.me/6285199802536?text=Halo%20Mafina%20Trans%2C%20saya%20ingin%20bertanya%20tentang%20sewa%20bus%20pariwisata." target="_blank" class="wa-admin-link">
+                <img src="../public/images/logo.png" alt="Admin">
                 <div>
                     <div style="font-size: 11px; color: #888888;">Customer Service #1</div>
-                    <div class="fw-bold" style="font-size: 14px;">Suryatourtrans 01</div>
+                    <div class="fw-bold" style="font-size: 14px;">Mafina Trans 01</div>
                     <div style="font-size: 11px;"><i class="bi bi-circle-fill wa-status-dot"></i> Available</div>
                 </div>
             </a>
-            <a href="https://wa.me/085119700308?text=Halo%20Surya%20Tour%20Trans,%20saya%20ingin%20tanya%20harga%20sewa." target="_blank" class="wa-admin-link">
-                <img src="../public/images/foto5.jpeg" alt="Admin">
+            <a href="https://wa.me/6285199802536?text=Halo%20Mafina%20Trans%2C%20saya%20ingin%20bertanya%20tentang%20sewa%20bus%20pariwisata." target="_blank" class="wa-admin-link">
+                <img src="../public/images/logo.png" alt="Admin">
                 <div>
                     <div style="font-size: 11px; color: #888;">Customer Service #2</div>
-                    <div class="fw-bold" style="font-size: 14px;">Suryatourtrans 02</div>
+                    <div class="fw-bold" style="font-size: 14px;">Mafina Trans 02</div>
                     <div style="font-size: 11px;"><i class="bi bi-circle-fill wa-status-dot"></i> Available</div>
                 </div>
             </a>
@@ -144,11 +144,12 @@
         const popup = document.getElementById('wa-popup');
         popup.style.display = (popup.style.display === 'none' || popup.style.display === '') ? 'block' : 'none';
     }
+</script>
 <footer style="background-color: #1a2226; color: #ffffff; padding: 60px 0 30px 0; border-top: 3px solid #f39c12;">
     <div class="container">
         <div class="row g-4">
             <div class="col-md-4">
-                <h5 class="fw-bold mb-3 text-orange" style="color: #f39c12;">SURYA TOUR & TRANS</h5>
+                <h5 class="fw-bold mb-3 text-orange" style="color: #f39c12;">MAFINA TRANS</h5>
                 <p class="text-muted" style="color: #b0b8c1 !important; line-height: 1.8;">
                     Solusi transportasi bus pariwisata terbaik untuk perjalanan wisata, ziarah, dan instansi Anda. Kami mengutamakan kenyamanan dan keamanan di setiap perjalanan.
                 </p>
@@ -190,7 +191,7 @@
         <div class="row">
             <div class="col-md-6">
                 <p class="text-muted mb-0" style="color: #b0b8c1 !important;">
-                    &copy; <?= date('Y'); ?> <strong class="text-white">Surya Tour & Trans</strong>. All Rights Reserved.
+                    &copy; <?= date('Y'); ?> <strong class="text-white">Mafina Trans</strong>. All Rights Reserved.
                 </p>
             </div>
             <div class="col-md-6 text-md-end">
@@ -253,19 +254,19 @@
             <i class="bi bi-x-circle-fill cursor-pointer" onclick="toggleWa()" style="cursor: pointer;"></i>
         </div>
         <div class="wa-card-body">
-            <a href="https://wa.me/6281282007171?text=Halo,%20saya%20ingin%20bertanya%20sewa%20bus%20pariwisata%20Surya%20Tour%20Trans.%20Apakah%20bisa%20di%20bantu?" target="_blank" class="wa-admin-link">
-                <img src="../public/images/foto5.jpeg" alt="Admin">
+            <a href="https://wa.me/6285199802536?text=Halo%20Mafina%20Trans%2C%20saya%20ingin%20bertanya%20tentang%20sewa%20bus%20pariwisata." target="_blank" class="wa-admin-link">
+                <img src="../public/images/logo.png" alt="Admin">
                 <div>
                     <div style="font-size: 11px; color: #888888;">Customer Service #1</div>
-                    <div class="fw-bold" style="font-size: 14px;">Surya Tour Trans</div>
+                    <div class="fw-bold" style="font-size: 14px;">Mafina Trans</div>
                     <div style="font-size: 11px;"><i class="bi bi-circle-fill wa-status-dot"></i> Available</div>
                 </div>
             </a>
-            <a href="https://wa.me/6281282007171?text=Halo,%20saya%20ingin%20bertanya%20sewa%20bus%20pariwisata%20Surya%20Tour%20Trans.%20Apakah%20bisa%20di%20bantu?" target="_blank" class="wa-admin-link">
-                <img src="../public/images/foto5.jpeg" alt="Admin">
+            <a href="https://wa.me/6285199802536?text=Halo%20Mafina%20Trans%2C%20saya%20ingin%20bertanya%20tentang%20sewa%20bus%20pariwisata." target="_blank" class="wa-admin-link">
+                <img src="../public/images/logo.png" alt="Admin">
                 <div>
                     <div style="font-size: 11px; color: #888;">Customer Service #2</div>
-                    <div class="fw-bold" style="font-size: 14px;">Surya Tour Trans</div>
+                    <div class="fw-bold" style="font-size: 14px;">Mafina Trans</div>
                     <div style="font-size: 11px;"><i class="bi bi-circle-fill wa-status-dot"></i> Available</div>
                 </div>
             </a>

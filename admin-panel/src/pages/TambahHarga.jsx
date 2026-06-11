@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import PageHeader from '../components/PageHeader';
+import { API_PUB, API_ADM } from '../config/api';
 
-const API = 'http://localhost/bus_pariwisata';
 const inputCls = "w-full px-4 py-2.5 bg-surface-container-low border-none rounded-xl text-body-md focus:outline-none focus:ring-2 focus:ring-primary";
 
 function HargaForm({ onSubmit, loading, error, onBack, title, initial }) {
@@ -49,6 +49,7 @@ function HargaForm({ onSubmit, loading, error, onBack, title, initial }) {
   );
 }
 
+// ===== TAMBAH HARGA =====
 export function TambahHarga() {
   const navigate = useNavigate();
   const [error, setError] = useState('');
@@ -56,15 +57,23 @@ export function TambahHarga() {
   const handleSubmit = async (form) => {
     setError(''); setLoading(true);
     try {
-      const res = await fetch(`${API}/admin/api/tambah_harga.php`, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(form) });
+      const res = await fetch(`${API_ADM}/tambah_harga.php`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('admin_token')}`
+        },
+        body: JSON.stringify(form)
+      });
       const data = await res.json();
       if (data.status === 'success') navigate('/price-list');
       else setError(data.message || 'Gagal menyimpan.');
     } catch { setError('Tidak dapat terhubung ke server.'); } finally { setLoading(false); }
   };
-  return <main className="flex-1"><PageHeader title="Tambah Harga" /><div className="px-unit-xl pb-unit-xl"><HargaForm title="Form Tambah Harga" onSubmit={handleSubmit} loading={loading} error={error} onBack={() => navigate('/price-list')} /></div></main>;
+  return <main className="flex-1"><PageHeader title="Tambah Harga" /><div className="px-4 lg:px-unit-xl pb-24 lg:pb-unit-xl"><HargaForm title="Form Tambah Harga" onSubmit={handleSubmit} loading={loading} error={error} onBack={() => navigate('/price-list')} /></div></main>;
 }
 
+// ===== EDIT HARGA =====
 export function EditHarga() {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -72,7 +81,7 @@ export function EditHarga() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   useEffect(() => {
-    fetch(`${API}/api/price_list.php`).then(r => r.json()).then(d => {
+    fetch(`${API_PUB}/price_list.php`).then(r => r.json()).then(d => {
       const item = (d.data || []).find(p => String(p.id) === String(id));
       if (item) setInitial(item);
     });
@@ -80,11 +89,19 @@ export function EditHarga() {
   const handleSubmit = async (form) => {
     setError(''); setLoading(true);
     try {
-      const res = await fetch(`${API}/admin/api/edit_harga.php?id=${id}`, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(form) });
+      const res = await fetch(`${API_ADM}/edit_harga.php?id=${id}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('admin_token')}`
+        },
+        body: JSON.stringify(form)
+      });
       const data = await res.json();
       if (data.status === 'success') navigate('/price-list');
       else setError(data.message || 'Gagal menyimpan.');
     } catch { setError('Tidak dapat terhubung ke server.'); } finally { setLoading(false); }
   };
-  return <main className="flex-1"><PageHeader title="Edit Harga" /><div className="px-unit-xl pb-unit-xl">{initial ? <HargaForm title="Form Edit Harga" onSubmit={handleSubmit} loading={loading} error={error} onBack={() => navigate('/price-list')} initial={initial} /> : <div className="flex justify-center py-20"><span className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin"></span></div>}</div></main>;
+  return <main className="flex-1"><PageHeader title="Edit Harga" /><div className="px-4 lg:px-unit-xl pb-24 lg:pb-unit-xl">{initial ? <HargaForm title="Form Edit Harga" onSubmit={handleSubmit} loading={loading} error={error} onBack={() => navigate('/price-list')} initial={initial} /> : <div className="flex justify-center py-20"><span className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin"></span></div>}</div></main>;
 }
+

@@ -1,0 +1,3 @@
+# api/.htaccess
+# Jangan rewrite di dalam folder API — semua .php diakses langsung.
+RewriteEngine Off

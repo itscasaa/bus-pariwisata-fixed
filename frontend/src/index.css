@@ -2,28 +2,160 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap');
-@import '@fortawesome/fontawesome-free/css/all.min.css';
-@import 'swiper/css/bundle';
+
+@import 'swiper/css';
+@import 'swiper/css/navigation';
+@import 'swiper/css/pagination';
+
 
 /* Custom palette */
 :root {
-  --color-primary: #1d6ec5; /* main blue */
-  --color-primary-light: #60a5fa; /* lighter blue */
-  --color-bg-page: #ffffff; /* white background */
-  --color-bg-section: #f8fbff; /* subtle off‑white for sections */
-  --color-text-primary: #1a202c; /* dark gray */
-  --color-text-muted: #4a5568; /* medium gray */
+  --font-heading: 'Inter', system-ui, sans-serif;
+  --font-body: 'Inter', system-ui, sans-serif;
+  --font-hero-sans: 'Inter', system-ui, sans-serif;
+  --font-hero-accent: 'Inter', system-ui, sans-serif;
+  --color-primary: #073B78; /* Primary Navy */
+  --color-primary-2: #062D5F; /* Deep Navy */
+  --color-blue: #0B5CA8; /* Ocean Blue */
+  --color-cyan: #EAF6FF; /* Sky Blue */
+  --color-aqua: #FFD23F; /* CTA Yellow */
+  --color-muted: #64748B; /* Muted Text */
+  --color-border: #DDEAF6; /* Border */
+  --color-bg: #F3FAFF; /* Soft Blue */
+  --color-bg-light: #EAF6FF; /* Sky Blue */
+  --color-white: #FFFFFF; /* White */
+  --color-primary-light: #0B5CA8;
+  --color-bg-page: #FFFFFF;
+  --color-bg-section: transparent;
+  --color-text-primary: #10233F;
+  --color-text-muted: #64748B;
+
+  --color-cta-yellow: #FFD23F;
+  --color-cta-yellow-dark: #F6B800;
+  --color-success-green: #128C7E;
 }
 
 body {
-  font-family: 'Poppins', sans-serif;
+  font-family: var(--font-body);
   margin: 0;
   padding: 0;
-  background-color: var(--color-bg-page);
+  background: #FFFFFF;
   color: var(--color-text-primary);
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(207, 217, 227, 0.5);
+  box-shadow: 0 8px 32px 0 rgba(25, 42, 65, 0.04);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-card:hover {
+  background: rgba(255, 255, 255, 0.85);
+  border-color: rgba(21, 103, 165, 0.3);
+  box-shadow: 0 12px 40px 0 rgba(21, 103, 165, 0.08);
+}
+
+/* ── Sub-page Hero Banner ────────────────────────────────── */
+.page-hero {
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-2) 40%, var(--color-blue) 100%);
+  position: relative;
+  overflow: hidden;
+  color: #fff;
+  padding-top: 5rem;
+  padding-bottom: 3.5rem;
+  text-align: center;
+}
+@media (min-width: 1024px) { .page-hero { padding-top: 6rem; } }
+
+.page-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0.06;
+  background-image: repeating-linear-gradient(45deg, #fff 0, #fff 1px, transparent 0, transparent 50%);
+  background-size: 20px 20px;
+  pointer-events: none;
+}
+
+.page-hero-blob-1 {
+  position: absolute;
+  top: -80px;
+  left: -80px;
+  width: 320px;
+  height: 320px;
+  background: rgba(84, 177, 212, 0.08);
+  border-radius: 50%;
+  filter: blur(60px);
+  pointer-events: none;
+}
+
+.page-hero-blob-2 {
+  position: absolute;
+  bottom: -96px;
+  right: -80px;
+  width: 384px;
+  height: 384px;
+  background: rgba(24, 137, 189, 0.06);
+  border-radius: 50%;
+  filter: blur(80px);
+  pointer-events: none;
+}
+
+.page-hero-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: var(--color-aqua);
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 0.5rem 1rem;
+  border-radius: 9999px;
+  margin-bottom: 1.25rem;
+}
+
+.page-hero-pill i {
+  color: #FBBF24;
+}
+
+.page-hero-title {
+  font-size: clamp(1.8rem, 4vw, 3rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  margin-bottom: 0.75rem;
+}
+
+.page-hero-desc {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: clamp(0.85rem, 1.2vw, 1.05rem);
+  max-width: 42rem;
+  margin: 0 auto 2rem;
+  line-height: 1.6;
+}
+
+.page-hero-stats {
+  display: inline-flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5rem;
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 1rem;
+  padding: 1rem 2rem;
+}
+
+.page-info-strip {
+  background: var(--color-bg);
+  border-bottom: 1px solid var(--color-border);
 }
 
 /* Admin Dashboard Styles */
@@ -74,4 +206,139 @@ html {
 
 .animate-scroll:hover {
   animation-play-state: paused;
+}
+
+/* Hero Refined Typography */
+.hero-title-mixed {
+  max-width: 980px;
+  color: #FFFFFF;
+  display: flex;
+  flex-direction: column;
+  gap: 0.06em;
+}
+
+.hero-line {
+  display: block;
+}
+
+.hero-line-main,
+.hero-line-accent {
+  font-family: var(--font-hero-sans) !important;
+  font-style: normal !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.035em !important;
+  line-height: 1.02 !important;
+  font-size: clamp(3.2rem, 4.8vw, 5.3rem) !important;
+}
+
+.hero-line-accent {
+  color: #8FE8FF !important;
+  text-shadow: 0 6px 26px rgba(0, 0, 0, 0.30) !important;
+}
+
+.hero-accent-underline {
+  display: none !important;
+}
+
+@media (max-width: 768px) {
+  .hero-pill {
+    display: none !important;
+  }
+
+  .hero-title-mixed {
+    gap: 0.06em;
+    max-width: 100%;
+  }
+  
+  .hero-line-main,
+  .hero-line-accent {
+    font-family: var(--font-hero-sans) !important;
+    font-style: normal !important;
+    font-weight: 700 !important;
+    font-size: clamp(2.2rem, 9vw, 3.2rem) !important;
+    line-height: 1.04 !important;
+    letter-spacing: -0.03em !important;
+    white-space: normal !important;
+  }
+
+  .hero-accent-underline {
+    display: none !important;
+  }
+}
+
+.hero-subtitle {
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: clamp(1rem, 1.35vw, 1.35rem);
+  line-height: 1.75;
+  letter-spacing: -0.01em;
+  color: rgba(255, 255, 255, 0.88);
+}
+
+.hero-pill {
+  font-family: var(--font-body);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  font-size: 0.82rem;
+  text-transform: uppercase;
+}
+
+.hero-cta {
+  font-family: var(--font-body);
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  font-size: 0.95rem;
+}
+
+/* Navbar Custom Typography */
+.navbar,
+.navbar a,
+.nav-menu,
+.nav-link,
+.nav-link-custom {
+  font-family: 'Inter', system-ui, sans-serif !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.01em !important;
+}
+
+.nav-cta-custom {
+  font-family: 'Inter', system-ui, sans-serif !important;
+  font-weight: 800 !important;
+  font-size: 14px !important;
+  letter-spacing: -0.01em !important;
+}
+
+/* Section Headings */
+h1:not(.hero-title-mixed),
+h2,
+.section-title,
+.section-heading {
+  font-family: 'Inter', system-ui, sans-serif !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.03em !important;
+  line-height: 1.15 !important;
+}
+
+/* Cards & Body Descriptions */
+h3,
+.card-title,
+.bus-card-title,
+.package-card-title {
+  font-family: 'Inter', system-ui, sans-serif !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.015em !important;
+}
+
+p,
+.card-desc {
+  font-family: 'Inter', system-ui, sans-serif !important;
+  font-weight: 500 !important;
+  line-height: 1.55 !important;
+}
+
+/* Buttons */
+button, .btn, .button, a[role="button"] {
+  font-family: 'Inter', system-ui, sans-serif !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.01em !important;
 }

@@ -22,6 +22,13 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 }
 
 $input = $_POST;
+if (empty($input)) {
+  $raw = file_get_contents('php://input');
+  $json = json_decode($raw, true);
+  if (is_array($json)) {
+    $input = $json;
+  }
+}
 
 $nama  = isset($input['nama']) ? trim($input['nama']) : '';
 $email = isset($input['email']) ? trim($input['email']) : '';

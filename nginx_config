@@ -1,0 +1,25 @@
+server {
+    listen 80;
+    server_name surya-tour.duckdns.org;
+    root /var/www/bus-pariwisata;
+    index index.html index.htm index.php;
+
+    # Support React SPA routing
+    location / {
+        try_files $uri $uri/ /index.html;
+    }
+
+    # Handle PHP scripts using PHP-FPM
+    location ~ \.php$ {
+        include snippets/fastcgi-php.conf;
+        fastcgi_pass unix:/run/php/php8.1-fpm.sock;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        include fastcgi_params;
+    }
+
+    # Deny access to the DB config folder
+    location /config {
+        deny all;
+        return 404;
+    }
+}

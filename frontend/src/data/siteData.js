@@ -3,7 +3,7 @@ const siteData = {
   hero: {
     title: 'Find Next Place To Visit',
     subtitle: 'Temukan Destinasi Wisata pilihan anda',
-    bgImage: '/images/bus4.jpeg',
+    bgImage: '/images/bus4/bus4.webp',
     destinations: [
       { value: 'bali', label: 'Bali' },
       { value: 'bandung', label: 'Bandung' },
@@ -41,21 +41,21 @@ const siteData = {
 
   // ========== DESTINATIONS ==========
   destinations: [
-    { name: 'Dieng Yogya', image: '/images/destinasi/dieng-yogya.jpeg', tours: 12 },
-    { name: 'Jawa Tengah', image: '/images/destinasi/jawatengah.jpeg', tours: 10 },
-    { name: 'Maribaya Bandung', image: '/images/destinasi/maribaya_bandung.jpeg', tours: 15 },
-    { name: 'Bromo Batu Malang', image: '/images/destinasi/bromo-batu_malang.jpeg', tours: 8 },
-    { name: 'Bali Lombok', image: '/images/destinasi/bali-lombok.jpeg', tours: 20 },
+    { name: 'Dieng Yogya', image: '/images/destinasi/dieng-yogya.webp', tours: 12 },
+    { name: 'Jawa Tengah', image: '/images/destinasi/jawatengah.webp', tours: 10 },
+    { name: 'Maribaya Bandung', image: '/images/destinasi/maribaya_bandung.webp', tours: 15 },
+    { name: 'Bromo Batu Malang', image: '/images/destinasi/bromo-batu_malang.webp', tours: 8 },
+    { name: 'Bali Lombok', image: '/images/destinasi/bali-lombok.webp', tours: 20 },
   ],
 
   // ========== BUS FLEET (fallback static) ==========
   busFleet: [
-    { name: 'Zahra Ayu', image: '/images/bus1.jpeg' },
-    { name: 'Wong Kudus', image: '/images/bus2.jpeg' },
-    { name: 'William', image: '/images/bus3.jpeg' },
-    { name: 'White Horse', image: '/images/foto4.jpeg' },
-    { name: 'Starbus', image: '/images/foto5.jpeg' },
-    { name: 'Blue Star', image: '/images/bus1.jpeg' },
+    { name: 'Zahra Ayu', image: '/images/bus1/bu1.webp' },
+    { name: 'Wong Kudus', image: '/images/bus2/mini_bus2.webp' },
+    { name: 'William', image: '/images/bus3/bus3.webp' },
+    { name: 'White Horse', image: '/images/bus4/bus4.webp' },
+    { name: 'Starbus', image: '/images/bus5/bus5.webp' },
+    { name: 'Blue Star', image: '/images/bus1/bu1.webp' },
   ],
 
   // ========== PROMO ==========
@@ -64,156 +64,14 @@ const siteData = {
     discount: 'Up to 40% Discount!',
     bgColor: '#1d6ec5',
     cta: 'Read More',
-    image: '/images/logo.png',
+    image: '/images/logo.webp',
   },
 
   // ========== TOUR PACKAGES ==========
-  tourPackages: [
-    {
-      badge: 'PAKET 1 HARI',
-      title: 'Bandung',
-      image: '/images/destinasi/bandung.jpeg',
-      price: 'Rp. 2.200.000',
-      duration: '1 Hari',
-      description: 'Jelajahi keindahan Bandung, mulai dari belanja di factory outlet hingga menikmati udara sejuk pegunungan.',
-      category: '1 Hari'
-    },
-    {
-      badge: 'PAKET 1 HARI',
-      title: 'Taman Bunga Nusantara',
-      image: '/images/destinasi/bunga_nusantara.jpeg',
-      price: 'Rp. 2.500.000',
-      duration: '1 Hari',
-      description: 'Nikmati keindahan taman bunga terbesar di Indonesia dengan koleksi bunga dari seluruh dunia.',
-      category: '1 Hari'
-    },
-    {
-      badge: 'PAKET 1 HARI',
-      title: 'Kebun Raya Bogor',
-      image: '/images/destinasi/kebun_cibodas.jpeg',
-      price: 'Rp. 2.300.000',
-      duration: '1 Hari',
-      description: 'Wisata alam yang menyegarkan di kebun raya dengan koleksi tumbuhan langka dan udara pegunungan yang sejuk.',
-      category: '1 Hari'
-    },
-    {
-      badge: 'PAKET 1 HARI',
-      title: 'Anyer',
-      image: '/images/destinasi/anyer.jpeg',
-      price: 'Rp. 2.600.000',
-      duration: '1 Hari',
-      description: 'Nikmati keindahan pantai Anyer dengan pasir putih dan sunset yang memukau.',
-      category: '1 Hari'
-    },
-    {
-      badge: 'PAKET 2 HARI',
-      title: 'Tangkuban Perahu',
-      image: '/images/destinasi/tangkuban_perahu.jpeg',
-      price: 'Rp. 2.400.000',
-      duration: '2 Hari 1 Malam',
-      description: 'Kunjungi kawah gunung berapi aktif yang legendaris dengan pemandangan alam yang spektakuler.',
-      category: '2 Hari'
-    },
-    {
-      badge: 'PAKET 1 HARI',
-      title: 'Taman Safari',
-      image: '/images/destinasi/taman_safari.jpeg',
-      price: 'Rp. 2.700.000',
-      duration: '1 Hari',
-      description: 'Petualangan seru bersama satwa liar di Taman Safari dengan berbagai atraksi menarik.',
-      category: '1 Hari'
-    },
-    {
-      badge: 'PAKET 1 HARI',
-      title: 'Maribaya Bandung',
-      image: '/images/destinasi/maribaya_bandung.jpeg',
-      price: 'Rp. 2.200.000',
-      duration: '1 Hari',
-      description: 'Wisata alam dengan pemandian air hangat, curug, dan hutan pinus yang asri.',
-      category: '1 Hari'
-    },
-    {
-      badge: 'PAKET 1 HARI',
-      title: 'Taman Mini',
-      image: '/images/destinasi/taman_mini.jpeg',
-      price: 'Rp. 2.500.000',
-      duration: '1 Hari',
-      description: 'Jelajahi kebudayaan Indonesia dalam satu tempat di Taman Mini Indonesia Indah.',
-      category: '1 Hari'
-    },
-    {
-      badge: 'PAKET 1 HARI',
-      title: 'Cimory Dierland Bogor',
-      image: '/images/destinasi/bogor-cimory.jpeg',
-      price: 'Rp. 2.300.000',
-      duration: '1 Hari',
-      description: 'Wisata kuliner dan dairy farm di Cimory dengan pemandangan pegunungan yang indah.',
-      category: '1 Hari'
-    },
-    {
-      badge: 'PAKET 3 HARI',
-      title: 'Dieng Yogya',
-      image: '/images/destinasi/dieng-yogya.jpeg',
-      price: 'Rp. 4.500.000',
-      duration: '3 Hari 2 Malam',
-      description: 'Jelajahi keajaiban Dieng Plateau dan budaya Yogyakarta dalam satu perjalanan.',
-      category: '3 Hari'
-    },
-    {
-      badge: 'PAKET 3 HARI',
-      title: 'Yogyakarta',
-      image: '/images/destinasi/yogyakarta.jpeg',
-      price: 'Rp. 6.500.000',
-      duration: '3 Hari 2 Malam',
-      description: 'Borobudur, Prambanan, Malioboro, dan wisata budaya Yogyakarta dengan penginapan hotel bintang 3.',
-      category: '3 Hari'
-    },
-    {
-      badge: 'PAKET 4 HARI',
-      title: 'Jawa Tengah',
-      image: '/images/destinasi/jawatengah.jpeg',
-      price: 'Rp. 8.000.000',
-      duration: '4 Hari',
-      description: 'Perjalanan lintas Jawa Tengah mengunjungi candi-candi megah dan budaya lokal.',
-      category: '4 Hari'
-    },
-    {
-      badge: 'PAKET 4 HARI',
-      title: 'Bromo Batu Malang',
-      image: '/images/destinasi/bromo-batu_malang.jpeg',
-      price: 'Rp. 6.800.000',
-      duration: '4 Hari',
-      description: 'Saksikan sunrise Gunung Bromo dan nikmati wisata Batu Malang yang sejuk.',
-      category: '4 Hari'
-    },
-    {
-      badge: 'PAKET 4 HARI',
-      title: 'Batu Malang',
-      image: '/images/destinasi/batu_malang.jpeg',
-      price: 'Rp. 6.500.000',
-      duration: '4 Hari',
-      description: 'Nikmati udara sejuk dan wisata alam di kota wisata Batu Malang.',
-      category: '4 Hari'
-    },
-    {
-      badge: 'PAKET 5 HARI',
-      title: 'Bali',
-      image: '/images/destinasi/bali.jpeg',
-      price: 'Rp. 7.500.000',
-      duration: '5 Hari 4 Malam',
-      description: 'Nikmati keindahan pantai, pura, dan budaya Bali dengan akomodasi hotel terbaik.',
-      category: '5 Hari'
-    },
-    {
-      badge: 'PAKET 10 HARI',
-      title: 'Bali Lombok',
-      image: '/images/destinasi/bali-lombok.jpeg',
-      price: 'Rp. 5.500.000',
-      duration: '10 Hari 9 Malam',
-      description: 'Jelajahi keindahan Bali dan Lombok dalam satu paket perjalanan yang tak terlupakan.',
-      category: '10 Hari'
-    },
-  ],
+  // Data paket wisata sudah dipindahkan ke database (tabel: paket_wisata)
+  // Dikelola via Admin Panel → Paket Wisata
+  // API: GET /api/paket_wisata.php
+  tourPackages: [],
 
   // ========== TESTIMONIALS ==========
   testimonials: [
@@ -271,8 +129,8 @@ const siteData = {
   // ========== FOOTER ==========
   footer: {
     contact: {
-      phone: '087785598639',
-      email: 'info@mafinatrans.co.id',
+      phone: '0851-9980-2536',
+      email: 'mafinatourtravel@gmail.com',
       address: 'Kota Tangerang',
     },
     aboutLinks: [
@@ -288,18 +146,17 @@ const siteData = {
     ],
     social: {
       facebook: '#',
-      pinterest: '#',
-      twitter: '#',
       youtube: '#',
-      instagram: '#',
+      instagram: 'https://www.instagram.com/mafina.trans',
+      tiktok: 'https://www.tiktok.com/@mafina.tourtravel',
     },
     copyright: '© 2024 Mafina Trans All Rights Reserved',
   },
 
   // ========== WHATSAPP ==========
   whatsapp: {
-    number: '6289652594745',
-    message: 'Halo Mafina Trans, saya ingin bertanya tentang paket wisata',
+    number: '6285199802536',
+    message: 'Halo Mafina Trans, saya ingin bertanya tentang sewa bus pariwisata.',
   },
 
   // ========== NAVIGATION ==========

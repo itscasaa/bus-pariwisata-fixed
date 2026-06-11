@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import API_BASE from '../config/api';
+import { useNavigate } from 'react-router-dom';
+import { API_PUB, API_BASE } from '../config/api';
 
 const ArmadaTable = () => {
+  const navigate = useNavigate();
   const [buses, setBuses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -9,7 +11,7 @@ const ArmadaTable = () => {
   useEffect(() => {
     const fetchBuses = async () => {
       try {
-        const response = await fetch(`${API_BASE}/buses.php`);
+        const response = await fetch(`${API_PUB}/buses.php`);
         const data = await response.json();
         
         if (data.status === 'success') {
@@ -87,13 +89,13 @@ const ArmadaTable = () => {
     <section className="lg:col-span-2 bg-surface-container-lowest rounded-[24px] custom-shadow overflow-hidden">
       <div className="px-unit-lg py-6 flex justify-between items-center border-b border-outline-variant/30">
         <h3 className="text-headline-sm text-on-surface">Data Armada Bus</h3>
-        <button className="text-primary text-body-md font-semibold hover:underline">
+        <button onClick={() => navigate('/armada')} className="text-primary text-body-md font-semibold hover:underline">
           Lihat Semua
         </button>
       </div>
 
-      <div className="p-0">
-        <table className="w-full text-left border-collapse">
+      <div className="p-0 overflow-x-auto">
+        <table className="w-full text-left border-collapse min-w-[700px]">
           <thead>
             <tr className="bg-surface-container-low">
               <th className="px-unit-lg py-4 text-label-sm text-outline uppercase">Bus Name</th>
@@ -108,17 +110,23 @@ const ArmadaTable = () => {
               <tr key={bus.id} className="hover:bg-surface-container-low transition-colors group">
                 <td className="px-unit-lg py-5">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-lg bg-surface-dim overflow-hidden">
+                    <div className="w-14 h-12 rounded-xl bg-surface-dim overflow-hidden shrink-0">
                       <img
-                        src={bus.gambar_utama || bus.gambar}
+                        src={
+                          (bus.gambar_utama || bus.gambar)
+                            ? ((bus.gambar_utama || bus.gambar).startsWith('http')
+                              ? (bus.gambar_utama || bus.gambar)
+                              : `${API_BASE}${bus.gambar_utama || bus.gambar}`)
+                            : ''
+                        }
                         alt={bus.nama_bus}
                         className="w-full h-full object-cover"
                         onError={(e) => {
-                          e.target.src = 'https://via.placeholder.com/40x40?text=Bus';
+                          e.target.src = 'https://placehold.co/56x48/e4e1ee/777587?text=Bus';
                         }}
                       />
                     </div>
-                    <span className="text-body-lg font-bold text-on-surface">{bus.nama_bus}</span>
+                    <span className="text-body-lg font-bold text-on-surface leading-tight">{bus.nama_bus}</span>
                   </div>
                 </td>
                 <td className="px-unit-lg py-5 text-on-surface-variant text-body-md">
@@ -132,7 +140,7 @@ const ArmadaTable = () => {
                 <td className="px-unit-lg py-5 font-bold text-on-surface">
                   {formatRupiah(bus.harga_sewa)}
                 </td>
-                <td className="px-unit-lg py-5 text-right">
+                <td className="px-unit-lg py-5 text-right whitespace-nowrap">
                   <span className="px-3 py-1 rounded-full bg-green-100 text-green-700 text-xs font-bold">
                     Available
                   </span>

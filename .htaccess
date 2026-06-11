@@ -1,0 +1,55 @@
+# ============================================================
+# .htaccess — Surya Tour Trans
+# Kompatibel dengan Apache (XAMPP, InfinityFree, VPS)
+# ============================================================
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # ── Jika file atau folder fisik ada → sajikan langsung ──────
+  RewriteCond %{REQUEST_FILENAME} -f [OR]
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteRule ^ - [L]
+
+  # ── Jangan rewrite path API, admin, images, config, database
+  RewriteRule ^(api|admin|images|config|database)/ - [L]
+
+  # ── Semua request lain → index.html (React Router) ──────────
+  RewriteRule . /index.html [L]
+</IfModule>
+
+# ── Sembunyikan listing direktori ─────────────────────────────
+Options -Indexes
+
+# ── Charset default ───────────────────────────────────────────
+AddDefaultCharset UTF-8
+
+# ── MIME types ────────────────────────────────────────────────
+<IfModule mod_mime.c>
+  AddType application/json .json
+  AddType text/javascript   .js
+  AddType text/css          .css
+</IfModule>
+
+# ── Cache static assets ───────────────────────────────────────
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType image/jpeg "access plus 1 month"
+  ExpiresByType image/png  "access plus 1 month"
+  ExpiresByType image/gif  "access plus 1 month"
+  ExpiresByType image/webp "access plus 1 month"
+  ExpiresByType text/css   "access plus 1 week"
+  ExpiresByType application/javascript "access plus 1 week"
+</IfModule>
+
+# ── Blokir akses langsung ke config/koneksi.php ───────────────
+<Files "koneksi.php">
+  Order Allow,Deny
+  Deny from all
+</Files>
+
+# ── Blokir akses ke file SQL ──────────────────────────────────
+<FilesMatch "\.sql$">
+  Order Allow,Deny
+  Deny from all
+</FilesMatch>

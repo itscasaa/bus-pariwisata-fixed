@@ -1,39 +1,38 @@
 import React from 'react';
-import siteData from '../data/siteData';
+import { Link } from 'react-router-dom';
 
 const PromoBanner = () => {
   return (
-    <section className="py-16 lg:py-20 bg-white/80 backdrop-blur-md text-white">
-      <div className="container mx-auto px-4">
-        <div
-          className="rounded-2xl overflow-hidden shadow-xl"
-          style={{ backgroundColor: '#2d8ae0' }}
-        >
-          <div className="flex flex-col lg:flex-row items-center justify-between px-8 lg:px-16 py-10 lg:py-14 gap-6">
-            {/* Left */}
-            <div className="text-center lg:text-left">
-              <h3 className="text-white/90 text-lg font-semibold mb-1">
-                {siteData.promo.title}
+    <section className="py-16 lg:py-20 bg-white text-white">
+      <div className="container mx-auto px-4 lg:px-8">
+        <div className="bg-gradient-to-r from-[#073B78] via-[#062D5F] to-[#0B5CA8] rounded-3xl p-8 lg:p-12 relative overflow-hidden shadow-xl border border-white/10">
+          {/* Glowing decoration blobs */}
+          <div className="absolute top-0 right-0 w-64 h-64 bg-[#FFD23F]/15 rounded-full blur-3xl pointer-events-none -mr-20 -mt-20"></div>
+          <div className="absolute bottom-0 left-0 w-48 h-48 bg-white/5 rounded-full blur-2xl pointer-events-none -ml-10 -mb-10"></div>
+
+          <div className="flex flex-col lg:flex-row items-center justify-between gap-8 relative z-10">
+            {/* Left - Text content */}
+            <div className="text-center lg:text-left space-y-3 max-w-2xl">
+              <span className="bg-white/10 text-[#FFD23F] border border-white/10 text-xs font-extrabold uppercase tracking-wider px-3.5 py-1.5 rounded-full inline-flex items-center gap-1.5">
+                <i className="fas fa-file-invoice-dollar text-[#FFD23F]"></i> Daftar Harga Terbaru
+              </span>
+              <h3 className="text-2xl lg:text-4xl font-extrabold text-white tracking-tight">
+                Price List & Tarif Sewa
               </h3>
-              <p className="text-white text-3xl lg:text-4xl font-extrabold">
-                {siteData.promo.discount}
+              <p className="text-white/80 text-sm lg:text-base leading-relaxed">
+                Lihat daftar harga sewa bus pariwisata dan layanan perjalanan terbaru kami untuk mempermudah perencanaan agenda wisata Anda.
               </p>
             </div>
 
-            {/* Center - Logo */}
-            <div className="flex-shrink-0">
-              <img
-                src={siteData.promo.image}
-                alt="Promo"
-                className="w-24 h-24 lg:w-28 lg:h-28 rounded-full border-4 border-white/60 object-cover shadow-lg bg-white"
-              />
-            </div>
-
-            {/* Right */}
-            <div>
-              <button className="bg-transparent border-2 border-white text-white font-bold px-8 py-3 rounded-lg hover:bg-white hover:text-[#2d8ae0] transition-all duration-300">
-                {siteData.promo.cta}
-              </button>
+            {/* Right - CTA Button */}
+            <div className="flex-shrink-0 w-full lg:w-auto text-center">
+              <Link
+                to="/price-list"
+                className="w-full lg:w-auto justify-center bg-[#FFD23F] hover:bg-[#F6B800] text-[#10233F] font-bold px-8 py-3.5 rounded-xl transition-all duration-300 shadow-lg hover:scale-105 inline-flex items-center gap-2"
+              >
+                <i className="fas fa-tags text-sm"></i>
+                Lihat Price List
+              </Link>
             </div>
           </div>
         </div>

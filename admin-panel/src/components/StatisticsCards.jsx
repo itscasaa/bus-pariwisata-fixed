@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import API_BASE from '../config/api';
+import { API_PUB } from '../config/api';
 
 const StatisticsCards = () => {
   const [stats, setStats] = useState({
@@ -14,14 +14,19 @@ const StatisticsCards = () => {
     const fetchStats = async () => {
       try {
         // Fetch buses count
-        const busesRes = await fetch(`${API_BASE}/buses.php`);
+        const busesRes = await fetch(`${API_PUB}/buses.php`);
         const busesData = await busesRes.json();
         const totalArmada = busesData.status === 'success' ? busesData.data.length : 0;
 
         // Fetch price list count
-        const priceRes = await fetch(`${API_BASE}/price_list.php`);
+        const priceRes = await fetch(`${API_PUB}/price_list.php`);
         const priceData = await priceRes.json();
         const totalDestinasi = priceData.status === 'success' ? priceData.data.length : 0;
+
+        // Fetch news count
+        const newsRes = await fetch(`${API_PUB}/news.php`);
+        const newsData = await newsRes.json();
+        const totalBerita = newsData.status === 'success' ? newsData.data.length : 0;
 
         // Calculate total photos from buses
         let totalFoto = 0;
@@ -36,7 +41,7 @@ const StatisticsCards = () => {
         setStats({
           totalArmada,
           totalDestinasi,
-          totalBerita: 0, // TODO: Implement news API
+          totalBerita,
           totalFoto,
         });
       } catch (error) {

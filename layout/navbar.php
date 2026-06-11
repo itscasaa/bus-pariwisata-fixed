@@ -1,9 +1,9 @@
 <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #1a1a1a; padding: 10px 0; border-bottom: 3px solid #ffc107; box-shadow: 0 2px 15px rgba(0,0,0,0.3);">
   <div class="container">
-    <!-- Brand dengan Logo Baru (foto5.jpeg) -->
+    <!-- Brand dengan Logo Baru (logo.png) -->
     <a class="navbar-brand d-flex align-items-center" href="index.php" style="text-transform: uppercase;">
-      <img src="../public/images/foto5.jpeg" width="42" height="42" class="me-2" style="object-fit: cover; border-radius: 50%; border: 2px solid #ffc107;">
-      <strong style="color: #ffc107; font-size: 1.2rem; letter-spacing: 1px;">SURYA TOUR TRANS</strong>
+      <img src="../public/images/logo.png" width="42" height="42" class="me-2" style="object-fit: cover; border-radius: 50%; border: 2px solid #ffc107;">
+      <strong style="color: #ffc107; font-size: 1.2rem; letter-spacing: 1px;">MAFINA TRANS</strong>
     </a>
 
     <!-- Toggler -->

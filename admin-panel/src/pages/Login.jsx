@@ -1,20 +1,16 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { API_ADM } from '../config/api';
+import logoImg from '../assets/logo.png';
 
 const Login = () => {
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({
-    username: '',
-    password: '',
-  });
+  const [formData, setFormData] = useState({ username: '', password: '' });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+    setFormData({ ...formData, [e.target.name]: e.target.value });
     setError('');
   };
 
@@ -23,124 +19,160 @@ const Login = () => {
     setLoading(true);
     setError('');
 
-    // TODO: Implement real authentication with PHP backend
-    // For now, simple validation
-    if (formData.username === 'admin' && formData.password === 'admin123') {
-      // Simulate API call delay
-      setTimeout(() => {
-        localStorage.setItem('admin_token', 'dummy_token');
-        navigate('/dashboard');
-      }, 1000);
-    } else {
-      setTimeout(() => {
-        setError('Username atau password salah');
-        setLoading(false);
-      }, 1000);
+    try {
+      const response = await fetch(`${API_ADM}/login.php`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+
+      if (data.status === 'success' && data.data) {
+        localStorage.setItem('admin_token', data.data.token);
+        localStorage.setItem('admin_nama', data.data.nama || 'Administrator');
+        navigate('/', { replace: true });
+      } else {
+        setError(data.message || 'Username atau password salah');
+      }
+    } catch (err) {
+      setError('Gagal menghubungkan ke server API.');
+    } finally {
+      setLoading(false);
     }
   };
 
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary to-secondary flex items-center justify-center p-4">
+    <div className="min-h-screen flex items-center justify-center p-4"
+      style={{ background: 'linear-gradient(135deg, #3525cd 0%, #4e45d5 100%)' }}>
       <div className="w-full max-w-md">
+
         {/* Logo Card */}
-        <div className="bg-surface-container-lowest rounded-[24px] custom-shadow-lg p-8 mb-6 text-center">
-          <div className="w-16 h-16 bg-primary-container rounded-2xl flex items-center justify-center text-white shadow-lg mx-auto mb-4">
-            <span className="material-symbols-outlined text-4xl">directions_bus</span>
+        <div className="bg-surface-container-lowest rounded-[24px] p-8 mb-5 text-center"
+          style={{ boxShadow: '0px 20px 50px rgba(0,0,0,0.12)' }}>
+          <div className="w-20 h-20 bg-white rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg p-2 overflow-hidden">
+            <img src={logoImg} alt="Mafina Trans Logo" className="w-full h-full object-contain" />
           </div>
-          <h1 className="text-headline-md font-bold text-primary mb-1">Surya Tour Trans</h1>
-          <p className="text-body-md text-outline">Admin Dashboard</p>
+          <h1 className="font-bold text-primary mb-1" style={{ fontSize: '22px' }}>Mafina Trans</h1>
+          <p className="text-outline" style={{ fontSize: '14px' }}>Admin Dashboard</p>
         </div>
 
         {/* Login Form Card */}
-        <div className="bg-surface-container-lowest rounded-[24px] custom-shadow-lg p-8">
-          <h2 className="text-headline-sm font-bold text-on-surface mb-2">Selamat Datang</h2>
-          <p className="text-body-md text-outline mb-6">Silakan login untuk melanjutkan</p>
+        <div className="bg-surface-container-lowest rounded-[24px] p-8"
+          style={{ boxShadow: '0px 20px 50px rgba(0,0,0,0.12)' }}>
+          <h2 className="font-bold text-on-surface mb-1" style={{ fontSize: '20px' }}>Selamat Datang</h2>
+          <p className="text-outline mb-6" style={{ fontSize: '14px' }}>Silakan login untuk melanjutkan</p>
 
           <form onSubmit={handleSubmit} className="space-y-4">
-            {/* Username Field */}
+            {/* Username */}
             <div>
-              <label htmlFor="username" className="block text-label-sm text-outline uppercase mb-2">
+              <label className="block text-outline uppercase mb-2"
+                style={{ fontSize: '12px', fontWeight: '500', letterSpacing: '0.05em' }}>
                 Username
               </label>
               <div className="relative">
-                <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline">
-                  person
-                </span>
+                <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline"
+                  style={{ fontSize: '20px' }}>person</span>
                 <input
                   type="text"
-                  id="username"
                   name="username"
                   value={formData.username}
                   onChange={handleChange}
                   placeholder="Masukkan username"
-                  className="w-full pl-10 pr-4 py-3 bg-surface-container-low border border-outline-variant rounded-xl focus:ring-2 focus:ring-primary focus:border-primary text-body-md text-on-surface"
+                  className="w-full pl-10 pr-4 py-3 rounded-xl text-on-surface"
+                  style={{
+                    background: '#f5f2ff',
+                    border: 'none',
+                    fontSize: '14px',
+                    outline: 'none',
+                  }}
+                  onFocus={e => e.target.style.boxShadow = '0 0 0 2px #3525cd'}
+                  onBlur={e => e.target.style.boxShadow = 'none'}
                   required
                 />
               </div>
             </div>
 
-            {/* Password Field */}
+            {/* Password */}
             <div>
-              <label htmlFor="password" className="block text-label-sm text-outline uppercase mb-2">
+              <label className="block text-outline uppercase mb-2"
+                style={{ fontSize: '12px', fontWeight: '500', letterSpacing: '0.05em' }}>
                 Password
               </label>
               <div className="relative">
-                <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline">
-                  lock
-                </span>
+                <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline"
+                  style={{ fontSize: '20px' }}>lock</span>
                 <input
                   type="password"
-                  id="password"
                   name="password"
                   value={formData.password}
                   onChange={handleChange}
                   placeholder="Masukkan password"
-                  className="w-full pl-10 pr-4 py-3 bg-surface-container-low border border-outline-variant rounded-xl focus:ring-2 focus:ring-primary focus:border-primary text-body-md text-on-surface"
+                  className="w-full pl-10 pr-4 py-3 rounded-xl text-on-surface"
+                  style={{
+                    background: '#f5f2ff',
+                    border: 'none',
+                    fontSize: '14px',
+                    outline: 'none',
+                  }}
+                  onFocus={e => e.target.style.boxShadow = '0 0 0 2px #3525cd'}
+                  onBlur={e => e.target.style.boxShadow = 'none'}
                   required
                 />
               </div>
             </div>
 
-            {/* Error Message */}
+            {/* Error */}
             {error && (
-              <div className="bg-error-container text-error px-4 py-3 rounded-xl flex items-center gap-2">
-                <span className="material-symbols-outlined">error</span>
-                <span className="text-body-md">{error}</span>
+              <div className="flex items-center gap-2 px-4 py-3 rounded-xl"
+                style={{ background: '#ffdad6', color: '#ba1a1a', fontSize: '14px' }}>
+                <span className="material-symbols-outlined" style={{ fontSize: '18px' }}>error</span>
+                {error}
               </div>
             )}
 
-            {/* Submit Button */}
+            {/* Submit */}
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-primary hover:bg-secondary text-white font-bold py-3 rounded-xl transition-all hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              className="w-full text-white font-bold py-3 rounded-xl flex items-center justify-center gap-2 transition-all"
+              style={{
+                background: loading ? '#7c6fcd' : 'linear-gradient(135deg, #3525cd, #4e45d5)',
+                fontSize: '15px',
+                cursor: loading ? 'not-allowed' : 'pointer',
+                border: 'none',
+              }}
             >
               {loading ? (
                 <>
-                  <span className="material-symbols-outlined animate-spin">refresh</span>
-                  <span>Loading...</span>
+                  <span className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+                  <span>Memverifikasi...</span>
                 </>
               ) : (
                 <>
-                  <span className="material-symbols-outlined">login</span>
+                  <span className="material-symbols-outlined" style={{ fontSize: '20px' }}>login</span>
                   <span>Login</span>
                 </>
               )}
             </button>
           </form>
 
-          {/* Helper Text */}
-          <div className="mt-6 text-center">
-            <p className="text-label-sm text-outline">
-              Default: <span className="font-bold text-primary">admin</span> / <span className="font-bold text-primary">admin123</span>
+          {/* Hint */}
+          <div className="mt-5 text-center p-3 rounded-xl" style={{ background: '#f5f2ff' }}>
+            <p style={{ fontSize: '12px', color: '#777587' }}>
+              Default: <span className="font-bold" style={{ color: '#3525cd' }}>admin</span>
+              {' / '}
+              <span className="font-bold" style={{ color: '#3525cd' }}>admin123</span>
             </p>
           </div>
         </div>
 
-        {/* Footer */}
-        <div className="text-center mt-6">
-          <p className="text-body-md text-white/80">
-            © 2025 Surya Tour Trans. All rights reserved.
+        <div className="text-center mt-5">
+          <p style={{ fontSize: '13px', color: 'rgba(255,255,255,0.7)' }}>
+            © 2025 Mafina Trans. All rights reserved.
           </p>
         </div>
       </div>

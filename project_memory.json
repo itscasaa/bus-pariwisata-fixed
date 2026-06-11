@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "version": "4.0.0",
-    "lastUpdated": "2026-05-23T03:52:00Z",
+    "version": "3.4.0",
+    "lastUpdated": "2026-05-22T14:00:00Z",
     "projectName": "Bus Pariwisata - Surya Tour Trans",
     "brandName": "Mafina Trans / Surya Tour Trans",
     "description": "Web platform penyewaan bus pariwisata berbasis Tangerang",
@@ -16,6 +16,8 @@
       "totalCommits": 1
     },
     "changelog": [
+      "v3.4.0: Tambah bus 7-11 Malika Wisata. Total 11 bus. File baru tambah_bus_7_11.sql. bus_fix.sql diupdate 11 bus.",
+      "v3.3.0 (2026-05-22): Update spek fasilitas berbeda per bus. Bus1: 45 kursi big, Smoking Area+Toilet+CoolerBox. Bus2: 33 kursi medium, 1LCD. Bus3: 59 kursi big, 2LCD. Bus4: 59 kursi big, 2LCD+Dispenser. Bus5: 59 kursi big, 2LCD+Dispenser. Bus6: 31 kursi medium, 1LCD. update_fasilitas.sql ditulis ulang v3.3.0.",
       "v4.0.0 (2026-05-23): FULL RE-ANALYSIS + vibechecker fixed & running. Fix baseURL 3000->3003, watchPath ./src->../frontend/src. Dependencies installed. Vibechecker functional.",
       "v3.2.0 (2026-05-22): FIXED - Deskripsi semua bus di DB langsung di-UPDATE via MySQL.",
       "v3.1.0 (2026-05-22): Bus diupdate: 4 Pratama Trans + 2 Malika Wisata.",
@@ -100,19 +102,45 @@
       "write_memory.php": "PHP helper untuk write memory",
       "about.php": "PHP legacy",
       "layanan.php": "PHP legacy"
+    },
+    "database_files": {
+      "tambah_bus_7_11.sql": "BARU - INSERT bus 7-11 + bus_images. Jalankan jika bus 1-6 sudah ada di DB."
     }
   },
   "routes": {
     "devURL": "http://localhost:3003",
     "prodURL": "http://localhost/bus_pariwisata",
     "list": {
-      "/": { "component": "HomePage (inline)", "sections": ["Hero","Features","Destinations","BusFleet","PromoBanner","TourPackages","Testimonials"] },
-      "/bus-wisata": { "component": "ArmadaPage" },
-      "/bus/:id": { "component": "BusDetailPage" },
-      "/price-list": { "component": "PriceListPage" },
-      "/paket-wisata": { "component": "PaketWisataPage" },
-      "/news": { "component": "NewsPage" },
-      "/kontak": { "status": "MISSING" }
+      "/": {
+        "component": "HomePage (inline)",
+        "sections": [
+          "Hero",
+          "Features",
+          "Destinations",
+          "BusFleet",
+          "PromoBanner",
+          "TourPackages",
+          "Testimonials"
+        ]
+      },
+      "/bus-wisata": {
+        "component": "ArmadaPage"
+      },
+      "/bus/:id": {
+        "component": "BusDetailPage"
+      },
+      "/price-list": {
+        "component": "PriceListPage"
+      },
+      "/paket-wisata": {
+        "component": "PaketWisataPage"
+      },
+      "/news": {
+        "component": "NewsPage"
+      },
+      "/kontak": {
+        "status": "MISSING"
+      }
     }
   },
   "siteDataSummary": {
@@ -140,12 +168,156 @@
   "databaseSchema": {
     "database": "bus_pariwisata",
     "tables": {
-      "bus": {"count":6,"brands":{"Pratama Trans":"id1-4","Malika Wisata":"id5-6"}},
-      "bus_images": {"detail":"Lihat bus_fix.sql untuk data lengkap"},
-      "price_list": {"target":"35 destinasi","pending":"price_list_setup.sql BELUM DIJALANKAN"},
+      "bus": {
+        "count": 6,
+        "brands": {
+          "Pratama Trans": "id1-4",
+          "Malika Wisata": "id5-6"
+        },
+        "data": [
+          {
+            "id": 1,
+            "nama": "Pratama Trans",
+            "tipe": "big_bus",
+            "kapasitas": 45,
+            "harga": 4500000,
+            "spek": "Smoking Area+Toilet+CoolerBox"
+          },
+          {
+            "id": 2,
+            "nama": "Pratama Trans",
+            "tipe": "medium_bus",
+            "kapasitas": 33,
+            "harga": 3000000,
+            "spek": "1 LCD TV"
+          },
+          {
+            "id": 3,
+            "nama": "Pratama Trans",
+            "tipe": "big_bus",
+            "kapasitas": 59,
+            "harga": 4500000,
+            "spek": "2 LCD TV"
+          },
+          {
+            "id": 4,
+            "nama": "Pratama Trans",
+            "tipe": "big_bus",
+            "kapasitas": 59,
+            "harga": 5000000,
+            "spek": "2 LCD TV+Dispenser"
+          },
+          {
+            "id": 5,
+            "nama": "Malika Wisata",
+            "tipe": "big_bus",
+            "kapasitas": 59,
+            "harga": 3500000,
+            "spek": "2 LCD TV+Dispenser"
+          },
+          {
+            "id": 6,
+            "nama": "Malika Wisata",
+            "tipe": "medium_bus",
+            "kapasitas": 31,
+            "harga": 3500000,
+            "spek": "1 LCD TV"
+          },
+          {
+            "id": 7,
+            "nama": "Malika Wisata",
+            "tipe": "big_bus",
+            "kapasitas": 59,
+            "harga": 3500000,
+            "spek": "2 LCD TV+Dispenser"
+          },
+          {
+            "id": 8,
+            "nama": "Malika Wisata",
+            "tipe": "big_bus",
+            "kapasitas": 45,
+            "harga": 4500000,
+            "spek": "SmokingRoom+Toilet+2LCD+Dispenser"
+          },
+          {
+            "id": 9,
+            "nama": "Malika Wisata",
+            "tipe": "big_bus",
+            "kapasitas": 48,
+            "harga": 3500000,
+            "spek": "2 LCD TV+Dispenser"
+          },
+          {
+            "id": 10,
+            "nama": "Malika Wisata",
+            "tipe": "medium_long",
+            "kapasitas": 35,
+            "harga": 3000000,
+            "spek": "1 LCD TV+Dispenser"
+          },
+          {
+            "id": 11,
+            "nama": "Malika Wisata",
+            "tipe": "medium_bus",
+            "kapasitas": 31,
+            "harga": 3000000,
+            "spek": "1 LCD TV"
+          }
+        ],
+        "fasilitas_per_bus": {
+          "bus1": "Seat 3-2, Smoking Area, Toilet, AC, 2 Unit LCD TV, Audio Set, Android Entertainment System, Karaoke + Microphone, Cooler Box, Port USB, Kompartemen Bagasi Atas + Bawah, Lampu Baca",
+          "bus2": "Seat 3-2, AC, 1 Unit LCD TV, Audio Set, Android Entertainment System, Karaoke + Microphone, Port USB, Kompartemen Bagasi Atas + Bawah, Lampu Baca",
+          "bus3": "Seat 3-2, AC, 2 Unit LCD TV, Audio Set, Android Entertainment System, Karaoke + Microphone, Port USB, Kompartemen Bagasi Atas + Bawah, Lampu Baca",
+          "bus4": "Seat 3-2, AC, 2 Unit LCD TV, Audio Set, Android Entertainment System, Karaoke + Microphone, Port USB, Kompartemen Bagasi Atas + Bawah, Lampu Baca, Dispenser",
+          "bus5": "Seat 3-2, AC, 2 Unit LCD TV, Audio Set, Android Entertainment System, Karaoke + Microphone, Port USB, Kompartemen Bagasi Atas + Bawah, Lampu Baca, Dispenser",
+          "bus6": "Seat 3-2, AC, 1 Unit LCD TV, Audio Set, Android Entertainment System, Karaoke + Microphone, Port USB, Kompartemen Bagasi Atas + Bawah, Lampu Baca"
+        },
+        "data_count": 11
+      },
+      "bus_images": {
+        "detail": "Lihat bus_fix.sql untuk data lengkap",
+        "data_per_bus": {
+          "bus7": {
+            "nama": "Malika Wisata",
+            "files": [
+              "bus1.jpeg"
+            ]
+          },
+          "bus8": {
+            "nama": "Malika Wisata",
+            "files": [
+              "bus1.jpeg"
+            ]
+          },
+          "bus9": {
+            "nama": "Malika Wisata",
+            "files": [
+              "bus1.jpeg"
+            ]
+          },
+          "bus10": {
+            "nama": "Malika Wisata",
+            "files": [
+              "bus1.jpeg"
+            ]
+          },
+          "bus11": {
+            "nama": "Malika Wisata",
+            "files": [
+              "bus1.jpeg"
+            ]
+          }
+        }
+      },
+      "price_list": {
+        "target": "35 destinasi",
+        "pending": "price_list_setup.sql BELUM DIJALANKAN"
+      },
       "booking": {},
       "pesan_masuk": {},
-      "admin": {"note":"Untuk login panel admin PHP"}
+      "admin": {
+        "note": "Untuk login panel admin PHP"
+      }
     }
   },
   "apiDetails": {
@@ -156,14 +328,18 @@
       "POST /booking.php": "booking form",
       "POST /contact.php": "contact form",
       "GET /health.php": "health check",
-      "KANDIDAT HAPUS": ["buses_debug.php", "price_list_debug.php"]
+      "KANDIDAT HAPUS": [
+        "buses_debug.php",
+        "price_list_debug.php"
+      ]
     }
   },
   "pendingTasks": {
     "high": [
-      "Jalankan database/bus_fix.sql di phpMyAdmin",
-      "Jalankan database/update_fasilitas.sql di phpMyAdmin",
-      "Jalankan database/price_list_setup.sql di phpMyAdmin (35 destinasi)"
+      "Jalankan database/tambah_bus_7_11.sql di phpMyAdmin (INSERT bus 7-11)",
+      "ATAU database/bus_fix.sql untuk reset total 11 bus dari awal",
+      "Jalankan database/update_fasilitas.sql (update spek berbeda bus 1-6)",
+      "Jalankan database/price_list_setup.sql (35 destinasi harga)"
     ],
     "medium": [
       "Buat KontakPage.jsx + Route /kontak di App.js",

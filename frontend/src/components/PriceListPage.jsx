@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import API_BASE from '../config/api';
+import siteData from '../data/siteData';
+import PriceListTerms from './PriceListTerms';
 
 const PriceListPage = () => {
   const [prices, setPrices] = useState([]);
@@ -44,56 +46,76 @@ const PriceListPage = () => {
   };
 
   return (
-    <div className="pt-20 min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-white pt-16">
 
       {/* Hero */}
-      <div className="bg-gradient-to-br from-[#0d4a8a] to-[#1d6ec5] py-14 text-center text-white relative overflow-hidden">
-        <div className="absolute inset-0 opacity-10"
-          style={{ backgroundImage: 'repeating-linear-gradient(45deg, #fff 0, #fff 1px, transparent 0, transparent 50%)', backgroundSize: '20px 20px' }}>
-        </div>
-        <div className="container mx-auto px-4 relative z-10">
-          <p className="text-blue-200 text-sm font-semibold uppercase tracking-widest mb-2">Harga Resmi 2025 – 2026</p>
-          <h1 className="text-3xl lg:text-4xl font-extrabold mb-2">Daftar Harga Sewa Bus</h1>
-          <p className="text-blue-100 mb-8 text-sm lg:text-base">Surya Tour &amp; Trans — Tangerang</p>
+      <div className="relative text-white py-16 md:py-24 overflow-hidden text-center bg-[#062D5F]">
+        {/* Background Image */}
+        <img 
+          src="/images/bannerpricelist.webp" 
+          alt="Price List Banner" 
+          className="absolute inset-0 w-full h-full object-cover pointer-events-none"
+          style={{ objectPosition: 'center', zIndex: 1 }}
+        />
+        {/* Dark Overlay */}
+        <div 
+          className="absolute inset-0 pointer-events-none" 
+          style={{
+            background: 'linear-gradient(180deg, rgba(6, 45, 95, 0.82) 0%, rgba(4, 30, 66, 0.92) 100%)',
+            zIndex: 2
+          }}
+        ></div>
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,rgba(255,210,63,0.1),transparent)] pointer-events-none" style={{ zIndex: 3 }}></div>
+        <div className="container mx-auto px-4 lg:px-8 relative z-10 text-center">
+          <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight text-white mb-2">
+            Price List
+          </h1>
+          <p className="text-white/80 text-sm md:text-base max-w-2xl mx-auto leading-relaxed mb-6">
+            Lihat estimasi harga sewa bus dan layanan perjalanan. Harga transparan, hemat, dan dapat disesuaikan dengan kebutuhan rute Anda.
+          </p>
 
           {/* Search */}
           <form onSubmit={handleSearch} className="max-w-xl mx-auto">
-            <div className="flex rounded-xl overflow-hidden shadow-xl">
+            <div className="flex rounded-xl overflow-hidden shadow-xl border border-white/10 bg-white p-1">
               <input
                 type="text"
                 value={keyword}
                 onChange={(e) => setKeyword(e.target.value)}
                 placeholder="Cari tujuan wisata..."
-                className="flex-1 px-5 py-3.5 text-gray-800 text-sm focus:outline-none"
+                className="flex-1 px-5 py-3 text-sm focus:outline-none text-[#10233F] rounded-lg"
               />
               <button type="submit"
-                className="px-7 py-3.5 bg-yellow-400 hover:bg-yellow-300 text-gray-900 font-bold text-sm transition-colors duration-200 flex items-center gap-2">
+                className="px-6 py-3 bg-[#FFD23F] hover:bg-[#F6B800] text-[#10233F] font-bold text-sm rounded-lg transition-colors duration-200 flex items-center gap-2"
+              >
                 <i className="fas fa-search"></i> Cari
               </button>
             </div>
           </form>
 
           {searchTerm && (
-            <p className="mt-3 text-blue-200 text-sm">
+            <p className="mt-4 text-sm text-[#FFD23F]">
               Hasil pencarian: <span className="text-white font-bold">"{searchTerm}"</span>
               <button onClick={() => { setSearchTerm(''); setKeyword(''); }}
-                className="ml-3 underline text-blue-300 hover:text-white text-xs">Reset</button>
+                className="ml-3 underline text-xs text-white/70 hover:text-white"
+              >
+                Reset
+              </button>
             </p>
           )}
         </div>
       </div>
 
       {/* Info Strip - Keterangan Harga */}
-      <div className="bg-white border-b border-gray-200 shadow-sm">
-        <div className="container mx-auto px-4 py-4 flex flex-col sm:flex-row gap-3">
-          <div className="flex items-start gap-2.5 flex-1 bg-green-50 border border-green-200 rounded-xl px-4 py-3">
-            <i className="fas fa-check-circle text-green-500 text-lg mt-0.5 shrink-0"></i>
+      <div className="border-b border-[#DDEAF6] bg-[#F3FAFF]">
+        <div className="container mx-auto px-4 py-4 flex flex-col md:flex-row gap-3">
+          <div className="flex items-start gap-2.5 flex-1 bg-green-50 border border-green-200 rounded-2xl px-4 py-3">
+            <i className="fas fa-check-circle text-[#128C7E] text-lg mt-0.5 shrink-0"></i>
             <p className="text-xs text-green-800 leading-relaxed">
-              <strong className="block text-green-700 mb-0.5">Harga Sudah Termasuk:</strong>
+              <strong className="block text-green-750 mb-0.5">Harga Sudah Termasuk:</strong>
               Sewa Bus, BBM, Driver, Helper &amp; Asuransi Jiwa
             </p>
           </div>
-          <div className="flex items-start gap-2.5 flex-1 bg-red-50 border border-red-200 rounded-xl px-4 py-3">
+          <div className="flex items-start gap-2.5 flex-1 bg-red-50 border border-red-255 rounded-2xl px-4 py-3">
             <i className="fas fa-times-circle text-red-500 text-lg mt-0.5 shrink-0"></i>
             <p className="text-xs text-red-800 leading-relaxed">
               <strong className="block text-red-700 mb-0.5">Harga Belum Termasuk:</strong>
@@ -104,22 +126,23 @@ const PriceListPage = () => {
       </div>
 
       {/* Tabel */}
-      <div className="container mx-auto px-4 py-10">
+      <div className="container mx-auto px-4 py-10 bg-white">
 
         {loading && (
           <div className="text-center py-16">
-            <div className="inline-block w-10 h-10 border-4 border-[#1d6ec5] border-t-transparent rounded-full animate-spin mb-3"></div>
-            <p className="text-gray-400 text-sm">Memuat daftar harga...</p>
+            <div className="inline-block w-10 h-10 border-4 rounded-full animate-spin mb-3" style={{ borderColor: '#0B5CA8', borderTopColor: 'transparent' }}></div>
+            <p className="text-sm text-[#64748B]">Memuat daftar harga...</p>
           </div>
         )}
 
         {!loading && error && (
           <div className="text-center py-16">
             <i className="fas fa-exclamation-circle text-5xl text-red-400 mb-4"></i>
-            <p className="text-red-500 font-semibold">Gagal memuat data.</p>
-            <p className="text-gray-400 text-sm mt-1">{error}</p>
+            <p className="font-semibold text-red-500">Gagal memuat data.</p>
+            <p className="text-sm mt-1 text-[#64748B]">{error}</p>
             <button onClick={() => setSearchTerm('')}
-              className="mt-5 px-6 py-2.5 bg-[#1d6ec5] text-white rounded-lg font-semibold hover:opacity-90 transition text-sm">
+              className="mt-5 px-6 py-2.5 text-[#10233F] rounded-xl font-bold hover:opacity-90 transition text-sm bg-[#FFD23F]"
+            >
               Coba Lagi
             </button>
           </div>
@@ -127,24 +150,24 @@ const PriceListPage = () => {
 
         {!loading && !error && prices.length === 0 && (
           <div className="text-center py-16">
-            <i className="fas fa-search text-6xl text-gray-200 mb-4"></i>
-            <p className="text-gray-500 font-semibold">
+            <i className="fas fa-search text-6xl mb-4 text-[#DDEAF6]"></i>
+            <p className="font-semibold text-[#64748B]">
               {searchTerm ? `Tidak ada hasil untuk "${searchTerm}"` : 'Belum ada data harga.'}
             </p>
           </div>
         )}
 
         {!loading && !error && prices.length > 0 && (
-          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+          <div className="bg-white border border-[#DDEAF6] rounded-3xl shadow-sm overflow-hidden">
 
             {/* Header tabel */}
-            <div className="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
+            <div className="px-6 py-4 flex items-center justify-between border-b border-[#DDEAF6]">
               <div>
-                <h2 className="text-lg font-bold text-gray-800">Daftar Harga <span className="text-[#1d6ec5]">Surya Tour Trans</span></h2>
-                <p className="text-xs text-gray-400 mt-0.5">{prices.length} tujuan tersedia</p>
+                <h2 className="text-lg font-extrabold text-[#10233F]">Daftar Estimasi Tarif Sewa Bus <span className="text-[#0B5CA8]">Mafina Trans</span></h2>
+                <p className="text-xs mt-0.5 text-[#64748B]">{prices.length} tujuan perjalanan tersedia</p>
               </div>
-              <div className="hidden md:flex items-center gap-2 text-xs text-gray-500 bg-gray-50 px-3 py-2 rounded-lg">
-                <i className="fas fa-info-circle text-[#1d6ec5]"></i>
+              <div className="hidden md:flex items-center gap-2 text-xs px-3 py-2 rounded-xl bg-[#F3FAFF] text-[#64748B]">
+                <i className="fas fa-info-circle text-[#0B5CA8]"></i>
                 Harga dalam Rupiah (IDR)
               </div>
             </div>
@@ -152,39 +175,43 @@ const PriceListPage = () => {
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
-                  <tr className="bg-[#0d2b4a] text-white">
-                    <th className="px-5 py-4 text-left font-semibold w-[35%]">Tujuan Wisata</th>
-                    <th className="px-4 py-4 text-center font-semibold">Durasi</th>
-                    <th className="px-4 py-4 text-center font-semibold">HiAce</th>
-                    <th className="px-4 py-4 text-center font-semibold">Elf</th>
-                    <th className="px-4 py-4 text-center font-semibold">Medium Bus</th>
-                    <th className="px-4 py-4 text-center font-semibold">Big Bus</th>
-                    <th className="px-4 py-4 text-center font-semibold">Pesan</th>
+                  <tr className="bg-[#062D5F] text-white">
+                    <th className="px-5 py-4 text-left font-bold w-[35%]">Tujuan Wisata</th>
+                    <th className="px-4 py-4 text-center font-bold">Durasi</th>
+                    <th className="px-4 py-4 text-center font-bold">HiAce</th>
+                    <th className="px-4 py-4 text-center font-bold">Elf</th>
+                    <th className="px-4 py-4 text-center font-bold">Medium Bus</th>
+                    <th className="px-4 py-4 text-center font-bold">Big Bus</th>
+                    <th className="px-4 py-4 text-center font-bold">Pesan</th>
                   </tr>
                 </thead>
                 <tbody>
                   {prices.map((item, i) => (
                     <tr key={item.id}
-                      className={`border-b border-gray-100 hover:bg-blue-50/40 transition-colors duration-150 ${i % 2 === 0 ? 'bg-white' : 'bg-gray-50/50'}`}>
+                      className="transition-colors duration-150 border-b border-[#DDEAF6]"
+                      style={{
+                        background: i % 2 === 0 ? 'transparent' : '#F3FAFF'
+                      }}
+                    >
                       <td className="px-5 py-3.5">
                         <div className="flex items-start gap-2">
-                          <i className="fas fa-map-marker-alt text-[#1d6ec5] mt-0.5 shrink-0"></i>
-                          <span className="font-semibold text-gray-800 leading-snug">{item.nama_destinasi}</span>
+                          <i className="fas fa-map-marker-alt mt-0.5 shrink-0 text-[#0B5CA8]"></i>
+                          <span className="font-bold leading-snug text-[#10233F]">{item.nama_destinasi}</span>
                         </div>
                       </td>
                       <td className="px-4 py-3.5 text-center">
-                        <span className="bg-blue-100 text-[#1d6ec5] text-xs font-bold px-2.5 py-1 rounded-full whitespace-nowrap">
+                        <span className="text-xs font-bold px-2.5 py-1 rounded-full whitespace-nowrap bg-[#EAF6FF] text-[#0B5CA8]">
                           {item.durasi}
                         </span>
                       </td>
-                      <td className="px-4 py-3.5 text-center text-gray-700 font-medium whitespace-nowrap">{formatRupiah(item.harga_hiace)}</td>
-                      <td className="px-4 py-3.5 text-center text-gray-700 font-medium whitespace-nowrap">{formatRupiah(item.harga_elf)}</td>
-                      <td className="px-4 py-3.5 text-center text-gray-700 font-medium whitespace-nowrap">{formatRupiah(item.harga_medium)}</td>
-                      <td className="px-4 py-3.5 text-center font-bold text-[#0d4a8a] whitespace-nowrap">{formatRupiah(item.harga_big)}</td>
+                      <td className="px-4 py-3.5 text-center font-bold whitespace-nowrap text-[#073B78]">{formatRupiah(item.harga_hiace)}</td>
+                      <td className="px-4 py-3.5 text-center font-bold whitespace-nowrap text-[#073B78]">{formatRupiah(item.harga_elf)}</td>
+                      <td className="px-4 py-3.5 text-center font-bold whitespace-nowrap text-[#073B78]">{formatRupiah(item.harga_medium)}</td>
+                      <td className="px-4 py-3.5 text-center font-extrabold whitespace-nowrap text-[#062D5F]">{formatRupiah(item.harga_big)}</td>
                       <td className="px-4 py-3.5 text-center">
-                        <a href={`https://wa.me/6287785598639?text=Halo%20Surya%20Tour%20Trans%2C%20saya%20ingin%20tanya%20harga%20ke%20${encodeURIComponent(item.nama_destinasi)}%20durasi%20${encodeURIComponent(item.durasi)}`}
+                        <a href={`https://wa.me/${siteData.whatsapp.number}?text=Halo%20Mafina%20Trans%2C%20saya%20ingin%20tanya%20harga%20ke%20${encodeURIComponent(item.nama_destinasi)}%20durasi%20${encodeURIComponent(item.durasi)}`}
                           target="_blank" rel="noopener noreferrer"
-                          className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-green-500 hover:bg-green-600 text-white text-xs font-bold rounded-lg transition-colors duration-200 whitespace-nowrap">
+                          className="inline-flex items-center gap-1.5 px-3.5 py-2 bg-[#128C7E] hover:bg-[#0b655b] text-white text-xs font-bold rounded-xl transition-all duration-200 whitespace-nowrap shadow-sm">
                           <i className="fab fa-whatsapp"></i> Pesan
                         </a>
                       </td>
@@ -195,31 +222,32 @@ const PriceListPage = () => {
             </div>
 
             {/* Footer tabel - 3 baris keterangan */}
-            <div className="border-t border-gray-100">
-              <div className="flex items-start gap-3 px-6 py-3.5 bg-green-50 border-b border-green-100">
-                <i className="fas fa-check-circle text-green-500 text-base mt-0.5 shrink-0"></i>
+            <div className="border-t border-[#DDEAF6]">
+              <div className="flex items-start gap-3 px-6 py-3.5 bg-green-50/50 border-b border-[#DDEAF6]">
+                <i className="fas fa-check-circle text-[#128C7E] text-base mt-0.5 shrink-0"></i>
                 <p className="text-xs text-green-800 leading-relaxed">
                   <strong>Harga sudah termasuk:</strong> Sewa Bus, BBM, Driver, Helper &amp; Asuransi Jiwa
                 </p>
               </div>
-              <div className="flex items-start gap-3 px-6 py-3.5 bg-red-50 border-b border-red-100">
+              <div className="flex items-start gap-3 px-6 py-3.5 bg-red-50/50 border-b border-[#DDEAF6]">
                 <i className="fas fa-times-circle text-red-500 text-base mt-0.5 shrink-0"></i>
-                <p className="text-xs text-red-800 leading-relaxed">
+                <p className="text-xs text-red-850 leading-relaxed">
                   <strong>Harga belum termasuk:</strong> Toll, Parkir, Tips, Penyeberangan (Kapal Ferry), Retribusi Daerah &amp; Tiket Masuk Wisata
                 </p>
               </div>
-              <div className="flex items-start gap-3 px-6 py-3.5 bg-amber-50">
-                <i className="fas fa-exclamation-triangle text-amber-500 text-base mt-0.5 shrink-0"></i>
-                <p className="text-xs text-amber-800 leading-relaxed">
+              <div className="flex items-start gap-3 px-6 py-3.5 bg-amber-55/40">
+                <i className="fas fa-exclamation-triangle text-amber-600 text-base mt-0.5 shrink-0"></i>
+                <p className="text-xs text-amber-850 leading-relaxed">
                   <strong>Catatan:</strong> Penggunaan bus menginap mulai jam <strong>05.00 WIB</strong> s/d <strong>24.00 WIB</strong> di hari terakhir.
                   Harga dapat berubah sewaktu-waktu, konfirmasi via WhatsApp untuk harga terkini.
                 </p>
               </div>
             </div>
-
           </div>
         )}
       </div>
+
+      <PriceListTerms />
     </div>
   );
 };

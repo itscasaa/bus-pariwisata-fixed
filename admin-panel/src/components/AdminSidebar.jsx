@@ -5,11 +5,12 @@ const AdminSidebar = () => {
   const location = useLocation();
 
   const menuItems = [
-    { icon: 'dashboard', label: 'Dashboard', path: '/dashboard' },
+    { icon: 'dashboard', label: 'Dashboard', path: '/' },
     { icon: 'directions_bus', label: 'Kelola Armada', path: '/armada' },
+    { icon: 'map', label: 'Paket Wisata', path: '/paket-wisata' },
     { icon: 'payments', label: 'Kelola Price List', path: '/price-list' },
     { icon: 'newspaper', label: 'Kelola Berita', path: '/news' },
-    { icon: 'language', label: 'Lihat Website', path: 'http://localhost/bus_pariwisata', external: true },
+    { icon: 'language', label: 'Lihat Website', path: 'https://mafinatrans.duckdns.org', external: true },
   ];
 
   const isActive = (path) => location.pathname === path;
@@ -24,7 +25,7 @@ const AdminSidebar = () => {
           </div>
           <div>
             <h1 className="text-headline-md font-bold text-primary dark:text-inverse-primary leading-tight">
-              Surya Tour
+              Mafina Trans
             </h1>
             <p className="text-body-md text-outline">Admin Dashboard</p>
           </div>
@@ -79,8 +80,9 @@ const AdminSidebar = () => {
         </Link>
         <button
           onClick={() => {
-            // TODO: Implement logout logic
-            console.log('Logout clicked');
+            localStorage.removeItem('admin_token');
+            localStorage.removeItem('admin_user');
+            window.location.href = '/login';
           }}
           className="w-full flex items-center gap-unit-md text-error hover:bg-error-container px-4 py-3 rounded-xl transition-all duration-200"
         >

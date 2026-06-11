@@ -8,7 +8,7 @@ include_once '../layout/navbar.php';
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Surya Tour Trans - Sewa Bus Pariwisata & Paket Wisata</title>
+    <title>Mafina Trans - Sewa Bus Pariwisata & Paket Wisata</title>
     
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
@@ -96,7 +96,7 @@ include_once '../layout/navbar.php';
 
 <footer class="bg-dark text-white py-5 mt-5">
     <div class="container text-center">
-        <h4 class="fw-bold text-warning mb-3">SURYA TOUR TRANS</h4>
+        <h4 class="fw-bold text-warning mb-3">MAFINA TRANS</h4>
         <p class="mb-4">Jl. Alamat Kantor Anda No. 123, Kota, Indonesia</p>
         <div class="mb-4">
             <a href="#" class="text-white mx-2 text-decoration-none">Facebook</a>
@@ -104,7 +104,7 @@ include_once '../layout/navbar.php';
             <a href="#" class="text-white mx-2 text-decoration-none">WhatsApp</a>
         </div>
         <hr class="bg-secondary">
-        <p class="small text-secondary mb-0">&copy; <?php echo date("Y"); ?> Surya Tour Trans. All Rights Reserved.</p>
+        <p class="small text-secondary mb-0">&copy; <?php echo date("Y"); ?> Mafina Trans. All Rights Reserved.</p>
     </div>
 </footer>
 

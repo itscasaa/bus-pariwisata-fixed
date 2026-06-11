@@ -58,8 +58,7 @@ module.exports = {
         'on-background': '#1b1b24',
       },
       fontFamily: {
-        sans: ['Poppins', 'sans-serif'],
-        inter: ['Inter', 'sans-serif'],
+        sans: ['Inter', 'sans-serif'],
       },
       fontSize: {
         'display-lg': ['32px', { lineHeight: '1.2', letterSpacing: '-0.02em', fontWeight: '700' }],

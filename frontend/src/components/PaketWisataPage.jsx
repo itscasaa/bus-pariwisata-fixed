@@ -1,153 +1,229 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import siteData from '../data/siteData';
+import API_BASE from '../config/api';
 
+// ─── Format harga ─────────────────────────────────────────────────────────────
+const formatRp = (n) =>
+  n ? 'Rp. ' + new Intl.NumberFormat('id-ID').format(n) : '-';
+
+// ─── Skeleton card ────────────────────────────────────────────────────────────
+const SkeletonCard = () => (
+  <div className="glass-card rounded-xl overflow-hidden animate-pulse">
+    <div className="aspect-[4/3]" style={{ background: 'var(--color-bg)' }} />
+    <div className="p-5 space-y-3">
+      <div className="h-4 rounded w-3/4" style={{ background: 'var(--color-border)' }} />
+      <div className="h-3 rounded w-full" style={{ background: 'var(--color-border)' }} />
+      <div className="h-3 rounded w-2/3" style={{ background: 'var(--color-border)' }} />
+      <div className="h-10 rounded mt-4" style={{ background: 'var(--color-border)' }} />
+    </div>
+  </div>
+);
+
+// ─── Empty / Error State ──────────────────────────────────────────────────────
+const EmptyState = ({ error }) => (
+  <div className="col-span-full flex flex-col items-center justify-center py-20 text-center">
+    <div className="w-24 h-24 rounded-full flex items-center justify-center mb-6" style={{ background: 'var(--color-bg)' }}>
+      <i className={`fas ${error ? 'fa-exclamation-circle text-red-400' : 'fa-map-marked-alt'} text-4xl`} style={!error ? { color: 'var(--color-border)' } : {}}></i>
+    </div>
+    <h3 className="font-bold text-lg mb-2" style={{ color: 'var(--color-primary)' }}>
+      {error ? 'Gagal Memuat Data' : 'Belum Ada Paket'}
+    </h3>
+    <p className="text-sm max-w-sm" style={{ color: 'var(--color-muted)' }}>
+      {error
+        ? 'Tidak dapat terhubung ke server. Pastikan XAMPP sudah berjalan.'
+        : 'Belum ada paket wisata yang tersedia untuk kategori ini.'}
+    </p>
+    {error && (
+      <button
+        onClick={() => window.location.reload()}
+        className="mt-5 px-6 py-2.5 text-white rounded-full text-sm font-semibold hover:opacity-90 transition-colors"
+        style={{ background: 'var(--color-blue)' }}
+      >
+        <i className="fas fa-redo mr-2"></i>Coba Lagi
+      </button>
+    )}
+  </div>
+);
+
+// ─── Main Component ───────────────────────────────────────────────────────────
 const PaketWisataPage = () => {
+  const [packages,     setPackages]     = useState([]);
+  const [loading,      setLoading]      = useState(true);
+  const [error,        setError]        = useState(null);
   const [activeFilter, setActiveFilter] = useState('Semua');
-  const packages = siteData.tourPackages;
 
-  const categories = ['Semua', ...new Set(packages.map((p) => p.category))];
+  // Fetch HANYA dari database — tidak ada fallback
+  useEffect(() => {
+    setLoading(true);
+    setError(null);
 
-  const filtered =
-    activeFilter === 'Semua'
-      ? packages
-      : packages.filter((p) => p.category === activeFilter);
+    fetch(`${API_BASE}/paket_wisata.php`)
+      .then(r => {
+        if (!r.ok) throw new Error(`HTTP ${r.status}`);
+        return r.json();
+      })
+      .then(d => {
+        if (d.status === 'success' && Array.isArray(d.data)) {
+          setPackages(d.data);
+        } else {
+          throw new Error(d.message || 'Data tidak tersedia');
+        }
+      })
+      .catch(err => {
+        setError(err.message);
+        setPackages([]);
+      })
+      .finally(() => setLoading(false));
+  }, []);
+
+  const categories = ['Semua', ...new Set(packages.map(p => p.kategori))];
+
+  const filtered = activeFilter === 'Semua'
+    ? packages
+    : packages.filter(p => p.kategori === activeFilter);
 
   return (
     <>
-      {/* ===== HERO BANNER ===== */}
-      <div className="bg-gradient-to-br from-[#0d4a8a] to-[#1d6ec5] pt-16 lg:pt-20 pb-14 text-white relative overflow-hidden">
-        {/* Dot pattern dekoratif */}
-        <div
-          className="absolute inset-0 opacity-10"
+      {/* ===== HERO ===== */}
+      <div className="relative text-white py-16 md:py-24 overflow-hidden text-center bg-[#062D5F]">
+        {/* Background Image */}
+        <img 
+          src="/images/bannerpaketwisata.webp" 
+          alt="Paket Wisata Banner" 
+          className="absolute inset-0 w-full h-full object-cover pointer-events-none"
+          style={{ objectPosition: 'center', zIndex: 1 }}
+        />
+        {/* Dark Overlay */}
+        <div 
+          className="absolute inset-0 pointer-events-none" 
           style={{
-            backgroundImage:
-              'repeating-linear-gradient(45deg, #fff 0, #fff 1px, transparent 0, transparent 50%)',
-            backgroundSize: '20px 20px',
+            background: 'linear-gradient(180deg, rgba(6, 45, 95, 0.82) 0%, rgba(4, 30, 66, 0.92) 100%)',
+            zIndex: 2
           }}
         ></div>
-        {/* Lingkaran dekoratif */}
-        <div className="absolute -top-20 -left-20 w-80 h-80 bg-white/5 rounded-full pointer-events-none"></div>
-        <div className="absolute -bottom-24 -right-20 w-96 h-96 bg-white/5 rounded-full pointer-events-none"></div>
-
-        <div className="container mx-auto px-4 relative z-10 text-center">
-          {/* Label kecil */}
-          <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 text-blue-100 text-xs font-semibold uppercase tracking-widest px-4 py-2 rounded-full mb-5">
-            <i className="fas fa-map-marked-alt text-yellow-300"></i>
-            Wisata Bersama Surya Tour Trans
-          </div>
-
-          <h1 className="text-3xl lg:text-5xl font-extrabold mb-3 tracking-tight">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,rgba(255,210,63,0.1),transparent)] pointer-events-none" style={{ zIndex: 3 }}></div>
+        <div className="container mx-auto px-4 lg:px-8 relative z-10 text-center">
+          <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight text-white mb-4">
             Paket Wisata
           </h1>
-          <p className="text-blue-100 text-base lg:text-lg max-w-2xl mx-auto mb-8">
-            Nikmati perjalanan wisata yang nyaman dengan berbagai pilihan paket menarik. Harga terbaik, armada premium, dan driver berpengalaman
+          <p className="text-white/80 text-sm md:text-base max-w-2xl mx-auto leading-relaxed">
+            Temukan pilihan paket perjalanan menarik bersama Mafina Trans. Nikmati perjalanan wisata yang nyaman dengan armada premium, driver berpengalaman, dan harga terbaik.
           </p>
-
-          {/* Stats bar */}
-          <div className="inline-flex flex-wrap justify-center gap-6 bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl px-8 py-4">
-            <div className="flex items-center gap-2 text-sm">
-              <span className="w-8 h-8 bg-yellow-400 text-yellow-900 rounded-full flex items-center justify-center font-bold text-xs">{packages.length}</span>
-              <span className="text-blue-100">Paket Tersedia</span>
-            </div>
-            <div className="w-px bg-white/20 hidden sm:block self-stretch"></div>
-            <div className="flex items-center gap-2 text-sm">
-              <i className="fas fa-clock text-yellow-300"></i>
-              <span className="text-blue-100">1 Hari s/d 10 Hari</span>
-            </div>
-            <div className="w-px bg-white/20 hidden sm:block self-stretch"></div>
-            <div className="flex items-center gap-2 text-sm">
-              <i className="fas fa-map-marker-alt text-yellow-300"></i>
-              <span className="text-blue-100">100+ Destinasi Wisata</span>
-            </div>
-            <div className="w-px bg-white/20 hidden sm:block self-stretch"></div>
-            <div className="flex items-center gap-2 text-sm">
-              <i className="fas fa-headset text-yellow-300"></i>
-              <span className="text-blue-100">Support 24 Jam</span>
-            </div>
-          </div>
         </div>
       </div>
 
       {/* Info strip */}
-      <div className="bg-blue-50 border-b border-blue-100">
-        <div className="container mx-auto px-4 py-3 flex flex-wrap gap-x-6 gap-y-1 text-xs text-blue-800">
+      <div className="bg-[#F3FAFF] border-b border-[#DDEAF6]">
+        <div className="container mx-auto px-4 py-3 flex flex-wrap gap-x-6 gap-y-1 text-xs justify-center" style={{ color: '#10233F' }}>
           <span><i className="fas fa-check-circle text-green-500 mr-1"></i>Tersedia paket custom sesuai kebutuhan rombongan Anda</span>
-          <span><i className="fas fa-tag text-yellow-500 mr-1"></i>Diskon spesial untuk pemesanan grup &amp; repeat order</span>
+          <span><i className="fas fa-tag text-[#FFD23F] mr-1"></i>Diskon spesial untuk pemesanan grup &amp; repeat order</span>
         </div>
       </div>
 
-      {/* ===== FILTER BUTTONS ===== */}
-      <section className="py-6 bg-white border-b border-gray-100 sticky top-0 z-20 shadow-sm">
-        <div className="container mx-auto px-4">
-          <div className="flex flex-wrap justify-center gap-2 md:gap-3">
-            {categories.map((cat) => (
-              <button
-                key={cat}
-                onClick={() => setActiveFilter(cat)}
-                className={`px-5 py-2.5 rounded-full text-sm font-semibold transition-all duration-300 ${
-                  activeFilter === cat
-                    ? 'bg-[#1d6ec5] text-white shadow-md shadow-blue-200'
-                    : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-                }`}
-              >
-                {cat}
-              </button>
-            ))}
+      {/* ===== FILTER ===== */}
+      {!loading && !error && packages.length > 0 && (
+        <section className="py-6 sticky top-0 z-20 shadow-sm bg-white/90 backdrop-blur-md border-b border-[#DDEAF6]">
+          <div className="container mx-auto px-4">
+            <div className="flex flex-wrap justify-center gap-2 md:gap-3">
+              {categories.map(cat => (
+                <button
+                  key={cat}
+                  onClick={() => setActiveFilter(cat)}
+                  className={`px-5 py-2.5 rounded-full text-sm font-semibold transition-all duration-300 ${
+                    activeFilter === cat
+                      ? 'text-[#10233F] shadow-md'
+                      : 'hover:opacity-85'
+                  }`}
+                  style={activeFilter === cat
+                    ? { background: '#FFD23F', boxShadow: '0 4px 14px rgba(255, 210, 63, 0.25)' }
+                    : { background: '#F3FAFF', color: '#64748B' }
+                  }
+                >
+                  {cat}
+                </button>
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
-      {/* ===== PACKAGES GRID ===== */}
-      <section className="py-12 md:py-16 bg-gray-50 min-h-screen">
+      {/* ===== GRID ===== */}
+      <section className="py-12 md:py-16 bg-white min-h-[60vh]">
         <div className="container mx-auto px-4">
-          {filtered.length === 0 ? (
-            <p className="text-center text-gray-500 py-20">Tidak ada paket untuk kategori ini.</p>
-          ) : (
+
+          {/* Loading skeleton */}
+          {loading && (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              {[1,2,3,4,5,6,7,8].map(i => <SkeletonCard key={i} />)}
+            </div>
+          )}
+
+          {/* Error / Empty */}
+          {!loading && (error || filtered.length === 0) && (
+            <div className="grid grid-cols-1">
+              <EmptyState error={error} />
+            </div>
+          )}
+
+          {/* Cards dari DB */}
+          {!loading && !error && filtered.length > 0 && (
             <>
-              <div className="text-sm text-gray-500 mb-6">
-                Menampilkan <span className="font-semibold text-gray-700">{filtered.length}</span> paket wisata
+              <div className="flex items-center justify-between mb-6">
+                <p className="text-sm text-[#64748B]">
+                  Menampilkan <span className="font-semibold text-[#10233F]">{filtered.length}</span> paket wisata
+                </p>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                {filtered.map((pkg, i) => (
+                {filtered.map((pkg) => (
                   <div
-                    key={i}
-                    className="group bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1.5 flex flex-col"
+                    key={pkg.id}
+                    className="group bg-white border border-[#DDEAF6] shadow-sm hover:shadow-xl rounded-3xl overflow-hidden transition-all duration-300 flex flex-col h-full"
                   >
-                    <div className="relative aspect-[4/3] overflow-hidden">
+                    {/* Gambar */}
+                    <div className="relative aspect-[4/3] overflow-hidden bg-[#F3FAFF]">
                       <img
-                        src={pkg.image}
-                        alt={pkg.title}
-                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                        src={pkg.gambar}
+                        alt={pkg.judul}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        onError={e => {
+                          e.target.onerror = null;
+                          e.target.src = '/images/bus4.jpeg';
+                        }}
                       />
-                      <div className="absolute top-3 left-3 bg-[#1d6ec5] text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-md">
+                      {/* Badge */}
+                      <div
+                        className="absolute top-3 left-3 text-[#10233F] text-[10px] font-bold px-3 py-1.5 bg-[#FFD23F] rounded-full shadow-md uppercase tracking-wider"
+                      >
                         {pkg.badge}
                       </div>
-                      <div className="absolute top-3 right-3 bg-red-500 text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-md flex items-center gap-1">
-                        <i className="fas fa-tag"></i>
-                        <span>Diskon 10%</span>
-                      </div>
-                      <div className="absolute bottom-3 right-3 bg-black/60 backdrop-blur-sm text-white text-xs px-3 py-1.5 rounded-full flex items-center gap-1.5">
-                        <i className="far fa-clock"></i>
-                        <span>{pkg.duration}</span>
+                      {/* Durasi */}
+                      <div className="absolute bottom-3 right-3 bg-black/60 backdrop-blur-sm text-white text-[10px] font-bold px-3 py-1.5 rounded-full flex items-center gap-1.5">
+                        <i className="far fa-clock text-[#FFD23F]"></i>
+                        <span>{pkg.durasi}</span>
                       </div>
                     </div>
 
+                    {/* Content */}
                     <div className="p-5 flex flex-col flex-1">
-                      <h3 className="font-bold text-gray-800 text-base mb-2 group-hover:text-[#1d6ec5] transition-colors duration-300 line-clamp-2">
-                        {pkg.title}
+                      <h3 className="font-extrabold text-base mb-1.5 transition-colors duration-300 line-clamp-2 text-[#10233F] group-hover:text-[#0B5CA8]">
+                        {pkg.judul}
                       </h3>
-                      <p className="text-gray-500 text-sm mb-4 flex-1 line-clamp-3">
-                        {pkg.description}
+                      {/* Harga */}
+                      <p className="font-black text-sm mb-3 text-[#0B5CA8]">
+                        {pkg.harga_fmt || formatRp(pkg.harga)}
                       </p>
-                      <div className="pt-4 mt-auto">
+                      <p className="text-xs text-[#64748B] mb-4 flex-1 line-clamp-3 leading-relaxed">
+                        {pkg.deskripsi}
+                      </p>
+                      <div className="pt-4 mt-auto border-t border-[#DDEAF6]">
                         <a
-                          href={`https://wa.me/${siteData.whatsapp.number}?text=Halo%20Surya%20Tour%20Trans%2C%20saya%20ingin%20pesan%20paket%20${encodeURIComponent(pkg.title)}`}
+                          href={`https://wa.me/${siteData.whatsapp.number}?text=Halo%20Mafina%20Trans%2C%20saya%20ingin%20pesan%20paket%20${encodeURIComponent(pkg.judul)}`}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="w-full bg-green-500 hover:bg-green-600 text-white text-sm py-2.5 rounded-lg transition-colors duration-200 flex items-center justify-center gap-2 font-semibold"
+                          className="w-full bg-[#128C7E] hover:bg-[#0b655b] text-white text-xs py-3 rounded-xl transition-all duration-300 flex items-center justify-center gap-2 font-bold"
                         >
-                          <i className="fab fa-whatsapp text-base"></i>
+                          <i className="fab fa-whatsapp text-sm"></i>
                           <span>Pesan via WhatsApp</span>
                         </a>
                       </div>
@@ -160,22 +236,23 @@ const PaketWisataPage = () => {
         </div>
       </section>
 
-      {/* ===== CTA SECTION ===== */}
-      <section className="py-16 bg-[#1d6ec5]">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">
-            Ingin Paket Wisata Custom?
-          </h2>
-          <p className="text-blue-100 mb-8 max-w-xl mx-auto">
-            Kami siap membantu Anda merancang paket perjalanan sesuai keinginan. Hubungi tim kami sekarang!
+      {/* ===== CTA ===== */}
+      <section 
+        className="py-16 text-center text-white"
+        style={{ background: 'linear-gradient(135deg, #073B78 0%, #062D5F 50%, #0B5CA8 100%)' }}
+      >
+        <div className="container mx-auto px-4 lg:px-8">
+          <h2 className="text-2xl md:text-3xl font-extrabold text-white mb-4">Ingin Paket Wisata Custom?</h2>
+          <p className="text-white/85 mb-8 max-w-xl mx-auto text-sm leading-relaxed">
+            Kami siap membantu Anda merancang paket perjalanan sesuai keinginan, rute, dan budget khusus rombongan Anda. Hubungi tim kami sekarang!
           </p>
           <a
-            href={`https://wa.me/${siteData.whatsapp.number}?text=Halo%20Surya%20Tour%20Trans%2C%20saya%20ingin%20konsultasi%20paket%20wisata%20custom`}
+            href={`https://wa.me/${siteData.whatsapp.number}?text=Halo%20Mafina%20Trans%2C%20saya%20ingin%20konsultasi%20paket%20wisata%20custom`}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 bg-white text-[#1d6ec5] font-bold px-8 py-3.5 rounded-full hover:bg-blue-50 transition-colors duration-200 shadow-lg"
+            className="inline-flex items-center gap-2 px-8 py-3.5 bg-[#FFD23F] hover:bg-[#F6B800] text-[#10233F] font-bold rounded-xl transition-all duration-300 shadow-lg hover:scale-105"
           >
-            <i className="fab fa-whatsapp text-green-500 text-xl"></i>
+            <i className="fab fa-whatsapp text-xl"></i>
             Konsultasi Gratis
           </a>
         </div>

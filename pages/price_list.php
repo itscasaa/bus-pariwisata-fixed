@@ -21,13 +21,13 @@ if (isset($_POST['cari'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Price List - Surya Tour Trans</title>
+    <title>Price List - Mafina Trans</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
    <style>
         :root {
             --primary-navy: #1a2226; /* Warna khas sidebar/navbar AdminLTE */
-            --accent-orange: #f39c12; /* Warna orange Surya Tour */
+            --accent-orange: #f39c12; /* Warna orange Mafina Trans */
             --dark-red: #c0392b;
         }
 
@@ -119,7 +119,7 @@ if (isset($_POST['cari'])) {
 
 <div class="container py-5">
     <div class="text-center mb-5">
-        <h3 class="fw-bold">DAFTAR HARGA <span class="text-orange">SURYA TOUR TRANS</span></h3>
+        <h3 class="fw-bold">DAFTAR HARGA <span class="text-orange">MAFINA TRANS</span></h3>
         <hr class="mx-auto" style="width: 80px; height: 3px; background-color: var(--accent-orange); opacity: 1;">
     </div>
 

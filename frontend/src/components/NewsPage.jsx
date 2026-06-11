@@ -1,128 +1,193 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import siteData from '../data/siteData';
+import API_BASE from '../config/api';
 
 const NewsPage = () => {
-  const news = siteData.news;
+  const [news, setNews] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    setLoading(true);
+    setError(null);
+    fetch(`${API_BASE}/news.php`)
+      .then((res) => {
+        if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+        return res.json();
+      })
+      .then((data) => {
+        if (data.status === 'success') {
+          setNews(Array.isArray(data.data) ? data.data : []);
+        } else {
+          setError(data.message || 'Gagal memuat berita.');
+        }
+      })
+      .catch((err) => setError(err.message))
+      .finally(() => setLoading(false));
+  }, []);
+
+  const formatDate = (dateStr) => {
+    if (!dateStr) return '-';
+    try {
+      const date = new Date(dateStr);
+      return date.toLocaleDateString('id-ID', {
+        day: 'numeric',
+        month: 'short',
+        year: 'numeric',
+      });
+    } catch {
+      return dateStr;
+    }
+  };
 
   return (
-    <>
+    <div className="min-h-screen bg-white pt-16">
       {/* ===== HERO BANNER ===== */}
-      <div className="bg-gradient-to-br from-[#0d4a8a] to-[#1d6ec5] pt-16 lg:pt-20 pb-14 text-white relative overflow-hidden">
-        <div
-          className="absolute inset-0 opacity-10"
+      <div className="relative text-white py-16 md:py-24 overflow-hidden text-center bg-[#062D5F]">
+        {/* Background Image */}
+        <img 
+          src="/images/news.webp" 
+          alt="News & Info Banner" 
+          className="absolute inset-0 w-full h-full object-cover pointer-events-none"
+          style={{ objectPosition: 'center', zIndex: 1 }}
+        />
+        {/* Dark Overlay */}
+        <div 
+          className="absolute inset-0 pointer-events-none" 
           style={{
-            backgroundImage: 'repeating-linear-gradient(45deg, #fff 0, #fff 1px, transparent 0, transparent 50%)',
-            backgroundSize: '20px 20px',
+            background: 'linear-gradient(180deg, rgba(6, 45, 95, 0.82) 0%, rgba(4, 30, 66, 0.92) 100%)',
+            zIndex: 2
           }}
         ></div>
-        <div className="absolute -top-20 -left-20 w-80 h-80 bg-white/5 rounded-full pointer-events-none"></div>
-        <div className="absolute -bottom-24 -right-20 w-96 h-96 bg-white/5 rounded-full pointer-events-none"></div>
-
-        <div className="container mx-auto px-4 relative z-10 text-center">
-          <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 text-blue-100 text-xs font-semibold uppercase tracking-widest px-4 py-2 rounded-full mb-5">
-            <i className="fas fa-newspaper text-yellow-300"></i>
-            Informasi &amp; Berita Terkini
-          </div>
-
-          <h1 className="text-3xl lg:text-5xl font-extrabold mb-3 tracking-tight">
-            News &amp; Info
-          </h1>
-          <p className="text-blue-100 text-base lg:text-lg max-w-2xl mx-auto mb-8">
-            Dapatkan informasi terbaru seputar promo wisata, tips perjalanan, dan berita terkini dari Surya Tour Trans
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,rgba(255,210,63,0.1),transparent)] pointer-events-none" style={{ zIndex: 3 }}></div>
+        <div className="container mx-auto px-4 lg:px-8 relative z-10">
+          <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight text-white mb-2">News &amp; Info</h1>
+          <p className="text-white/80 text-sm md:text-base max-w-2xl mx-auto leading-relaxed mb-6">
+            Dapatkan informasi terbaru seputar promo wisata, tips perjalanan, dan berita terkini dari Mafina Trans
           </p>
 
-          <div className="inline-flex flex-wrap justify-center gap-6 bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl px-8 py-4">
-            <div className="flex items-center gap-2 text-sm">
-              <i className="fas fa-tag text-yellow-300"></i>
-              <span className="text-blue-100">Promo &amp; Diskon</span>
+          <div className="inline-flex flex-wrap justify-center gap-4 md:gap-6 bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-4">
+            <div className="flex items-center gap-2 text-xs md:text-sm font-semibold">
+              <i className="fas fa-tag text-[#FFD23F]"></i>
+              <span className="text-white/95">Promo &amp; Diskon</span>
             </div>
             <div className="w-px bg-white/20 hidden sm:block self-stretch"></div>
-            <div className="flex items-center gap-2 text-sm">
-              <i className="fas fa-lightbulb text-yellow-300"></i>
-              <span className="text-blue-100">Tips Perjalanan</span>
+            <div className="flex items-center gap-2 text-xs md:text-sm font-semibold">
+              <i className="fas fa-lightbulb text-[#FFD23F]"></i>
+              <span className="text-white/95">Tips Perjalanan</span>
             </div>
             <div className="w-px bg-white/20 hidden sm:block self-stretch"></div>
-            <div className="flex items-center gap-2 text-sm">
-              <i className="fas fa-bullhorn text-yellow-300"></i>
-              <span className="text-blue-100">Info Armada Baru</span>
+            <div className="flex items-center gap-2 text-xs md:text-sm font-semibold">
+              <i className="fas fa-bullhorn text-[#FFD23F]"></i>
+              <span className="text-white/95">Info Armada Baru</span>
             </div>
             <div className="w-px bg-white/20 hidden sm:block self-stretch"></div>
-            <div className="flex items-center gap-2 text-sm">
-              <i className="fas fa-calendar-alt text-yellow-300"></i>
-              <span className="text-blue-100">Update Rutin</span>
+            <div className="flex items-center gap-2 text-xs md:text-sm font-semibold">
+              <i className="fas fa-calendar-alt text-[#FFD23F]"></i>
+              <span className="text-white/95">Update Rutin</span>
             </div>
           </div>
         </div>
       </div>
 
       {/* Info strip */}
-      <div className="bg-blue-50 border-b border-blue-100">
-        <div className="container mx-auto px-4 py-3 flex flex-wrap gap-x-6 gap-y-1 text-xs text-blue-800">
-          <span><i className="fas fa-bell text-yellow-500 mr-1"></i>Pantau terus halaman ini untuk mendapatkan promo &amp; info terbaru dari kami</span>
-          <span><i className="fab fa-whatsapp text-green-500 mr-1"></i>Atau hubungi WhatsApp kami untuk info langsung</span>
+      <div className="border-b border-[#DDEAF6] bg-[#F3FAFF]">
+        <div className="container mx-auto px-4 lg:px-8 py-3 flex flex-wrap gap-x-6 gap-y-1 text-xs text-[#073B78]">
+          <span><i className="fas fa-bell text-[#F6B800] mr-1.5"></i>Pantau terus halaman ini untuk mendapatkan promo &amp; info terbaru dari kami</span>
+          <span><i className="fab fa-whatsapp text-[#0b655b] mr-1.5"></i>Atau hubungi WhatsApp kami untuk info langsung</span>
         </div>
       </div>
 
       {/* ===== NEWS LIST ===== */}
-      <section className="py-16 md:py-20 bg-gray-50 min-h-[60vh]">
-        <div className="container mx-auto px-4">
-          {news.length === 0 ? (
+      <section className="py-16 md:py-20 bg-transparent min-h-[60vh]">
+        <div className="container mx-auto px-4 lg:px-8">
+          {loading && (
+            <div className="text-center py-20">
+              <div className="inline-block w-10 h-10 border-4 rounded-full animate-spin mb-3" style={{ borderColor: '#0B5CA8', borderTopColor: 'transparent' }}></div>
+              <p className="text-sm text-[#64748B]">Memuat berita terbaru...</p>
+            </div>
+          )}
+
+          {!loading && error && (
+            <div className="text-center py-12 bg-white border border-[#DDEAF6] rounded-3xl max-w-lg mx-auto px-6 shadow-sm">
+              <i className="fas fa-exclamation-circle text-5xl text-red-500 mb-4"></i>
+              <h3 className="text-lg font-extrabold text-[#10233F] mb-2">Gagal Memuat Berita</h3>
+              <p className="text-sm text-[#64748B] mb-6">{error}</p>
+              <button
+                onClick={() => window.location.reload()}
+                className="text-[#10233F] font-bold px-6 py-2.5 bg-[#FFD23F] hover:bg-[#F6B800] rounded-xl transition shadow-sm text-sm"
+              >
+                Coba Lagi
+              </button>
+            </div>
+          )}
+
+          {!loading && !error && news.length === 0 && (
             /* === EMPTY STATE === */
             <div className="max-w-md mx-auto text-center py-10">
-              <img
-                src="/images/searchnotfound.png"
-                alt="Belum ada berita"
-                className="w-64 h-64 object-contain mx-auto mb-6 drop-shadow-md"
-              />
-              <h2 className="text-2xl font-bold text-gray-800 mb-3">
+              <div className="w-20 h-20 mx-auto rounded-full bg-[#EAF6FF] text-[#0B5CA8] flex items-center justify-center text-3xl mb-6 shadow-sm">
+                <i className="fas fa-newspaper"></i>
+              </div>
+              <h2 className="text-2xl font-extrabold text-[#10233F] mb-3">
                 Belum Ada Berita Terbaru
               </h2>
-              <p className="text-gray-500 leading-relaxed mb-6">
+              <p className="text-sm leading-relaxed text-[#64748B] mb-6">
                 Saat ini belum ada berita atau informasi terbaru yang tersedia.
                 Silakan kunjungi kembali halaman ini untuk mendapatkan update
                 seputar promo dan perjalanan wisata terbaru dari kami.
               </p>
-              <div className="w-16 h-1 bg-[#1d6ec5] mx-auto rounded-full mb-6"></div>
+              <div className="w-16 h-1 mx-auto rounded-full mb-6 bg-[#0B5CA8]"></div>
               <a
-                href={`https://wa.me/${siteData.whatsapp.number}?text=Halo%20Surya%20Tour%20Trans%2C%20saya%20ingin%20tahu%20info%20promo%20terbaru`}
+                href={`https://wa.me/${siteData.whatsapp.number}?text=Halo%20Mafina%20Trans%2C%20saya%20ingin%20tahu%20info%20promo%20terbaru`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white font-bold px-6 py-3 rounded-full transition-colors duration-200 shadow-md"
+                className="inline-flex items-center gap-2 bg-[#FFD23F] hover:bg-[#F6B800] text-[#10233F] font-extrabold px-6 py-3 rounded-2xl transition-all duration-200 shadow-md"
               >
                 <i className="fab fa-whatsapp text-lg"></i>
                 Tanya Info Promo via WA
               </a>
             </div>
-          ) : (
+          )}
+
+          {!loading && !error && news.length > 0 && (
             /* === NEWS GRID === */
             <>
-              <div className="text-sm text-gray-500 mb-6">
-                Menampilkan <span className="font-semibold text-gray-700">{news.length}</span> berita &amp; informasi
+              <div className="text-sm mb-6 text-[#64748B]">
+                Menampilkan <span className="font-bold text-[#10233F]">{news.length}</span> berita &amp; informasi
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-                {news.map((item, i) => (
+                {news.map((item) => (
                   <div
-                    key={i}
-                    className="group rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1 bg-white"
+                    key={item.id}
+                    className="group bg-white border border-[#DDEAF6] rounded-3xl overflow-hidden shadow-sm hover:shadow-md hover:-translate-y-1.5 transition-all duration-300 flex flex-col h-full"
                   >
-                    <div className="aspect-[16/9] overflow-hidden">
+                    <div className="aspect-[16/10] overflow-hidden bg-[#F3FAFF] relative">
                       <img
-                        src={item.image}
-                        alt={item.title}
-                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                        src={item.gambar}
+                        alt={item.judul}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        onError={e => { e.target.onerror = null; e.target.src = '/images/bus4.jpeg'; }}
                       />
+                      <div className="absolute top-4 left-4 bg-[#0B5CA8]/90 backdrop-blur-sm text-white text-[10px] font-extrabold uppercase tracking-wider px-3 py-1.5 rounded-full">
+                        Info Trans
+                      </div>
                     </div>
-                    <div className="p-5">
-                      <p className="text-gray-400 text-xs mb-2 flex items-center gap-1">
-                        <i className="far fa-calendar-alt"></i>
-                        {item.date}
+                    <div className="p-6 flex flex-col flex-1">
+                      <p className="text-xs mb-2.5 flex items-center gap-1.5 text-[#64748B] font-semibold">
+                        <i className="far fa-calendar-alt text-[#0B5CA8]"></i>
+                        {formatDate(item.created_at)}
                       </p>
-                      <h3 className="font-bold text-gray-800 text-lg mb-2 group-hover:text-[#1d6ec5] transition-colors duration-300">
-                        {item.title}
+                      <h3 className="font-extrabold text-base mb-2.5 text-[#10233F] group-hover:text-[#0B5CA8] transition-colors duration-250 line-clamp-2 leading-snug">
+                        {item.judul}
                       </h3>
-                      <p className="text-gray-500 text-sm leading-relaxed">
-                        {item.excerpt}
+                      <p className="text-xs leading-relaxed text-[#64748B] line-clamp-3 mb-4">
+                        {item.ringkas}
                       </p>
+                      <div className="mt-auto pt-4 border-t border-[#F3FAFF]">
+                        <span className="inline-flex items-center gap-1 text-xs font-bold text-[#0B5CA8] group-hover:gap-2 transition-all">
+                          Baca Selengkapnya <i className="fas fa-arrow-right text-[10px]"></i>
+                        </span>
+                      </div>
                     </div>
                   </div>
                 ))}
@@ -131,7 +196,7 @@ const NewsPage = () => {
           )}
         </div>
       </section>
-    </>
+    </div>
   );
 };
 

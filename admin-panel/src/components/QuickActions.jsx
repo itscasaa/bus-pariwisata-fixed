@@ -9,25 +9,25 @@ const QuickActions = () => {
       icon: 'add_circle',
       label: 'Tambah Armada',
       color: 'bg-primary text-white hover:bg-secondary-container',
-      onClick: () => navigate('/armada/create'),
+      onClick: () => navigate('/armada/tambah'),
     },
     {
       icon: 'sell',
       label: 'Tambah Harga',
       color: 'bg-surface-container-low text-primary border border-outline-variant/30 hover:bg-surface-container',
-      onClick: () => navigate('/price-list/create'),
+      onClick: () => navigate('/price-list/tambah'),
     },
     {
       icon: 'post_add',
       label: 'Tambah Berita',
       color: 'bg-surface-container-low text-primary border border-outline-variant/30 hover:bg-surface-container',
-      onClick: () => navigate('/news/create'),
+      onClick: () => navigate('/news/tambah'),
     },
     {
       icon: 'rocket_launch',
       label: 'Lihat Website',
       color: 'bg-surface-container-low text-primary border border-outline-variant/30 hover:bg-surface-container',
-      onClick: () => window.open('http://localhost/bus_pariwisata', '_blank'),
+      onClick: () => window.open('https://mafinatrans.duckdns.org', '_blank'),
     },
   ];
 

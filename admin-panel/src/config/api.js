@@ -1,4 +1,4 @@
-// API Configuration for Admin Panel
-const API_BASE = "http://localhost/bus_pariwisata/api";
+export const API_BASE = "https://mafinatrans.duckdns.org";
+export const API_PUB = `${API_BASE}/api`;
+export const API_ADM = `${API_BASE}/admin/api`;
 
-export default API_BASE;

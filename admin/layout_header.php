@@ -44,6 +44,11 @@ $current = basename($_SERVER['PHP_SELF']);
       <i class="fas fa-bus w-4 text-center"></i> Kelola Armada
     </a>
 
+    <a href="paket_wisata.php"
+       class="sidebar-link flex items-center gap-3 px-4 py-2.5 rounded-lg text-blue-100 text-sm font-medium <?= $current==='paket_wisata.php'?'active':'' ?>">
+      <i class="fas fa-map-marked-alt w-4 text-center"></i> Kelola Paket Wisata
+    </a>
+
     <a href="price_list.php"
        class="sidebar-link flex items-center gap-3 px-4 py-2.5 rounded-lg text-blue-100 text-sm font-medium <?= in_array($current,['price_list.php','tambah_harga.php','edit_harga.php'])?'active':'' ?>">
       <i class="fas fa-tags w-4 text-center"></i> Kelola Price List
@@ -52,6 +57,11 @@ $current = basename($_SERVER['PHP_SELF']);
     <a href="news.php"
        class="sidebar-link flex items-center gap-3 px-4 py-2.5 rounded-lg text-blue-100 text-sm font-medium <?= in_array($current,['news.php','tambah_news.php','edit_news.php'])?'active':'' ?>">
       <i class="fas fa-newspaper w-4 text-center"></i> Kelola Berita
+    </a>
+
+    <a href="pesan.php"
+       class="sidebar-link flex items-center gap-3 px-4 py-2.5 rounded-lg text-blue-100 text-sm font-medium <?= $current==='pesan.php'?'active':'' ?>">
+      <i class="fas fa-envelope w-4 text-center"></i> Pesan Masuk
     </a>
 
     <div class="border-t border-white/10 my-3"></div>

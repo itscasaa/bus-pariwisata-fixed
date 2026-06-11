@@ -1,11 +1,36 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { API_PUB, API_BASE } from '../config/api';
 
 const BeritaTerbaru = () => {
   const navigate = useNavigate();
-  
-  // TODO: Fetch news from API when available
-  const news = [];
+  const [news, setNews] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch(`${API_PUB}/news.php`)
+      .then(r => r.json())
+      .then(d => {
+        if (d.status === 'success') {
+          setNews(d.data.slice(0, 3));
+        }
+      })
+      .catch(err => console.error(err))
+      .finally(() => setLoading(false));
+  }, []);
+
+  if (loading) {
+    return (
+      <section className="bg-surface-container-lowest rounded-[24px] custom-shadow p-unit-lg">
+        <h3 className="text-headline-sm text-on-surface mb-6">Berita Terbaru</h3>
+        <div className="animate-pulse space-y-4">
+          {[1, 2, 3].map(i => (
+            <div key={i} className="h-12 bg-surface-container rounded-xl"></div>
+          ))}
+        </div>
+      </section>
+    );
+  }
 
   if (news.length === 0) {
     return (
@@ -36,7 +61,7 @@ const BeritaTerbaru = () => {
           </p>
           
           <button
-            onClick={() => navigate('/news/create')}
+            onClick={() => navigate('/news/tambah')}
             className="mt-6 px-6 py-2 rounded-full border border-primary text-primary font-bold text-body-md hover:bg-primary hover:text-white transition-all"
           >
             Buat Berita Pertama
@@ -63,11 +88,15 @@ const BeritaTerbaru = () => {
           <div
             key={index}
             className="flex items-start gap-3 p-3 rounded-xl hover:bg-surface-container-low transition-colors cursor-pointer"
-            onClick={() => navigate(`/news/${item.id}`)}
+            onClick={() => navigate(`/news/edit/${item.id}`)}
           >
             <div className="w-12 h-12 rounded-lg bg-surface-dim overflow-hidden flex-shrink-0">
               <img
-                src={item.gambar || 'https://via.placeholder.com/48x48?text=News'}
+                src={
+                  item.gambar
+                    ? (item.gambar.startsWith('http') ? item.gambar : `${API_BASE}${item.gambar}`)
+                    : 'https://via.placeholder.com/48x48?text=News'
+                }
                 alt={item.judul}
                 className="w-full h-full object-cover"
               />

@@ -1,7 +1,7 @@
 {
   "name": "bus-pariwisata-admin",
   "version": "1.0.0",
-  "description": "Admin Panel - Mafina Trans / Surya Tour Trans",
+  "description": "Admin Panel - Mafina Trans",
   "scripts": {
     "start": "webpack serve --mode development --port 3004",
     "build": "webpack --mode production"

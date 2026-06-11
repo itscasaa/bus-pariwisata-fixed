@@ -8,7 +8,7 @@ include_once '../layout/navbar.php';
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Surya Tour Trans - Kontak Kami</title>
+    <title>Mafina Trans - Kontak Kami</title>
     
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
@@ -68,9 +68,8 @@ include_once '../layout/navbar.php';
         <div class="col-md-4">
             <div class="p-4 h-100 card-kontak text-center shadow-sm">
                 <i class="bi bi-telephone-fill" style="font-size: 2.5rem; color: #ffc107;"></i>
-                <h5 class="fw-bold mt-3 mb-3" style="color: #1a1a1a;">PHONE</h5>
-                <p class="mb-1 text-muted">087785598639</p>
-                <p class="text-muted">089652594745</p>
+                <h5 class="fw-bold mt-3 mb-3" style="color: #1a1a1a;">PHONE / WA</h5>
+                <p class="mb-1 text-muted">0851-9980-2536</p>
             </div>
         </div>
 
@@ -79,7 +78,7 @@ include_once '../layout/navbar.php';
             <div class="p-4 h-100 card-kontak text-center shadow-sm">
                 <i class="bi bi-envelope-fill" style="font-size: 2.5rem; color: #ffc107;"></i>
                 <h5 class="fw-bold mt-3 mb-3" style="color: #1a1a1a;">EMAIL</h5>
-                <p class="text-muted">info@suryatourtrans.co.id</p>
+                <p class="text-muted">mafinatourtravel@gmail.com</p>
             </div>
         </div>
 
@@ -128,15 +127,15 @@ include_once '../layout/navbar.php';
 
 <footer class="bg-dark text-white py-5 mt-5">
     <div class="container text-center">
-        <h4 class="fw-bold text-warning mb-3">SURYA TOUR TRANS</h4>
-        <p class="mb-4">Jl. Alamat Kantor Anda No. 123, Kota, Indonesia</p>
+        <h4 class="fw-bold text-warning mb-3">MAFINA TRANS</h4>
+        <p class="mb-4">Kota Tangerang, Banten</p>
         <div class="mb-4">
-            <a href="#" class="text-white mx-2 text-decoration-none">Facebook</a>
-            <a href="#" class="text-white mx-2 text-decoration-none">Instagram</a>
-            <a href="#" class="text-white mx-2 text-decoration-none">WhatsApp</a>
+            <a href="https://www.instagram.com/mafina.trans" class="text-white mx-2 text-decoration-none" target="_blank">Instagram</a>
+            <a href="https://wa.me/6285199802536" class="text-white mx-2 text-decoration-none" target="_blank">WhatsApp</a>
+            <a href="https://www.tiktok.com/@mafina.tourtravel" class="text-white mx-2 text-decoration-none" target="_blank">TikTok</a>
         </div>
         <hr class="bg-secondary">
-        <p class="small text-secondary mb-0">&copy; <?php echo date("Y"); ?> Surya Tour Trans. All Rights Reserved.</p>
+        <p class="small text-secondary mb-0">&copy; <?php echo date("Y"); ?> Mafina Trans. All Rights Reserved.</p>
     </div>
 </footer>
 

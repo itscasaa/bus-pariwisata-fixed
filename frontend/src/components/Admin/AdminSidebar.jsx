@@ -24,7 +24,7 @@ const AdminSidebar = ({ onLogout }) => {
           </div>
           <div>
             <h1 className="text-headline-md font-headline-md font-bold text-primary dark:text-inverse-primary leading-tight">
-              Surya Tour
+              Mafina Trans
             </h1>
             <p className="font-body-md text-body-md text-outline">Admin Dashboard</p>
           </div>
