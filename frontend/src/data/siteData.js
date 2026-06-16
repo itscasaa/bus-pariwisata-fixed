@@ -60,7 +60,7 @@ const siteData = {
 
   // ========== PROMO ==========
   promo: {
-    title: 'Diskon Paket Wisata',
+    title: 'Diskon & Promo Sewa Bus',
     discount: 'Up to 40% Discount!',
     bgColor: '#1d6ec5',
     cta: 'Read More',
@@ -68,10 +68,10 @@ const siteData = {
   },
 
   // ========== TOUR PACKAGES ==========
-  // Data paket wisata sudah dipindahkan ke database (tabel: paket_wisata)
-  // Dikelola via Admin Panel → Paket Wisata
-  // API: GET /api/paket_wisata.php
-  tourPackages: [],
+  // Data promo diskon sudah dipindahkan ke database (tabel: paket_wisata)
+  // Dikelola via Admin Panel → Discount
+  // API: GET /api/discount.php
+  discounts: [],
 
   // ========== TESTIMONIALS ==========
   testimonials: [
@@ -163,7 +163,7 @@ const siteData = {
   navLinks: [
     { label: 'Home', path: '/' },
     { label: 'Armada', path: '/bus-wisata' },
-    { label: 'Paket Wisata', path: '/paket-wisata' },
+    { label: 'Pricelist', path: '/paket-wisata' },
     { label: 'News & Info', path: '/news' },
     { label: 'Kontak Kami', path: '/kontak' },
   ],

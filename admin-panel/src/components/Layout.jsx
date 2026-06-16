@@ -6,7 +6,7 @@ const navItems = [
   { to: '/',             icon: 'dashboard',      label: 'Dashboard',          end: true },
   { to: '/armada',       icon: 'directions_bus', label: 'Kelola Armada' },
   { to: '/price-list',   icon: 'payments',       label: 'Kelola Price List' },
-  { to: '/paket-wisata', icon: 'map',            label: 'Paket Wisata' },
+  { to: '/discount',     icon: 'percent',        label: 'Kelola Discount' },
   { to: '/news',         icon: 'newspaper',      label: 'Kelola Berita' },
 ];
 

@@ -10,50 +10,6 @@ const PriceListPage = () => {
   const [keyword, setKeyword] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
 
-  // Pagination / Limit state (especially for mobile layout view simplicity)
-  const [visibleCount, setVisibleCount] = useState(10);
-
-  // Modal State
-  const [selectedRoute, setSelectedRoute] = useState(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedArmada, setSelectedArmada] = useState('Big Bus');
-  const [bookingDate, setBookingDate] = useState('');
-  const [additionalNotes, setAdditionalNotes] = useState('');
-
-  const handleOpenModal = (route) => {
-    setSelectedRoute(route);
-    setIsModalOpen(true);
-    setSelectedArmada('Big Bus');
-    setBookingDate('');
-    setAdditionalNotes('');
-  };
-
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-    setSelectedRoute(null);
-  };
-
-  const handleConfirmBooking = () => {
-    if (!selectedRoute) return;
-
-    let text = `Halo Mafina Trans, saya ingin menanyakan sewa bus pariwisata dengan rincian berikut:\n\n`;
-    text += `📍 Rute: ${selectedRoute.nama_destinasi}\n`;
-    text += `⏱️ Durasi: ${selectedRoute.durasi}\n`;
-    text += `🚌 Jenis Armada: ${selectedArmada}\n`;
-    if (bookingDate) {
-      const parts = bookingDate.split('-');
-      const formattedDate = parts.length === 3 ? `${parts[2]}-${parts[1]}-${parts[0]}` : bookingDate;
-      text += `📅 Keberangkatan: ${formattedDate}\n`;
-    }
-    if (additionalNotes.trim()) {
-      text += `📝 Catatan: ${additionalNotes}\n`;
-    }
-
-    const waUrl = `https://wa.me/${siteData.whatsapp.number}?text=${encodeURIComponent(text)}`;
-    window.open(waUrl, '_blank', 'noopener,noreferrer');
-    handleCloseModal();
-  };
-
   useEffect(() => {
     setLoading(true);
     setError(null);
@@ -71,7 +27,6 @@ const PriceListPage = () => {
         try { data = JSON.parse(text); } catch { throw new Error('Response bukan JSON valid.'); }
         if (data.status === 'success') {
           setPrices(Array.isArray(data.data) ? data.data : []);
-          setVisibleCount(10);
         } else {
           setError(data.message || 'Gagal memuat data harga.');
         }
@@ -83,7 +38,6 @@ const PriceListPage = () => {
   const handleSearch = (e) => {
     e.preventDefault();
     setSearchTerm(keyword.trim());
-    setVisibleCount(10);
   };
 
   const formatRupiah = (num) => {
@@ -223,7 +177,7 @@ const PriceListPage = () => {
 
             {/* List Rute (seperti gambar 2 tetapi tanpa harga) */}
             <div className="divide-y divide-[#DDEAF6]">
-              {prices.slice(0, visibleCount).map((item, i) => (
+              {prices.map((item, i) => (
                 <div
                   key={item.id}
                   className="flex items-center justify-between p-5 transition-colors duration-150"
@@ -254,28 +208,18 @@ const PriceListPage = () => {
 
                   {/* Book Button */}
                   <div className="shrink-0">
-                    <button
-                      onClick={() => handleOpenModal(item)}
-                      className="inline-flex items-center justify-center px-6 py-2.5 bg-[#BA1A1A] hover:bg-[#A61313] text-white text-xs font-black tracking-wider uppercase rounded-xl shadow-sm transition-all duration-300 cursor-pointer"
+                    <a
+                      href={`https://wa.me/${siteData.whatsapp.number}?text=${encodeURIComponent(`Halo Mafina Trans, saya ingin menanyakan harga sewa bus pariwisata untuk rute: ${item.nama_destinasi} (${item.durasi}).`)}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center justify-center px-6 py-2.5 bg-[#BA1A1A] hover:bg-[#A61313] text-white text-xs font-black tracking-wider uppercase rounded-xl shadow-sm transition-all duration-300"
                     >
                       PESAN
-                    </button>
+                    </a>
                   </div>
                 </div>
               ))}
             </div>
-
-            {prices.length > visibleCount && (
-              <div className="text-center py-6 bg-white border-t border-[#DDEAF6]">
-                <button
-                  onClick={() => setVisibleCount(prev => prev + 10)}
-                  className="px-6 py-3 bg-[#F3FAFF] hover:bg-[#EAF6FF] text-[#0B5CA8] font-black text-xs uppercase tracking-wider rounded-xl border border-[#DDEAF6] transition-colors cursor-pointer inline-flex items-center gap-2 shadow-sm"
-                >
-                  <i className="fas fa-chevron-down text-[10px]"></i>
-                  Tampilkan Lebih Banyak ({prices.length - visibleCount} Rute Lagi)
-                </button>
-              </div>
-            )}
 
             {/* Footer tabel - 3 baris keterangan */}
             <div className="border-t border-[#DDEAF6]">
@@ -302,117 +246,6 @@ const PriceListPage = () => {
           </div>
         )}
       </div>
-
-      {/* Modal */}
-      {isModalOpen && selectedRoute && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 bg-black/60 backdrop-blur-sm animate-[fadeIn_0.2s_ease-out]">
-          <div className="bg-white rounded-3xl shadow-2xl w-full max-w-md mx-auto overflow-hidden border border-[#DDEAF6] flex flex-col max-h-[90vh] animate-fade-in">
-            {/* Modal Header */}
-            <div className="px-5 py-4 bg-[#062D5F] text-white flex items-center justify-between shrink-0">
-              <div>
-                <h3 className="font-extrabold text-base md:text-lg">Detail Pemesanan Rute</h3>
-                <p className="text-[11px] md:text-xs text-white/70">Lengkapi detail perjalanan Anda sebelum dikirim</p>
-              </div>
-              <button 
-                onClick={handleCloseModal}
-                className="text-white/85 hover:text-white text-lg p-1 focus:outline-none transition-colors cursor-pointer"
-              >
-                <i className="fas fa-times"></i>
-              </button>
-            </div>
-
-            {/* Modal Body */}
-            <div className="p-5 space-y-4 overflow-y-auto flex-1">
-              {/* Route Summary Box */}
-              <div className="p-4 bg-[#F3FAFF] border border-[#DDEAF6] rounded-2xl">
-                <div className="flex flex-col sm:flex-row justify-between sm:items-start gap-3">
-                  <div className="space-y-1">
-                    <span className="text-[10px] font-black uppercase tracking-wider text-[#0B5CA8] bg-[#EAF6FF] px-2.5 py-1 rounded-full">Rute Tujuan</span>
-                    <h4 className="font-black text-[#10233F] text-base md:text-lg mt-1 leading-snug">{selectedRoute.nama_destinasi}</h4>
-                  </div>
-                  <div className="flex sm:flex-col items-center sm:items-end justify-between sm:justify-start gap-2 border-t sm:border-t-0 pt-2 sm:pt-0 border-[#DDEAF6]">
-                    <span className="text-[10px] font-black uppercase tracking-wider text-[#BA1A1A] bg-red-50 px-2.5 py-1 rounded-full">Durasi</span>
-                    <p className="font-extrabold text-[#10233F] text-sm flex items-center gap-1.5"><i className="far fa-clock"></i> {selectedRoute.durasi}</p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Step 1: Choose Armada */}
-              <div className="space-y-2">
-                <label className="block text-xs font-black uppercase tracking-wider text-[#10233F]">Pilih Jenis Armada</label>
-                <div className="grid grid-cols-2 gap-2.5">
-                  {[
-                    { name: 'Big Bus', capacity: '59 Kursi', icon: 'fa-bus' },
-                    { name: 'Medium Bus', capacity: '31 Kursi', icon: 'fa-bus-alt' },
-                    { name: 'Elf', capacity: '19 Kursi', icon: 'fa-car-side' },
-                    { name: 'HiAce', capacity: '15 Kursi', icon: 'fa-shuttle-van' }
-                  ].map((armada) => {
-                    const isSelected = selectedArmada === armada.name;
-                    return (
-                      <button
-                        key={armada.name}
-                        type="button"
-                        onClick={() => setSelectedArmada(armada.name)}
-                        className={`flex flex-col items-center justify-center p-2.5 rounded-xl border text-center transition-all duration-200 cursor-pointer ${
-                          isSelected 
-                            ? 'border-[#0B5CA8] bg-[#F3FAFF] shadow-sm shadow-[#0B5CA8]/5 scale-[1.01]' 
-                            : 'border-[#DDEAF6] hover:border-[#0B5CA8]/40 bg-white hover:bg-[#F9FBFF]'
-                        }`}
-                      >
-                        <i className={`fas ${armada.icon} text-base mb-1 ${isSelected ? 'text-[#0B5CA8]' : 'text-[#64748B]'}`}></i>
-                        <span className={`text-xs font-black ${isSelected ? 'text-[#0B5CA8]' : 'text-[#10233F]'}`}>{armada.name}</span>
-                        <span className="text-[9px] text-[#64748B] mt-0.5">{armada.capacity}</span>
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-
-              {/* Step 2: Departure Date */}
-              <div className="space-y-1.5">
-                <label className="block text-xs font-black uppercase tracking-wider text-[#10233F]">Tanggal Keberangkatan (Opsional)</label>
-                <input
-                  type="date"
-                  value={bookingDate}
-                  onChange={(e) => setBookingDate(e.target.value)}
-                  className="w-full px-3 py-2.5 rounded-xl border border-[#DDEAF6] text-sm text-[#10233F] focus:outline-none focus:border-[#0B5CA8] transition-all bg-white"
-                />
-              </div>
-
-              {/* Step 3: Additional Notes */}
-              <div className="space-y-1.5">
-                <label className="block text-xs font-black uppercase tracking-wider text-[#10233F]">Catatan Tambahan (Opsional)</label>
-                <textarea
-                  value={additionalNotes}
-                  onChange={(e) => setAdditionalNotes(e.target.value)}
-                  placeholder="Contoh: titik penjemputan, rute detail, dll."
-                  rows={2}
-                  className="w-full px-3 py-2.5 rounded-xl border border-[#DDEAF6] text-sm text-[#10233F] focus:outline-none focus:border-[#0B5CA8] transition-all bg-white resize-none"
-                />
-              </div>
-            </div>
-
-            {/* Modal Footer */}
-            <div className="px-5 py-4 bg-[#F9FBFF] border-t border-[#DDEAF6] flex items-center justify-end gap-2.5 shrink-0">
-              <button
-                type="button"
-                onClick={handleCloseModal}
-                className="px-4 py-2.5 rounded-xl border border-[#DDEAF6] hover:bg-slate-100 text-[#64748B] font-bold text-xs transition-colors cursor-pointer shrink-0"
-              >
-                Batal
-              </button>
-              <button
-                type="button"
-                onClick={handleConfirmBooking}
-                className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-[#25D366] hover:bg-[#20ba59] text-white text-xs font-black tracking-wider uppercase rounded-xl shadow-md transition-all duration-300 hover:scale-[1.02] cursor-pointer flex-1 sm:flex-initial"
-              >
-                <i className="fab fa-whatsapp text-sm"></i>
-                Pesan Sekarang
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 };

@@ -20,6 +20,7 @@ export function TambahArmada() {
     tipe: 'big_bus',
     kapasitas: '',
     harga_sewa: '',
+    diskon: '',
     gambar_utama: '',
     deskripsi: '',
     fasilitas_str: 'Seat 3-2, 2 Unit LCD TV, Dispenser, AC, Audio Set, Android Entertainment System, Karaoke + Microphone, Cooler Box, Port USB, Kompartemen Bagasi Atas + Bawah, Lampu Baca'
@@ -69,6 +70,7 @@ export function TambahArmada() {
       formData.append('tipe', form.tipe);
       formData.append('kapasitas', form.kapasitas);
       formData.append('harga_sewa', form.harga_sewa);
+      formData.append('diskon', form.diskon);
       formData.append('gambar_utama', form.gambar_utama);
       formData.append('deskripsi', form.deskripsi);
       
@@ -260,6 +262,16 @@ export function TambahArmada() {
                     required 
                   />
                 </Field>
+
+                <Field label="Tag Diskon (opsional)" hint="Contoh: 10%, Promo, 15% OFF (kosongkan jika tidak ada)">
+                  <input 
+                    type="text" 
+                    value={form.diskon} 
+                    onChange={handleFieldChange('diskon')} 
+                    className="w-full px-4 py-2.5 bg-surface-container-low border border-outline-variant rounded-xl text-body-md focus:outline-none focus:ring-2 focus:ring-primary font-medium text-on-surface" 
+                    placeholder="Contoh: 10%" 
+                  />
+                </Field>
               </div>
             </div>
 
@@ -421,6 +433,7 @@ export function EditArmada() {
             tipe: bus.tipe || 'big_bus',
             kapasitas: bus.kapasitas,
             harga_sewa: bus.harga_sewa,
+            diskon: bus.diskon || '',
             gambar_utama: bus.gambar_utama || '',
             deskripsi: bus.deskripsi || '',
             fasilitas_str: fasStr
@@ -471,6 +484,7 @@ export function EditArmada() {
       formData.append('tipe', form.tipe);
       formData.append('kapasitas', form.kapasitas);
       formData.append('harga_sewa', form.harga_sewa);
+      formData.append('diskon', form.diskon);
       formData.append('gambar_utama', form.gambar_utama);
       formData.append('deskripsi', form.deskripsi);
       
@@ -614,6 +628,16 @@ export function EditArmada() {
                     placeholder="4500000" 
                     min="1"
                     required 
+                  />
+                </Field>
+
+                <Field label="Tag Diskon (opsional)" hint="Contoh: 10%, Promo, 15% OFF (kosongkan jika tidak ada)">
+                  <input 
+                    type="text" 
+                    value={form.diskon} 
+                    onChange={handleFieldChange('diskon')} 
+                    className="w-full px-4 py-2.5 bg-surface-container-low border border-outline-variant rounded-xl text-body-md focus:outline-none focus:ring-2 focus:ring-primary font-medium text-on-surface" 
+                    placeholder="Contoh: 10%" 
                   />
                 </Field>
               </div>

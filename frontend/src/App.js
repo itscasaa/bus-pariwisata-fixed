@@ -12,14 +12,14 @@ import MaintenancePage from './components/MaintenancePage';
 
 // Below-the-fold homepage components (Lazy loaded)
 const BusFleet = lazy(() => import('./components/BusFleet'));
-const TourPackages = lazy(() => import('./components/TourPackages'));
+const DiscountSection = lazy(() => import('./components/DiscountSection'));
 const NewsSection = lazy(() => import('./components/NewsSection'));
 const ContactCTA = lazy(() => import('./components/ContactCTA'));
 const Testimonials = lazy(() => import('./components/Testimonials'));
 
 // Lazy load non-homepage page components
 const PriceListPage = lazy(() => import('./components/PriceListPage'));
-const PaketWisataPage = lazy(() => import('./components/PaketWisataPage'));
+const DiscountPage = lazy(() => import('./components/DiscountPage'));
 const NewsPage = lazy(() => import('./components/NewsPage'));
 const BusDetailPage = lazy(() => import('./components/BusDetailPage'));
 const ArmadaPage = lazy(() => import('./components/ArmadaPage'));
@@ -34,8 +34,8 @@ const HomePage = () => (
     <Suspense fallback={<div className="py-12 text-center text-gray-500">Memuat armada...</div>}>
       <BusFleet />
     </Suspense>
-    <Suspense fallback={<div className="py-12 text-center text-gray-500">Memuat paket...</div>}>
-      <TourPackages />
+    <Suspense fallback={<div className="py-12 text-center text-gray-500">Memuat promo...</div>}>
+      <DiscountSection />
     </Suspense>
     <PromoBanner />
     <Suspense fallback={<div className="py-12 text-center text-gray-500">Memuat berita...</div>}>
@@ -109,7 +109,9 @@ const App = () => {
                   <Route path="/price-list" element={<PriceListPage />} />
                   <Route path="/bus-wisata" element={<ArmadaPage />} />
                   <Route path="/armada" element={<ArmadaPage />} />
-                  <Route path="/paket-wisata" element={<PaketWisataPage />} />
+                  <Route path="/discount" element={<DiscountPage />} />
+                  <Route path="/diskon" element={<DiscountPage />} />
+                  <Route path="/paket-wisata" element={<DiscountPage />} />
                   <Route path="/news" element={<NewsPage />} />
                   <Route path="/kontak" element={<KontakPage />} />
                   <Route path="/bus/:id" element={<BusDetailPage />} />

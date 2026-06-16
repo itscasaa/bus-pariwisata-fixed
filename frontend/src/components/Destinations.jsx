@@ -13,9 +13,9 @@ const LayananKami = () => {
     },
     {
       id: 2,
-      title: 'Paket Wisata',
-      icon: 'fa-route',
-      desc: 'Pilihan paket wisata lengkap dan hemat mencakup transportasi, akomodasi, konsumsi, dan tiket masuk wisata.',
+      title: 'Pricelist Tour',
+      icon: 'fa-map-marked-alt',
+      desc: 'Pilihan paket perjalanan wisata menarik dengan harga sewa terbaik, supir profesional, dan BBM gratis.',
       link: '/paket-wisata',
       highlighted: false,
     },
@@ -40,7 +40,7 @@ const LayananKami = () => {
       title: 'Travel Sekolah / Kampus',
       icon: 'fa-graduation-cap',
       desc: 'Solusi transportasi aman untuk study tour sekolah, kunjungan industri, outing, dan kegiatan mahasiswa.',
-      link: '/paket-wisata',
+      link: '/kontak',
       highlighted: false,
     },
     {

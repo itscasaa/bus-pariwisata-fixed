@@ -26,6 +26,7 @@ $kapasitas  = (int)($_POST['kapasitas'] ?? $body['kapasitas'] ?? 0);
 $harga      = (int)($_POST['harga_sewa'] ?? $body['harga_sewa'] ?? 0);
 $gambar     = trim($_POST['gambar_utama'] ?? $body['gambar_utama'] ?? '');
 $deskripsi  = trim($_POST['deskripsi'] ?? $body['deskripsi'] ?? '');
+$diskon     = trim($_POST['diskon'] ?? $body['diskon'] ?? '');
 $fasilitas  = trim($_POST['fasilitas_json'] ?? $body['fasilitas_json'] ?? '[]');
 
 // Proses file upload gambar jika ada
@@ -43,10 +44,10 @@ if (!$nama || !$kapasitas || !$harga) {
 
 try {
     $stmt = mysqli_prepare($conn,
-        "INSERT INTO bus (nama_bus, tipe, kapasitas, harga_sewa, gambar_utama, deskripsi, fasilitas_json)
-         VALUES (?, ?, ?, ?, ?, ?, ?)"
+        "INSERT INTO bus (nama_bus, tipe, kapasitas, harga_sewa, diskon, gambar_utama, deskripsi, fasilitas_json)
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
     );
-    mysqli_stmt_bind_param($stmt, 'ssiisss', $nama, $tipe, $kapasitas, $harga, $gambar, $deskripsi, $fasilitas);
+    mysqli_stmt_bind_param($stmt, 'ssiissss', $nama, $tipe, $kapasitas, $harga, $diskon, $gambar, $deskripsi, $fasilitas);
     
     if (mysqli_stmt_execute($stmt)) {
         $new_id = mysqli_insert_id($conn);

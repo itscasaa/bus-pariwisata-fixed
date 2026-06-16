@@ -31,6 +31,7 @@ $kapasitas  = (int)($_POST['kapasitas'] ?? $body['kapasitas'] ?? 0);
 $harga      = (int)($_POST['harga_sewa'] ?? $body['harga_sewa'] ?? 0);
 $gambar     = trim($_POST['gambar_utama'] ?? $body['gambar_utama'] ?? '');
 $deskripsi  = trim($_POST['deskripsi'] ?? $body['deskripsi'] ?? '');
+$diskon     = trim($_POST['diskon'] ?? $body['diskon'] ?? '');
 $fasilitas  = trim($_POST['fasilitas_json'] ?? $body['fasilitas_json'] ?? '[]');
 
 // Proses file upload gambar jika ada
@@ -48,10 +49,10 @@ if (!$nama || !$kapasitas || !$harga) {
 
 try {
     $stmt = mysqli_prepare($conn,
-        "UPDATE bus SET nama_bus = ?, tipe = ?, kapasitas = ?, harga_sewa = ?, gambar_utama = ?, deskripsi = ?, fasilitas_json = ? 
+        "UPDATE bus SET nama_bus = ?, tipe = ?, kapasitas = ?, harga_sewa = ?, diskon = ?, gambar_utama = ?, deskripsi = ?, fasilitas_json = ? 
          WHERE id = ?"
     );
-    mysqli_stmt_bind_param($stmt, 'ssiisssi', $nama, $tipe, $kapasitas, $harga, $gambar, $deskripsi, $fasilitas, $id);
+    mysqli_stmt_bind_param($stmt, 'ssiissssi', $nama, $tipe, $kapasitas, $harga, $diskon, $gambar, $deskripsi, $fasilitas, $id);
     
     if (mysqli_stmt_execute($stmt)) {
         sendResponse('success', 'Armada berhasil diperbarui.');

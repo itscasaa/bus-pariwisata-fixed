@@ -95,7 +95,7 @@ const KontakPage = () => {
         <div className="container mx-auto px-4 lg:px-8 relative z-10">
           <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight text-white mb-2">Kontak Kami</h1>
           <p className="text-white/80 text-sm md:text-base max-w-2xl mx-auto leading-relaxed mb-0">
-            Hubungi Mafina Trans untuk konsultasi perjalanan, pemesanan bus pariwisata, atau informasi paket wisata terbaik untuk kebutuhan Anda.
+            Hubungi Mafina Trans untuk konsultasi perjalanan, pemesanan bus pariwisata, atau informasi promo terbaru untuk kebutuhan Anda.
           </p>
         </div>
       </div>
@@ -203,8 +203,8 @@ const KontakPage = () => {
                     to="/paket-wisata"
                     className="flex items-center justify-center gap-2 font-extrabold py-3 px-4 rounded-2xl border border-[#DDEAF6] hover:border-[#0B5CA8] text-[#0B5CA8] hover:bg-[#F3FAFF] transition text-sm"
                   >
-                    <i className="fas fa-map-marked-alt"></i>
-                    Lihat Paket Wisata
+                    <i className="fas fa-tags"></i>
+                    Lihat Pricelist Tour
                   </Link>
 
                   <Link

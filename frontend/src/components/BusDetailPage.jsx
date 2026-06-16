@@ -155,7 +155,14 @@ const BusDetailPage = () => {
               </div>
             </div>
             <div className="rounded-2xl p-4 md:p-6 text-right border border-white/15" style={{ background: 'rgba(255,255,255,0.08)', backdropFilter: 'blur(12px)' }}>
-              <p className="text-white/60 text-xs uppercase tracking-wider font-semibold">Harga Sewa Mulai</p>
+              <div className="flex items-center justify-end gap-2 mb-1">
+                {bus.diskon && (
+                  <span className="bg-[#ba1a1a] text-white text-[10px] font-extrabold px-2.5 py-0.5 rounded-full shadow-sm uppercase tracking-wider">
+                    Diskon {bus.diskon}
+                  </span>
+                )}
+                <p className="text-white/60 text-xs uppercase tracking-wider font-semibold">Harga Sewa Mulai</p>
+              </div>
               <h2 className="text-2xl md:text-3xl font-extrabold text-[#FFD23F] mt-1">
                 Rp {formatRupiah(bus.harga_sewa)}
                 <span className="text-sm font-normal text-white"> / Hari</span>
@@ -192,6 +199,11 @@ const BusDetailPage = () => {
                           className="w-full h-full object-cover"
                           onError={(e) => { e.target.src = '/images/default-bus.jpg'; }}
                         />
+                        {bus.diskon && index === 0 && (
+                          <div className="absolute top-4 right-4 bg-[#ba1a1a] text-white text-[10px] font-black px-3 py-1.5 rounded-full shadow-md uppercase tracking-wider z-10">
+                            Diskon {bus.diskon}
+                          </div>
+                        )}
                         <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent p-6 text-white">
                           <span className="text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider mb-2 inline-block" style={{ background: '#0B5CA8' }}>
                             {img.label}
@@ -375,7 +387,7 @@ const BusDetailPage = () => {
 
                 <div className="space-y-3">
                   <a
-                    href={`https://wa.me/${siteData.whatsapp.number}?text=Halo%20Mafina%20Trans%2C%20saya%20tertarik%20untuk%20menyewa%20armada%20${encodeURIComponent(bus.nama_bus)}%20kapasitas%20${bus.kapasitas}%20kursi.%20Boleh%20tanya%20ketersediaan%20jadwalnya%3F`}
+                    href={`https://wa.me/${siteData.whatsapp.number}?text=${encodeURIComponent(`Halo Mafina Trans, saya tertarik untuk menyewa armada ${bus.nama_bus} kapasitas ${bus.kapasitas} kursi${bus.diskon ? ` dengan promo ${bus.diskon}` : ''}. Boleh tanya ketersediaan jadwalnya?`)}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="w-full bg-[#128C7E] hover:bg-[#0b655b] text-white font-bold py-3.5 rounded-xl transition-all duration-300 flex items-center justify-center gap-2 hover:shadow-lg"

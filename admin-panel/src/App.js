@@ -7,7 +7,7 @@ import Armada from './pages/Armada';
 import { TambahArmada, EditArmada } from './pages/TambahArmada';
 import PriceList from './pages/PriceList';
 import { TambahHarga, EditHarga } from './pages/TambahHarga';
-import PaketWisata, { TambahPaketWisata, EditPaketWisata } from './pages/PaketWisata';
+import Discount, { TambahDiscount, EditDiscount } from './pages/Discount';
 import News, { TambahNews, EditNews } from './pages/News';
 import ArmadaGallery from './pages/ArmadaGallery';
 
@@ -40,9 +40,9 @@ const App = () => {
           <Route path="price-list/tambah" element={<TambahHarga />} />
           <Route path="price-list/edit/:id" element={<EditHarga />} />
           
-          <Route path="paket-wisata" element={<PaketWisata />} />
-          <Route path="paket-wisata/tambah" element={<TambahPaketWisata />} />
-          <Route path="paket-wisata/edit/:id" element={<EditPaketWisata />} />
+          <Route path="discount" element={<Discount />} />
+          <Route path="discount/tambah" element={<TambahDiscount />} />
+          <Route path="discount/edit/:id" element={<EditDiscount />} />
           
           <Route path="news" element={<News />} />
           <Route path="news/tambah" element={<TambahNews />} />

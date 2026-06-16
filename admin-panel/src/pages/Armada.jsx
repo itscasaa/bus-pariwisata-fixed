@@ -193,7 +193,7 @@ export default function Armada() {
             <table className="w-full text-left min-w-[1000px]">
               <thead>
                 <tr className="border-b border-surface-container-high">
-                  {['Armada', 'Tipe', 'Kapasitas', 'Harga (Sewa/Hari)', 'Status', 'Aksi'].map(h => (
+                  {['Armada', 'Tipe', 'Kapasitas', 'Harga (Sewa/Hari)', 'Diskon', 'Status', 'Aksi'].map(h => (
                     <th key={h}
                       className="pb-4 text-outline uppercase tracking-wider"
                       style={{ fontSize: '12px', fontWeight: '500', letterSpacing: '0.05em' }}
@@ -314,6 +314,17 @@ export default function Armada() {
                       {/* Harga */}
                       <td className="py-4 pr-4 font-semibold text-on-surface" style={{ fontSize: '14px' }}>
                         {formatRp(bus.harga_sewa)}
+                      </td>
+
+                      {/* Diskon */}
+                      <td className="py-4 pr-4">
+                        {bus.diskon ? (
+                          <span className="px-2.5 py-1 bg-[#ba1a1a]/10 text-[#ba1a1a] rounded-lg text-xs font-bold">
+                            {bus.diskon}
+                          </span>
+                        ) : (
+                          <span className="text-outline text-xs">-</span>
+                        )}
                       </td>
 
                       {/* Status */}

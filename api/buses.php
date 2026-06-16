@@ -91,7 +91,7 @@ try {
     $bus_id_filter = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 
     if ($bus_id_filter > 0) {
-        $sql  = "SELECT id, nama_bus, $col_tipe, kapasitas, harga_sewa,
+        $sql  = "SELECT id, nama_bus, $col_tipe, kapasitas, harga_sewa, diskon,
                         $col_gambar AS gambar_utama, $col_deskripsi, $col_fasilitas
                  FROM bus WHERE id = ? LIMIT 1";
         $stmt = mysqli_prepare($conn, $sql);
@@ -99,7 +99,7 @@ try {
         mysqli_stmt_execute($stmt);
         $query = mysqli_stmt_get_result($stmt);
     } else {
-        $sql   = "SELECT id, nama_bus, $col_tipe, kapasitas, harga_sewa,
+        $sql   = "SELECT id, nama_bus, $col_tipe, kapasitas, harga_sewa, diskon,
                          $col_gambar AS gambar_utama, $col_deskripsi, $col_fasilitas
                   FROM bus ORDER BY id ASC";
         $query = mysqli_query($conn, $sql);
@@ -154,6 +154,7 @@ try {
             'tipe'         => (string)$row['tipe'],
             'kapasitas'    => (int)$row['kapasitas'],
             'harga_sewa'   => (int)$row['harga_sewa'],
+            'diskon'       => (string)($row['diskon'] ?? ''),
             'gambar'       => $gambar_url,        // backward compat
             'gambar_utama' => $gambar_url,
             'deskripsi'    => (string)($row['deskripsi'] ?? ''),

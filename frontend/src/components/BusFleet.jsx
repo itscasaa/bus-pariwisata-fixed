@@ -71,7 +71,7 @@ const BusFleet = () => {
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
       {buses.slice(0, 4).map((bus) => (
         <div key={bus.id} className="group bg-white border border-[#DDEAF6] shadow-sm hover:shadow-xl rounded-3xl overflow-hidden transition-all duration-300 flex flex-col h-full">
-          <Link to={`/bus/${bus.id}`} className="aspect-[4/3] overflow-hidden bg-gray-100 block">
+          <Link to={`/bus/${bus.id}`} className="aspect-[4/3] overflow-hidden bg-gray-100 block relative">
             <img
               src={bus.gambar_utama || bus.gambar}
               alt={bus.nama_bus}
@@ -79,6 +79,11 @@ const BusFleet = () => {
               loading="lazy"
               onError={(e) => { e.target.onerror = null; e.target.src = '/images/bus4/bus4.webp'; }}
             />
+            {bus.diskon && (
+              <div className="absolute top-3 right-3 bg-[#ba1a1a] text-white text-[10px] font-black px-2.5 py-1 rounded-full shadow-md uppercase tracking-wider">
+                Diskon {bus.diskon}
+              </div>
+            )}
           </Link>
           <div className="p-6 flex flex-col flex-1">
             <div className="flex justify-between items-start mb-2">
@@ -201,7 +206,7 @@ const BusFleet = () => {
               {buses.map((bus) => (
                 <SwiperSlide key={bus.id}>
                   <div className="group bg-white border border-[#DDEAF6] shadow-sm hover:shadow-xl rounded-3xl overflow-hidden transition-all duration-300 flex flex-col h-full">
-                    <Link to={`/bus/${bus.id}`} className="aspect-[4/3] overflow-hidden bg-gray-100 block">
+                    <Link to={`/bus/${bus.id}`} className="aspect-[4/3] overflow-hidden bg-gray-100 block relative">
                       <img
                         src={bus.gambar_utama || bus.gambar}
                         alt={bus.nama_bus}
@@ -209,6 +214,11 @@ const BusFleet = () => {
                         loading="lazy"
                         onError={(e) => { e.target.onerror = null; e.target.src = '/images/bus4/bus4.webp'; }}
                       />
+                      {bus.diskon && (
+                        <div className="absolute top-3 right-3 bg-[#ba1a1a] text-white text-[10px] font-black px-2.5 py-1 rounded-full shadow-md uppercase tracking-wider">
+                          Diskon {bus.diskon}
+                        </div>
+                      )}
                     </Link>
                     <div className="p-6 flex flex-col flex-1">
                       <div className="flex justify-between items-start mb-2">

@@ -46,7 +46,7 @@ $current = basename($_SERVER['PHP_SELF']);
 
     <a href="paket_wisata.php"
        class="sidebar-link flex items-center gap-3 px-4 py-2.5 rounded-lg text-blue-100 text-sm font-medium <?= $current==='paket_wisata.php'?'active':'' ?>">
-      <i class="fas fa-map-marked-alt w-4 text-center"></i> Kelola Paket Wisata
+      <i class="fas fa-percent w-4 text-center"></i> Kelola Discount
     </a>
 
     <a href="price_list.php"
