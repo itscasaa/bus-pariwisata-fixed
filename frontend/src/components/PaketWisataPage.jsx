@@ -85,7 +85,7 @@ const PaketWisataPage = () => {
   return (
     <>
       {/* ===== HERO ===== */}
-      <div className="relative text-white py-16 md:py-24 overflow-hidden text-center bg-[#062D5F]">
+      <div className="relative text-white py-28 md:py-36 overflow-hidden text-center bg-[#062D5F]">
         {/* Background Image */}
         <img 
           src="/images/bannerpaketwisata.webp" 
