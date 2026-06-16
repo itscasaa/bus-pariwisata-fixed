@@ -1,4 +1,4 @@
-import React, { Suspense, lazy } from 'react';
+import React, { Suspense, lazy, useState, useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
@@ -7,6 +7,8 @@ import Destinations from './components/Destinations';
 import PromoBanner from './components/PromoBanner'; // Static import because it is small and has CTA
 import Footer from './components/Footer';
 import WhatsAppButton from './components/WhatsAppButton';
+import API_BASE from './config/api';
+import MaintenancePage from './components/MaintenancePage';
 
 // Below-the-fold homepage components (Lazy loaded)
 const BusFleet = lazy(() => import('./components/BusFleet'));
@@ -49,6 +51,49 @@ const HomePage = () => (
 );
 
 const App = () => {
+  const [maintenance, setMaintenance] = useState(false);
+  const [maintenanceMessage, setMaintenanceMessage] = useState('');
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // Check if the current route is an admin page to allow admin access
+    const isAdminPath = window.location.pathname.startsWith('/admin');
+    if (isAdminPath) {
+      setLoading(false);
+      return;
+    }
+
+    fetch(`${API_BASE}/settings.php`)
+      .then(res => {
+        if (!res.ok) throw new Error('Network response error');
+        return res.json();
+      })
+      .then(res => {
+        if (res.status === 'success' && res.data && res.data.maintenance_mode) {
+          setMaintenance(true);
+          setMaintenanceMessage(res.data.maintenance_message);
+        }
+      })
+      .catch(err => {
+        console.error('Error fetching maintenance settings:', err);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-[#fcf8ff]">
+        <div className="w-10 h-10 border-4 border-[#3525cd] border-t-transparent rounded-full animate-spin"></div>
+      </div>
+    );
+  }
+
+  if (maintenance) {
+    return <MaintenancePage message={maintenanceMessage} />;
+  }
+
   return (
     <div className="min-h-screen bg-transparent">
       <Suspense fallback={null}>

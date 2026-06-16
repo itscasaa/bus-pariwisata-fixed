@@ -67,6 +67,11 @@ $current = basename($_SERVER['PHP_SELF']);
     <div class="border-t border-white/10 my-3"></div>
     <p class="text-blue-400 text-xs font-semibold uppercase px-3 mb-2 tracking-wider">Lainnya</p>
 
+    <a href="settings.php"
+       class="sidebar-link flex items-center gap-3 px-4 py-2.5 rounded-lg text-blue-100 text-sm font-medium <?= $current==='settings.php'?'active':'' ?>">
+      <i class="fas fa-cog w-4 text-center"></i> Pengaturan Web
+    </a>
+
     <a href="<?= BASE_URL ?>" target="_blank"
        class="sidebar-link flex items-center gap-3 px-4 py-2.5 rounded-lg text-blue-100 text-sm font-medium">
       <i class="fas fa-globe w-4 text-center"></i> Lihat Website

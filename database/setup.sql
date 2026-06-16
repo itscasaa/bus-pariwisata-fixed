@@ -265,13 +265,25 @@ INSERT INTO price_list (id, nama_destinasi, durasi, harga_hiace, harga_elf, harg
 ON DUPLICATE KEY UPDATE id = id;
 
 -- ============================================================
+-- TABLE: settings
+-- ============================================================
+CREATE TABLE IF NOT EXISTS settings (
+  setting_key   VARCHAR(50)  NOT NULL PRIMARY KEY,
+  setting_value TEXT         NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+INSERT IGNORE INTO settings (setting_key, setting_value) VALUES 
+('maintenance_mode', '0'),
+('maintenance_message', 'Website sedang dalam pemeliharaan berkala untuk meningkatkan layanan kami. Silakan hubungi kami via WhatsApp untuk info pemesanan.');
+
+-- ============================================================
 -- Verifikasi akhir
 -- ============================================================
 SELECT 'Setup selesai!' AS status;
 SELECT TABLE_NAME, TABLE_ROWS
 FROM information_schema.TABLES
 WHERE TABLE_SCHEMA = DATABASE()
-  AND TABLE_NAME IN ('bus','bus_images','price_list','paket_wisata','admin_users','news','pesan_masuk','booking')
+  AND TABLE_NAME IN ('bus','bus_images','price_list','paket_wisata','admin_users','news','pesan_masuk','booking','settings')
 ORDER BY TABLE_NAME;
 
 -- ============================================================
@@ -284,3 +296,4 @@ ORDER BY TABLE_NAME;
 --
 -- (hash di atas terverifikasi untuk password 'admin123')
 -- ============================================================
+
