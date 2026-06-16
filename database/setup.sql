@@ -146,7 +146,7 @@ SET FOREIGN_KEY_CHECKS = 1;
 -- PENTING: Ganti password setelah deploy production!
 -- ============================================================
 INSERT INTO admin_users (id, nama, username, password)
-VALUES (1, 'Administrator', 'admin', '$2y$10$/B2.1xWl5qFkwKb6Sf4mPe/J.17colIRufCC3PngjOGkTlmCWLhiS')
+VALUES (1, 'Administrator', 'mafina_admin_pariwisata', '$2y$10$RR5g4gN3iQHuCLXu6uyvAenAS.Y9ZUByvG9ULmWCT.q9qe3JNHOX.')
 ON DUPLICATE KEY UPDATE id = id;
 
 -- ============================================================
