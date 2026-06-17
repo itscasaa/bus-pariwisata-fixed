@@ -35,16 +35,16 @@ const Navbar = () => {
       }}
     >
       <div className="container mx-auto px-4 lg:px-6">
-        <div className="flex items-center justify-between h-16 lg:h-[72px]">
+        <div className="flex items-center justify-between h-20 lg:h-[88px]">
           
           {/* Logo - Transparent, no capsule background */}
           <Link to="/" className="flex items-center group">
             <img
               src={logoImg}
               alt="Mafina Trans"
-              width={120}
-              height={120}
-              className="h-10 lg:h-[44px] w-auto object-contain transition-transform duration-300 group-hover:scale-105"
+              width={160}
+              height={160}
+              className="h-14 lg:h-[60px] w-auto object-contain transition-transform duration-300 group-hover:scale-105"
             />
           </Link>
 

@@ -111,7 +111,7 @@ const PriceListPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white pt-16">
+    <div className="min-h-screen bg-white pt-20 lg:pt-24">
 
       {/* Hero */}
       <div className="relative text-white py-16 md:py-24 overflow-hidden text-center bg-[#062D5F]">

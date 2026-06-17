@@ -42,7 +42,7 @@ try {
     // ── Single discount by ID ──────────────────────────────────────────────────
     if ($id > 0) {
         $stmt = mysqli_prepare($conn,
-            "SELECT id, judul, badge, deskripsi, gambar, status, urutan, created_at 
+            "SELECT id, judul, badge, kategori, deskripsi, gambar, status, urutan, created_at 
              FROM paket_wisata WHERE id = ? LIMIT 1"
         );
         mysqli_stmt_bind_param($stmt, 'i', $id);
@@ -63,7 +63,7 @@ try {
     // ── Semua diskon aktif ───────────────────────────────────────────────────
     } else {
         $result = mysqli_query($conn,
-            "SELECT id, judul, badge, deskripsi, gambar, status, urutan, created_at
+            "SELECT id, judul, badge, kategori, deskripsi, gambar, status, urutan, created_at
              FROM paket_wisata WHERE status = 'aktif'
              ORDER BY urutan ASC, id ASC"
         );
@@ -125,6 +125,7 @@ function formatDiscount(array $row): array {
         'id'         => (int)$row['id'],
         'judul'      => (string)$row['judul'],
         'badge'      => (string)$row['badge'], // tag diskon, e.g. "10%"
+        'kategori'   => (string)($row['kategori'] ?? ''),
         'deskripsi'  => (string)($row['deskripsi'] ?? ''),
         'gambar'     => normalizeImagePath($row['gambar'] ?? ''),
         'status'     => (string)$row['status'],
