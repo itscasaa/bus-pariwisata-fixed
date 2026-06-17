@@ -233,10 +233,6 @@ const ArmadaPage = () => {
                                     {bus.nama_bus}
                                   </h3>
 
-                                  <p className="text-[#0B5CA8] font-black text-base mt-2 mb-4">
-                                    Rp {new Intl.NumberFormat('id-ID').format(bus.harga_sewa)} <span className="text-xs text-[#64748B] font-normal">/ Hari</span>
-                                  </p>
-
                                   {bus.fasilitas && bus.fasilitas.length > 0 && (
                                     <div className="flex flex-wrap gap-1.5 mb-6">
                                       {bus.fasilitas.slice(0, 3).map((fac, i) => (
