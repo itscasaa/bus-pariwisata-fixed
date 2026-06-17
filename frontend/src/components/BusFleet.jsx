@@ -3,6 +3,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Autoplay } from 'swiper/modules';
 import { Link } from 'react-router-dom';
 import API_BASE from '../config/api';
+import BusCard from './BusCard';
 
 const FALLBACK_BUSES = [
   { name: 'Zahra Ayu', tipe: 'Big Bus', kapasitas: 59 },
@@ -70,58 +71,7 @@ const BusFleet = () => {
   const renderLiveGrid = () => (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
       {buses.slice(0, 4).map((bus) => (
-        <div key={bus.id} className="group bg-white border border-[#DDEAF6] shadow-sm hover:shadow-xl rounded-3xl overflow-hidden transition-all duration-300 flex flex-col h-full">
-          <Link to={`/bus/${bus.id}`} className="aspect-[4/3] overflow-hidden bg-gray-100 block relative">
-            <img
-              src={bus.gambar_utama || bus.gambar}
-              alt={bus.nama_bus}
-              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-              loading="lazy"
-              onError={(e) => { e.target.onerror = null; e.target.src = '/images/bus4/bus4.webp'; }}
-            />
-            {bus.diskon && (
-              <div className="absolute top-3 right-3 bg-[#ba1a1a] text-white text-[10px] font-black px-2.5 py-1 rounded-full shadow-md uppercase tracking-wider">
-                Diskon {bus.diskon}
-              </div>
-            )}
-          </Link>
-          <div className="p-6 flex flex-col flex-1">
-            <div className="flex justify-between items-start mb-2">
-              <span className="bg-[#EAF6FF] text-[#0B5CA8] text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">
-                {bus.tipe ? bus.tipe.replace('_', ' ') : 'Bus'}
-              </span>
-              <span className="text-[#64748B] text-xs flex items-center gap-1">
-                <i className="fas fa-users text-[#0B5CA8]"></i> {bus.kapasitas} Kursi
-              </span>
-            </div>
-            <Link to={`/bus/${bus.id}`}>
-              <h3 className="font-extrabold text-[#10233F] text-lg hover:text-[#0B5CA8] transition-colors duration-300 line-clamp-1">
-                {bus.nama_bus}
-              </h3>
-            </Link>
-            <p className="text-[#0B5CA8] font-black text-base mt-2 mb-4">
-              Rp {new Intl.NumberFormat('id-ID').format(bus.harga_sewa)} <span className="text-xs text-[#64748B] font-normal">/ Hari</span>
-            </p>
-            
-            <div className="grid grid-cols-2 gap-2 mt-auto pt-4 border-t border-[#DDEAF6]">
-              <Link
-                to={`/bus/${bus.id}`}
-                className="font-bold text-xs py-2.5 rounded-xl text-center transition-all bg-[#F3FAFF] text-[#073B78] hover:bg-[#EAF6FF]"
-              >
-                Lihat Detail
-              </Link>
-              <a
-                href={`https://wa.me/6285199802536?text=Halo%20Mafina%20Trans%2C%20saya%20ingin%20sewa%20bus%20${encodeURIComponent(bus.nama_bus)}.`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="bg-[#128C7E] hover:bg-[#0b655b] text-white font-bold text-xs py-2.5 rounded-xl text-center flex items-center justify-center gap-1 transition-all"
-              >
-                <i className="fab fa-whatsapp"></i>
-                Pesan Bus
-              </a>
-            </div>
-          </div>
-        </div>
+        <BusCard key={bus.id} bus={bus} />
       ))}
     </div>
   );
@@ -205,58 +155,7 @@ const BusFleet = () => {
             <Swiper {...swiperProps}>
               {buses.map((bus) => (
                 <SwiperSlide key={bus.id}>
-                  <div className="group bg-white border border-[#DDEAF6] shadow-sm hover:shadow-xl rounded-3xl overflow-hidden transition-all duration-300 flex flex-col h-full">
-                    <Link to={`/bus/${bus.id}`} className="aspect-[4/3] overflow-hidden bg-gray-100 block relative">
-                      <img
-                        src={bus.gambar_utama || bus.gambar}
-                        alt={bus.nama_bus}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                        loading="lazy"
-                        onError={(e) => { e.target.onerror = null; e.target.src = '/images/bus4/bus4.webp'; }}
-                      />
-                      {bus.diskon && (
-                        <div className="absolute top-3 right-3 bg-[#ba1a1a] text-white text-[10px] font-black px-2.5 py-1 rounded-full shadow-md uppercase tracking-wider">
-                          Diskon {bus.diskon}
-                        </div>
-                      )}
-                    </Link>
-                    <div className="p-6 flex flex-col flex-1">
-                      <div className="flex justify-between items-start mb-2">
-                        <span className="bg-[#EAF6FF] text-[#0B5CA8] text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">
-                          {bus.tipe ? bus.tipe.replace('_', ' ') : 'Bus'}
-                        </span>
-                        <span className="text-[#64748B] text-xs flex items-center gap-1">
-                          <i className="fas fa-users text-[#0B5CA8]"></i> {bus.kapasitas} Kursi
-                        </span>
-                      </div>
-                      <Link to={`/bus/${bus.id}`}>
-                        <h3 className="font-extrabold text-[#10233F] text-lg hover:text-[#0B5CA8] transition-colors duration-300 line-clamp-1">
-                          {bus.nama_bus}
-                        </h3>
-                      </Link>
-                      <p className="text-[#0B5CA8] font-black text-base mt-2 mb-4">
-                        Rp {new Intl.NumberFormat('id-ID').format(bus.harga_sewa)} <span className="text-xs text-[#64748B] font-normal">/ Hari</span>
-                      </p>
-                      
-                      <div className="grid grid-cols-2 gap-2 mt-auto pt-4 border-t border-[#DDEAF6]">
-                        <Link
-                          to={`/bus/${bus.id}`}
-                          className="font-bold text-xs py-2.5 rounded-xl text-center transition-all bg-[#F3FAFF] text-[#073B78] hover:bg-[#EAF6FF]"
-                        >
-                          Lihat Detail
-                        </Link>
-                        <a
-                          href={`https://wa.me/6285199802536?text=Halo%20Mafina%20Trans%2C%20saya%20ingin%20sewa%20bus%20${encodeURIComponent(bus.nama_bus)}.`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="bg-[#128C7E] hover:bg-[#0b655b] text-white font-bold text-xs py-2.5 rounded-xl text-center flex items-center justify-center gap-1 transition-all"
-                        >
-                          <i className="fab fa-whatsapp"></i>
-                          Pesan Bus
-                        </a>
-                      </div>
-                    </div>
-                  </div>
+                  <BusCard bus={bus} />
                 </SwiperSlide>
               ))}
             </Swiper>
