@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation } from 'swiper/modules';
 import API_BASE from '../config/api';
 import siteData from '../data/siteData';
 
@@ -26,7 +28,28 @@ const ArmadaPage = () => {
   const [buses, setBuses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [activeFilter, setActiveFilter] = useState('all');
+
+  const scrollToCategory = (id) => {
+    const element = document.getElementById(id);
+    if (element) {
+      const yOffset = -90; // offset for navbar height
+      const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
+      window.scrollTo({ top: y, behavior: 'smooth' });
+    }
+  };
+
+  const swiperProps = {
+    modules: [Navigation],
+    spaceBetween: 24,
+    slidesPerView: 1,
+    navigation: true,
+    breakpoints: {
+      640: { slidesPerView: 2 },
+      768: { slidesPerView: 3 },
+      1024: { slidesPerView: 4 },
+    },
+    className: "pb-8 pt-2 px-1",
+  };
 
   useEffect(() => {
     setLoading(true);
@@ -120,130 +143,145 @@ const ArmadaPage = () => {
           )}
 
           {!loading && !error && buses.length > 0 && (() => {
-            const categories = ['all', ...new Set(buses.map(bus => bus.tipe))];
-            const filteredBuses = activeFilter === 'all'
-              ? buses
-              : buses.filter(bus => bus.tipe === activeFilter);
+            // Group buses by type
+            const categorizedBuses = {};
+            buses.forEach(bus => {
+              const cat = bus.tipe || 'other';
+              if (!categorizedBuses[cat]) {
+                categorizedBuses[cat] = [];
+              }
+              categorizedBuses[cat].push(bus);
+            });
+
+            // Sort categories by preferred order
+            const categoryOrder = ['big_bus', 'medium_bus', 'elf', 'hiace'];
+            const sortedCategories = Object.keys(categorizedBuses).sort((a, b) => {
+              const indexA = categoryOrder.indexOf(a);
+              const indexB = categoryOrder.indexOf(b);
+              if (indexA === -1 && indexB === -1) return a.localeCompare(b);
+              if (indexA === -1) return 1;
+              if (indexB === -1) return -1;
+              return indexA - indexB;
+            });
 
             return (
               <>
-                {/* Filter buttons */}
-                <div className="flex flex-wrap justify-center gap-2.5 mb-10">
-                  {categories.map((cat) => (
+                {/* Quick Navigation Scroll Buttons */}
+                <div className="flex flex-wrap justify-center gap-2.5 mb-12 shrink-0">
+                  {sortedCategories.map((cat) => (
                     <button
                       key={cat}
-                      onClick={() => setActiveFilter(cat)}
-                      className={`px-5 py-2.5 rounded-full text-xs font-bold border transition-all ${
-                        activeFilter === cat
-                          ? 'text-white shadow-sm'
-                          : 'hover:opacity-85'
-                      }`}
-                      style={activeFilter === cat
-                        ? { background: '#0B5CA8', borderColor: '#0B5CA8' }
-                        : { background: '#F3FAFF', color: '#64748B', borderColor: '#DDEAF6' }
-                      }
+                      onClick={() => scrollToCategory(cat)}
+                      className="px-5 py-2.5 rounded-full text-xs font-bold border transition-all cursor-pointer bg-[#F3FAFF] text-[#0B5CA8] border-[#DDEAF6] hover:bg-[#EAF6FF] hover:border-[#0B5CA8]/30 shadow-sm"
                     >
-                      {formatTypeLabel(cat)}
+                      {formatTypeLabel(cat)} ({categorizedBuses[cat].length})
                     </button>
                   ))}
                 </div>
 
-                <div className="text-sm mb-6 text-[#64748B]">
-                  Menampilkan <span className="font-semibold text-[#10233F]">{filteredBuses.length}</span> dari <span className="font-semibold text-[#10233F]">{buses.length}</span> unit armada tersedia
-                </div>
-
-                {filteredBuses.length === 0 ? (
-                  <div className="text-center py-12 bg-white border border-[#DDEAF6] rounded-3xl max-w-lg mx-auto px-6 shadow-sm">
-                    <i className="fas fa-bus text-4xl mb-3 text-[#DDEAF6]"></i>
-                    <p className="font-semibold text-[#64748B]">Tidak ada unit untuk tipe ini.</p>
-                  </div>
-                ) : (
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {filteredBuses.map((bus) => (
-                      <div
-                        key={bus.id}
-                        className="group bg-white border border-[#DDEAF6] shadow-sm hover:shadow-xl rounded-3xl overflow-hidden transition-all duration-300 flex flex-col h-full"
-                      >
-                        {/* Image */}
-                        <div className="aspect-[4/3] overflow-hidden relative bg-[#F3FAFF]">
-                          <img
-                            src={bus.gambar_utama || bus.gambar}
-                            alt={bus.nama_bus}
-                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                            onError={(e) => { e.target.src = '/images/default-bus.jpg'; }}
-                          />
-                          <div
-                            className="absolute top-4 left-4 text-white text-[10px] font-bold px-3 py-1.5 rounded-full uppercase tracking-wider shadow-sm"
-                            style={{ background: '#0B5CA8' }}
-                          >
-                            {bus.tipe.replace('_', ' ')}
-                          </div>
-                          {bus.diskon && (
-                            <div className="absolute top-4 right-4 bg-[#ba1a1a] text-white text-[10px] font-black px-2.5 py-1.5 rounded-full shadow-md uppercase tracking-wider">
-                              Diskon {bus.diskon}
-                            </div>
-                          )}
-                        </div>
-
-                        {/* Body */}
-                        <div className="p-6 flex flex-col flex-1">
-                          <h3 className="font-extrabold text-xl text-[#10233F] mb-2 transition-colors duration-300 group-hover:text-[#0B5CA8]">
-                            {bus.nama_bus}
-                          </h3>
-
-                          <div className="flex items-center gap-4 text-sm mb-4 text-[#64748B]">
-                            <span className="flex items-center gap-1.5">
-                              <i className="fas fa-users text-[#0B5CA8]"></i>
-                              <span>{bus.kapasitas} Kursi</span>
-                            </span>
-                            <span className="text-[#DDEAF6]">|</span>
-                            <span className="flex items-center gap-1.5">
-                              <i className="fas fa-shield-alt text-[#0B5CA8]"></i>
-                              <span>Driver &amp; BBM</span>
+                {/* Stacked Category Carousels */}
+                <div className="space-y-16">
+                  {sortedCategories.map((cat) => {
+                    const busesInCat = categorizedBuses[cat];
+                    return (
+                      <div key={cat} id={cat} className="scroll-mt-24">
+                        {/* Section Header */}
+                        <div className="flex items-center justify-between mb-6 border-b border-[#DDEAF6] pb-4">
+                          <div className="flex items-center gap-2.5">
+                            <span className="w-2.5 h-6 bg-[#0B5CA8] rounded-full"></span>
+                            <h2 className="text-lg md:text-xl font-extrabold text-[#10233F]">
+                              {formatTypeLabel(cat)}
+                            </h2>
+                            <span className="bg-[#EAF6FF] text-[#0B5CA8] text-xs font-bold px-2.5 py-1 rounded-full">
+                              {busesInCat.length} Unit
                             </span>
                           </div>
-
-                          {bus.fasilitas && bus.fasilitas.length > 0 && (
-                            <div className="flex flex-wrap gap-2 mb-6">
-                              {bus.fasilitas.slice(0, 3).map((fac, i) => (
-                                <span
-                                  key={i}
-                                  className="text-xs font-medium px-2.5 py-1 rounded-lg flex items-center gap-1 bg-[#F3FAFF] text-[#64748B] border border-[#DDEAF6]"
-                                >
-                                  <i className={`fas ${getFacilityIcon(fac)}`}></i>
-                                  {fac}
-                                </span>
-                              ))}
-                              {bus.fasilitas.length > 3 && (
-                                <span className="text-xs font-bold px-2.5 py-1 rounded-lg bg-[#EAF6FF] text-[#0B5CA8]">
-                                  +{bus.fasilitas.length - 3} Lainnya
-                                </span>
-                              )}
-                            </div>
-                          )}
-
-                          <div className="grid grid-cols-2 gap-3 mt-auto pt-4 border-t border-[#DDEAF6]">
-                            <Link
-                              to={`/bus/${bus.id}`}
-                              className="font-bold text-xs py-3 rounded-xl text-center transition-all bg-[#F3FAFF] text-[#073B78] hover:bg-[#EAF6FF]"
-                            >
-                              Detail Unit
-                            </Link>
-                            <a
-                              href={`https://wa.me/${siteData.whatsapp.number}?text=Halo%20Mafina%20Trans%2C%20saya%20ingin%20menanyakan%20harga%20sewa%20untuk%2520armada%2520${encodeURIComponent(bus.nama_bus)}%20kapasitas%20${bus.kapasitas}%20kursi${bus.diskon ? `%20dengan%20promo%20${encodeURIComponent(bus.diskon)}` : ''}.`}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="bg-[#128C7E] hover:bg-[#0b655b] text-white font-bold text-xs py-3 rounded-xl text-center flex items-center justify-center gap-1.5 transition-all"
-                            >
-                              <i className="fab fa-whatsapp text-base"></i>
-                              Pesan Bus
-                            </a>
-                          </div>
                         </div>
+
+                        {/* Swiper Carousel */}
+                        <Swiper {...swiperProps}>
+                          {busesInCat.map((bus) => (
+                            <SwiperSlide key={bus.id} className="h-auto">
+                              <div className="group bg-white border border-[#DDEAF6] shadow-sm hover:shadow-xl rounded-3xl overflow-hidden transition-all duration-300 flex flex-col h-full">
+                                {/* Image */}
+                                <div className="aspect-[4/3] overflow-hidden relative bg-[#F3FAFF]">
+                                  <img
+                                    src={bus.gambar_utama || bus.gambar}
+                                    alt={bus.nama_bus}
+                                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                    onError={(e) => { e.target.src = '/images/default-bus.jpg'; }}
+                                  />
+                                  {bus.diskon && (
+                                    <div className="absolute top-4 right-4 bg-[#ba1a1a] text-white text-[10px] font-black px-2.5 py-1.5 rounded-full shadow-md uppercase tracking-wider">
+                                      Diskon {bus.diskon}
+                                    </div>
+                                  )}
+                                </div>
+
+                                {/* Body */}
+                                <div className="p-6 flex flex-col flex-1">
+                                  <div className="flex justify-between items-start mb-2">
+                                    <span className="bg-[#EAF6FF] text-[#0B5CA8] text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">
+                                      {bus.tipe ? bus.tipe.replace('_', ' ') : 'Bus'}
+                                    </span>
+                                    <span className="text-[#64748B] text-xs flex items-center gap-1">
+                                      <i className="fas fa-users text-[#0B5CA8]"></i> {bus.kapasitas} Kursi
+                                    </span>
+                                  </div>
+
+                                  <h3 className="font-extrabold text-[#10233F] text-base md:text-lg hover:text-[#0B5CA8] transition-colors duration-300 line-clamp-1 mb-1">
+                                    {bus.nama_bus}
+                                  </h3>
+
+                                  <p className="text-[#0B5CA8] font-black text-base mt-2 mb-4">
+                                    Rp {new Intl.NumberFormat('id-ID').format(bus.harga_sewa)} <span className="text-xs text-[#64748B] font-normal">/ Hari</span>
+                                  </p>
+
+                                  {bus.fasilitas && bus.fasilitas.length > 0 && (
+                                    <div className="flex flex-wrap gap-1.5 mb-6">
+                                      {bus.fasilitas.slice(0, 3).map((fac, i) => (
+                                        <span
+                                          key={i}
+                                          className="text-[11px] font-medium px-2 py-0.5 rounded-lg flex items-center gap-1 bg-[#F3FAFF] text-[#64748B] border border-[#DDEAF6]"
+                                        >
+                                          <i className={`fas ${getFacilityIcon(fac)}`}></i>
+                                          {fac}
+                                        </span>
+                                      ))}
+                                      {bus.fasilitas.length > 3 && (
+                                        <span className="text-[11px] font-bold px-2 py-0.5 rounded-lg bg-[#EAF6FF] text-[#0B5CA8]">
+                                          +{bus.fasilitas.length - 3}
+                                        </span>
+                                      )}
+                                    </div>
+                                  )}
+
+                                  <div className="grid grid-cols-2 gap-3 mt-auto pt-4 border-t border-[#DDEAF6]">
+                                    <Link
+                                      to={`/bus/${bus.id}`}
+                                      className="font-bold text-xs py-2.5 rounded-xl text-center transition-all bg-[#F3FAFF] text-[#073B78] hover:bg-[#EAF6FF]"
+                                    >
+                                      Lihat Detail
+                                    </Link>
+                                    <a
+                                      href={`https://wa.me/${siteData.whatsapp.number}?text=Halo%20Mafina%20Trans%2C%20saya%20ingin%20menanyakan%20harga%20sewa%20untuk%2520armada%2520${encodeURIComponent(bus.nama_bus)}%20kapasitas%20${bus.kapasitas}%20kursi${bus.diskon ? `%20dengan%20promo%20${encodeURIComponent(bus.diskon)}` : ''}.`}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className="bg-[#128C7E] hover:bg-[#0b655b] text-white font-bold text-xs py-2.5 rounded-xl text-center flex items-center justify-center gap-1.5 transition-all"
+                                    >
+                                      <i className="fab fa-whatsapp text-base"></i>
+                                      Pesan Bus
+                                    </a>
+                                  </div>
+                                </div>
+                              </div>
+                            </SwiperSlide>
+                          ))}
+                        </Swiper>
                       </div>
-                    ))}
-                  </div>
-                )}
+                    );
+                  })}
+                </div>
               </>
             );
           })()}
