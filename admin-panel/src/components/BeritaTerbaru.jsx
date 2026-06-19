@@ -21,11 +21,11 @@ const BeritaTerbaru = () => {
 
   if (loading) {
     return (
-      <section className="bg-surface-container-lowest rounded-[24px] custom-shadow p-unit-lg">
-        <h3 className="text-headline-sm text-on-surface mb-6">Berita Terbaru</h3>
+      <section className="bg-white border border-zinc-200/60 rounded-[24px] p-6" style={{ boxShadow: '0px 10px 30px rgba(0, 0, 0, 0.01)' }}>
+        <h3 className="text-lg font-black text-zinc-800 mb-6">Berita Terbaru</h3>
         <div className="animate-pulse space-y-4">
           {[1, 2, 3].map(i => (
-            <div key={i} className="h-12 bg-surface-container rounded-xl"></div>
+            <div key={i} className="h-12 bg-slate-100 rounded-xl"></div>
           ))}
         </div>
       </section>
@@ -34,35 +34,35 @@ const BeritaTerbaru = () => {
 
   if (news.length === 0) {
     return (
-      <section className="bg-surface-container-lowest rounded-[24px] custom-shadow p-unit-lg">
+      <section className="bg-white border border-zinc-200/60 rounded-[24px] p-6" style={{ boxShadow: '0px 10px 30px rgba(0, 0, 0, 0.01)' }}>
         <div className="flex justify-between items-center mb-6">
-          <h3 className="text-headline-sm text-on-surface">Berita Terbaru</h3>
-          <span className="material-symbols-outlined text-outline cursor-pointer hover:text-primary">
+          <h3 className="text-lg font-black text-zinc-800">Berita Terbaru</h3>
+          <span className="material-symbols-outlined text-zinc-400 cursor-pointer hover:text-blue-500">
             more_horiz
           </span>
         </div>
 
         {/* Empty State */}
         <div className="flex flex-col items-center justify-center py-10 text-center">
-          <div className="w-32 h-32 bg-surface-container-low rounded-full flex items-center justify-center mb-6 relative">
-            <span className="material-symbols-outlined text-5xl text-outline-variant">
+          <div className="w-24 h-24 bg-zinc-50 border border-zinc-150 rounded-full flex items-center justify-center mb-6 relative">
+            <span className="material-symbols-outlined text-4xl text-zinc-400">
               newspaper
             </span>
-            <div className="absolute -right-2 -bottom-2 w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-md">
-              <span className="material-symbols-outlined text-primary">info</span>
+            <div className="absolute -right-1 -bottom-1 w-8 h-8 bg-blue-50 border border-blue-150 rounded-full flex items-center justify-center shadow-sm">
+              <span className="material-symbols-outlined text-blue-600 text-sm">info</span>
             </div>
           </div>
           
-          <h4 className="text-body-lg font-bold text-on-surface mb-2">
+          <h4 className="text-sm font-bold text-zinc-700 mb-2">
             Belum ada berita baru
           </h4>
-          <p className="text-body-md text-outline px-6">
+          <p className="text-xs text-zinc-400 px-6">
             Mulailah menulis berita atau pengumuman terbaru untuk ditampilkan di website utama.
           </p>
           
           <button
             onClick={() => navigate('/news/tambah')}
-            className="mt-6 px-6 py-2 rounded-full border border-primary text-primary font-bold text-body-md hover:bg-primary hover:text-white transition-all"
+            className="mt-6 px-6 py-2 rounded-full border border-blue-600 text-blue-600 font-bold text-xs hover:bg-blue-600 hover:text-white transition-all cursor-pointer shadow-sm"
           >
             Buat Berita Pertama
           </button>
@@ -72,12 +72,12 @@ const BeritaTerbaru = () => {
   }
 
   return (
-    <section className="bg-surface-container-lowest rounded-[24px] custom-shadow p-unit-lg">
+    <section className="bg-white border border-zinc-200/60 rounded-[24px] p-6" style={{ boxShadow: '0px 10px 30px rgba(0, 0, 0, 0.01)' }}>
       <div className="flex justify-between items-center mb-6">
-        <h3 className="text-headline-sm text-on-surface">Berita Terbaru</h3>
+        <h3 className="text-lg font-black text-zinc-800">Berita Terbaru</h3>
         <button 
           onClick={() => navigate('/news')}
-          className="text-primary text-body-md font-semibold hover:underline"
+          className="text-blue-650 text-xs font-bold hover:text-blue-700 hover:underline cursor-pointer"
         >
           Lihat Semua
         </button>
@@ -87,10 +87,10 @@ const BeritaTerbaru = () => {
         {news.map((item, index) => (
           <div
             key={index}
-            className="flex items-start gap-3 p-3 rounded-xl hover:bg-surface-container-low transition-colors cursor-pointer"
+            className="flex items-center gap-3 p-3 rounded-xl hover:bg-zinc-50/70 transition-colors cursor-pointer border border-transparent hover:border-zinc-150/80"
             onClick={() => navigate(`/news/edit/${item.id}`)}
           >
-            <div className="w-12 h-12 rounded-lg bg-surface-dim overflow-hidden flex-shrink-0">
+            <div className="w-12 h-12 rounded-lg bg-zinc-50 border border-zinc-150 overflow-hidden flex-shrink-0">
               <img
                 src={
                   item.gambar
@@ -102,17 +102,17 @@ const BeritaTerbaru = () => {
               />
             </div>
             <div className="flex-1 min-w-0">
-              <h4 className="text-body-md font-bold text-on-surface truncate">
+              <h4 className="text-xs font-bold text-zinc-800 truncate">
                 {item.judul}
               </h4>
-              <p className="text-label-sm text-outline">
+              <p className="text-[10px] font-semibold text-zinc-400 mt-1">
                 {new Date(item.created_at).toLocaleDateString('id-ID')}
               </p>
             </div>
-            <span className={`px-2 py-1 rounded-full text-xs font-bold ${
+            <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold border ${
               item.status === 'publish' 
-                ? 'bg-green-100 text-green-700' 
-                : 'bg-amber-100 text-amber-700'
+                ? 'bg-emerald-50 text-emerald-600 border-emerald-100' 
+                : 'bg-amber-50 text-amber-600 border-amber-100'
             }`}>
               {item.status === 'publish' ? 'Published' : 'Draft'}
             </span>

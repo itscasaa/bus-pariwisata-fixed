@@ -48,6 +48,18 @@ const DiscountPage = () => {
   const [discounts, setDiscounts] = useState([]);
   const [loading,   setLoading]   = useState(true);
   const [error,     setError]     = useState(null);
+  const [selectedPromo, setSelectedPromo] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleOpenDetail = (promo) => {
+    setSelectedPromo(promo);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseDetail = () => {
+    setSelectedPromo(null);
+    setIsModalOpen(false);
+  };
 
   const scrollToCategory = (id) => {
     const element = document.getElementById(id);
@@ -256,15 +268,21 @@ const DiscountPage = () => {
                                   <p className="text-xs text-[#64748B] mb-5 flex-1 line-clamp-4 leading-relaxed">
                                     {item.deskripsi}
                                   </p>
-                                  <div className="pt-4 mt-auto border-t border-[#DDEAF6]">
+                                  <div className="grid grid-cols-2 gap-2.5 mt-auto pt-4 border-t border-[#DDEAF6]">
+                                    <button
+                                      onClick={() => handleOpenDetail(item)}
+                                      className="font-bold text-[11px] py-2.5 rounded-xl text-center transition-all bg-[#F3FAFF] text-[#073B78] hover:bg-[#EAF6FF] cursor-pointer"
+                                    >
+                                      Lihat Detail
+                                    </button>
                                     <a
-                                      href={`https://wa.me/${siteData.whatsapp.number}?text=Halo%20Mafina%20Trans%2C%20saya%20ingin%20tanya%20tentang%20promo%20${encodeURIComponent(item.judul)}%20(${encodeURIComponent(item.badge)})`}
+                                      href={`https://wa.me/${siteData.whatsapp.number}?text=Halo%20Mafina%20Trans%2C%20saya%20tertarik%20dengan%20paket%20${encodeURIComponent(item.judul)}%20(${encodeURIComponent(item.badge || '')}).%20Bagaimana%20cara%20klaimnya%3F`}
                                       target="_blank"
                                       rel="noopener noreferrer"
-                                      className="w-full bg-[#128C7E] hover:bg-[#0b655b] text-white text-xs py-3 rounded-xl transition-all duration-300 flex items-center justify-center gap-2 font-bold"
+                                      className="bg-[#128C7E] hover:bg-[#0b655b] text-white font-bold text-[11px] py-2.5 rounded-xl text-center flex items-center justify-center gap-1 transition-all"
                                     >
-                                      <i className="fab fa-whatsapp text-sm"></i>
-                                      <span>Tanya Promo &amp; Harga</span>
+                                      <i className="fab fa-whatsapp"></i>
+                                      <span>Pesan via WA</span>
                                     </a>
                                   </div>
                                 </div>
@@ -303,6 +321,90 @@ const DiscountPage = () => {
           </a>
         </div>
       </section>
+
+      {/* ===== DETAIL MODAL ===== */}
+      {isModalOpen && selectedPromo && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 bg-black/60 backdrop-blur-sm animate-[fadeIn_0.2s_ease-out]">
+          <div className="bg-white rounded-3xl shadow-2xl w-full max-w-lg mx-auto overflow-hidden border border-[#DDEAF6] flex flex-col max-h-[90vh] animate-fade-in text-left">
+            {/* Modal Header */}
+            <div className="px-5 py-4 bg-[#062D5F] text-white flex items-center justify-between shrink-0">
+              <div>
+                <h3 className="font-extrabold text-base md:text-lg">Detail Paket Wisata</h3>
+                <p className="text-[11px] md:text-xs text-white/70">
+                  Informasi lengkap destinasi &amp; itinerary perjalanan
+                </p>
+              </div>
+              <button 
+                onClick={handleCloseDetail}
+                className="text-white/85 hover:text-white text-lg p-1 focus:outline-none transition-colors cursor-pointer"
+              >
+                <i className="fas fa-times"></i>
+              </button>
+            </div>
+
+            {/* Modal Body */}
+            <div className="overflow-y-auto flex-1">
+              {/* Cover Image */}
+              <div className="relative aspect-[16/9] bg-[#F3FAFF] w-full shrink-0">
+                <img
+                  src={selectedPromo.gambar}
+                  alt={selectedPromo.judul}
+                  className="w-full h-full object-cover"
+                  onError={e => {
+                    e.target.onerror = null;
+                    e.target.src = '/images/bus4/bus4.webp';
+                  }}
+                />
+                {selectedPromo.badge && (
+                  <div className="absolute top-4 left-4 bg-[#FFD23F] text-[#10233F] text-[10px] font-black px-3.5 py-1.5 rounded-full shadow-md uppercase tracking-wider">
+                    {selectedPromo.badge}
+                  </div>
+                )}
+              </div>
+
+              {/* Content Details */}
+              <div className="p-6 space-y-4">
+                <div className="flex items-center gap-2">
+                  <span className="bg-[#EAF6FF] text-[#0B5CA8] text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">
+                    {selectedPromo.kategori ? (selectedPromo.kategori.toLowerCase().startsWith('paket') ? selectedPromo.kategori : `Paket ${selectedPromo.kategori}`) : 'Paket Wisata'}
+                  </span>
+                </div>
+
+                <h4 className="font-black text-[#10233F] text-lg md:text-xl leading-snug">
+                  {selectedPromo.judul}
+                </h4>
+
+                <div className="border-t border-[#DDEAF6] pt-4">
+                  <p className="text-xs font-black uppercase tracking-wider text-[#64748B] mb-2">Deskripsi &amp; Fasilitas Paket</p>
+                  <p className="text-sm text-[#475569] leading-relaxed whitespace-pre-line">
+                    {selectedPromo.deskripsi}
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Modal Footer */}
+            <div className="px-5 py-4 bg-[#F9FBFF] border-t border-[#DDEAF6] flex items-center justify-end gap-2.5 shrink-0">
+              <button
+                type="button"
+                onClick={handleCloseDetail}
+                className="px-4 py-2.5 rounded-xl border border-[#DDEAF6] hover:bg-slate-100 text-[#64748B] font-bold text-xs transition-colors cursor-pointer"
+              >
+                Tutup
+              </button>
+              <a
+                href={`https://wa.me/${siteData.whatsapp.number}?text=Halo%20Mafina%20Trans%2C%20saya%20tertarik%20dengan%20paket%20wisata%20${encodeURIComponent(selectedPromo.judul)}%20(${encodeURIComponent(selectedPromo.badge || '')}).%20Boleh%20tanya%20detail%20selengkapnya%3F`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-[#25D366] hover:bg-[#20ba59] text-white text-xs font-black tracking-wider uppercase rounded-xl shadow-md transition-all duration-300 hover:scale-[1.02] cursor-pointer flex-1 text-center"
+              >
+                <i className="fab fa-whatsapp text-sm"></i>
+                Hubungi via WhatsApp
+              </a>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 };

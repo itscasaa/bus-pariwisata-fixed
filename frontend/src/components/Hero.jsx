@@ -13,7 +13,7 @@ const Hero = () => {
 
   // Fetch semua paket untuk isi dropdown
   useEffect(() => {
-    fetch(`${API_BASE}/paket_wisata.php`)
+    fetch(`${API_BASE}/discount.php`)
       .then(r => r.json())
       .then(data => {
         if (data.status === 'success') setPaketList(data.data || []);

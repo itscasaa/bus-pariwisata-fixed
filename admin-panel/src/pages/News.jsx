@@ -55,8 +55,7 @@ const NewsCard = ({ item, onEdit, onDelete, deleting }) => {
           </div>
         )}
         {/* Category badge */}
-        <div className="absolute top-3 left-3 px-3 py-1 rounded-full"
-          style={{ background: 'rgba(255,255,255,0.92)', backdropFilter: 'blur(8px)', fontSize: '12px', fontWeight: '500', color: '#3525cd' }}>
+        <div className="absolute top-3 left-3 px-3 py-1 rounded-full bg-white/95 backdrop-blur-sm border border-zinc-200/50 shadow-sm text-xs font-semibold text-blue-600">
           {item.kategori || 'Berita'}
         </div>
       </div>
@@ -86,10 +85,7 @@ const NewsCard = ({ item, onEdit, onDelete, deleting }) => {
         <div className="flex gap-2">
           <button
             onClick={() => onEdit(item.id)}
-            className="p-2.5 rounded-xl transition-all hover:scale-105"
-            style={{ background: 'rgba(53,37,205,0.08)', color: '#3525cd' }}
-            onMouseEnter={e => e.currentTarget.style.background = '#4f46e5' || (e.currentTarget.style.color = '#fff')}
-            onMouseLeave={e => { e.currentTarget.style.background = 'rgba(53,37,205,0.08)'; e.currentTarget.style.color = '#3525cd'; }}
+            className="p-2.5 rounded-xl transition-all hover:scale-105 bg-blue-50 text-blue-600 hover:bg-blue-100 border border-blue-100/50 shadow-sm"
             title="Edit"
           >
             <span className="material-symbols-outlined" style={{ fontSize: '20px' }}>edit</span>
@@ -97,10 +93,7 @@ const NewsCard = ({ item, onEdit, onDelete, deleting }) => {
           <button
             onClick={() => onDelete(item.id, item.judul)}
             disabled={deleting === item.id}
-            className="p-2.5 rounded-xl transition-all hover:scale-105 disabled:opacity-50"
-            style={{ background: 'rgba(186,26,26,0.08)', color: '#ba1a1a' }}
-            onMouseEnter={e => { e.currentTarget.style.background = '#ba1a1a'; e.currentTarget.style.color = '#fff'; }}
-            onMouseLeave={e => { e.currentTarget.style.background = 'rgba(186,26,26,0.08)'; e.currentTarget.style.color = '#ba1a1a'; }}
+            className="p-2.5 rounded-xl transition-all hover:scale-105 disabled:opacity-50 bg-red-50 text-red-655 hover:bg-red-100 border border-red-100/50 shadow-sm"
             title="Hapus"
           >
             {deleting === item.id
@@ -118,18 +111,9 @@ const NewsCard = ({ item, onEdit, onDelete, deleting }) => {
 const AddCard = ({ onClick }) => (
   <div
     onClick={onClick}
-    className="rounded-[24px] flex flex-col items-center justify-center text-center cursor-pointer group transition-all duration-300"
-    style={{
-      padding: '16px',
-      border: '2px dashed #c7c4d8',
-      minHeight: '280px',
-    }}
-    onMouseEnter={e => e.currentTarget.style.borderColor = 'rgba(53,37,205,0.5)'}
-    onMouseLeave={e => e.currentTarget.style.borderColor = '#c7c4d8'}
+    className="rounded-[24px] flex flex-col items-center justify-center text-center cursor-pointer group transition-all duration-300 bg-white border border-dashed border-zinc-300 hover:border-blue-400 p-4 min-h-[280px]"
   >
-    <div className="w-16 h-16 rounded-full flex items-center justify-center mb-4 transition-colors"
-      style={{ background: '#eae6f4' }}
-      onMouseEnter={e => e.currentTarget.style.background = 'rgba(53,37,205,0.1)'}
+    <div className="w-16 h-16 rounded-full flex items-center justify-center mb-4 transition-colors bg-zinc-50 border border-zinc-150 group-hover:bg-blue-50"
     >
       <span className="material-symbols-outlined text-outline group-hover:text-primary transition-colors"
         style={{ fontSize: '32px' }}>post_add</span>
@@ -160,8 +144,7 @@ const EmptyState = ({ onAdd }) => (
     </p>
     <button
       onClick={onAdd}
-      className="flex items-center gap-2 text-white font-semibold px-8 py-3 rounded-xl transition-all hover:scale-105 active:scale-95"
-      style={{ background: 'linear-gradient(135deg, #4f46e5 0%, #3525cd 100%)', boxShadow: '0 4px 15px rgba(79,70,229,0.3)', fontSize: '14px' }}
+      className="flex items-center gap-2 text-white font-semibold px-8 py-3 rounded-xl transition-all hover:scale-105 active:scale-95 bg-blue-600 hover:bg-blue-700 text-sm shadow-sm"
     >
       <span className="material-symbols-outlined" style={{ fontSize: '20px' }}>add</span>
       Buat Berita Pertama
@@ -285,14 +268,7 @@ export default function News() {
                 value={search}
                 onChange={e => { setSearch(e.target.value); setPage(1); }}
                 placeholder="Cari artikel..."
-                className="pl-10 pr-4 py-2.5 border-none rounded-xl focus:outline-none focus:ring-2"
-                style={{
-                  width: '240px',
-                  fontSize: '14px',
-                  background: '#fff',
-                  boxShadow: '0 2px 8px rgba(0,0,0,0.06)',
-                  '--tw-ring-color': 'rgba(53,37,205,0.2)',
-                }}
+                className="pl-10 pr-4 py-2.5 border border-zinc-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-blue-500 w-56 text-sm bg-white shadow-sm"
               />
               {search && (
                 <button onClick={() => setSearch('')}
@@ -314,12 +290,7 @@ export default function News() {
           <button
             onClick={() => navigate('/news/tambah')}
             className="flex items-center gap-2 text-white font-semibold px-6 py-3 rounded-xl
-                       transition-all hover:scale-[1.02] active:scale-95"
-            style={{
-              background: 'linear-gradient(135deg, #4f46e5 0%, #3525cd 100%)',
-              boxShadow: '0 4px 15px rgba(79,70,229,0.3)',
-              fontSize: '14px',
-            }}
+                       transition-all hover:scale-[1.02] active:scale-95 bg-blue-600 hover:bg-blue-700 shadow-sm text-sm"
           >
             <span className="material-symbols-outlined" style={{ fontSize: '20px' }}>add</span>
             Tambah Berita
@@ -386,8 +357,7 @@ export default function News() {
                     </td>
                     {/* Kategori */}
                     <td className="px-unit-lg py-4">
-                      <span className="px-3 py-1 rounded-full text-xs font-bold"
-                        style={{ background: '#e2dfff', color: '#3323cc' }}>
+                      <span className="px-3 py-1 rounded-full text-xs font-bold bg-blue-50 text-blue-600 border border-blue-100/50">
                         {item.kategori || 'Berita'}
                       </span>
                     </td>
@@ -412,13 +382,7 @@ export default function News() {
                       <div className="flex items-center justify-center gap-2">
                         <button
                           onClick={() => navigate(`/news/edit/${item.id}`)}
-                          className="w-10 h-10 inline-flex items-center justify-center rounded-[14px] transition-all hover:scale-105"
-                          style={{
-                            background: 'rgba(53,37,205,0.08)',
-                            color: '#3525cd',
-                          }}
-                          onMouseEnter={e => e.currentTarget.style.background = 'rgba(53,37,205,0.15)'}
-                          onMouseLeave={e => e.currentTarget.style.background = 'rgba(53,37,205,0.08)'}
+                          className="w-10 h-10 inline-flex items-center justify-center rounded-[14px] transition-all hover:scale-105 bg-blue-50 text-blue-600 hover:bg-blue-100 border border-blue-100/50 shadow-sm"
                           title="Edit"
                         >
                           <span className="material-symbols-outlined" style={{ fontSize: '20px' }}>
@@ -428,13 +392,7 @@ export default function News() {
                         <button
                           onClick={() => handleDelete(item.id, item.judul)}
                           disabled={deleting === item.id}
-                          className="w-10 h-10 inline-flex items-center justify-center rounded-[14px] transition-all hover:scale-105 disabled:opacity-50"
-                          style={{
-                            background: 'rgba(186,26,26,0.08)',
-                            color: '#ba1a1a',
-                          }}
-                          onMouseEnter={e => e.currentTarget.style.background = 'rgba(186,26,26,0.15)'}
-                          onMouseLeave={e => e.currentTarget.style.background = 'rgba(186,26,26,0.08)'}
+                          className="w-10 h-10 inline-flex items-center justify-center rounded-[14px] transition-all hover:scale-105 disabled:opacity-50 bg-red-50 text-red-650 hover:bg-red-100 border border-red-100/50 shadow-sm"
                           title="Hapus"
                         >
                           {deleting === item.id ? (
@@ -474,13 +432,12 @@ export default function News() {
                 <button
                   key={n}
                   onClick={() => setPage(n)}
-                  className="w-10 h-10 flex items-center justify-center rounded-xl font-semibold transition-all"
-                  style={{
-                    fontSize: '14px',
-                    background: page === n ? '#3525cd' : '#fff',
-                    color:      page === n ? '#fff'    : '#464555',
-                    boxShadow:  page === n ? '0 4px 12px rgba(53,37,205,0.3)' : '0 2px 8px rgba(0,0,0,0.06)',
-                  }}
+                  className={`w-10 h-10 flex items-center justify-center rounded-xl font-semibold transition-all border ${
+                    page === n 
+                      ? 'bg-blue-600 border-blue-600 text-white shadow-sm shadow-blue-500/10' 
+                      : 'bg-white border-zinc-200 text-zinc-700 hover:bg-zinc-50'
+                  }`}
+                  style={{ fontSize: '13px' }}
                 >
                   {n}
                 </button>
@@ -595,9 +552,8 @@ function NewsForm({ title, onSubmit, loading, error, onBack, initial }) {
           </div>
           <div className="flex gap-3 pt-2">
             <button type="submit" disabled={loading}
-              className="flex items-center gap-2 text-white font-semibold px-6 py-2.5 rounded-xl
-                         transition-all disabled:opacity-70"
-              style={{ background: 'linear-gradient(135deg, #4f46e5, #3525cd)', fontSize: '14px' }}>
+              className="flex items-center gap-2 text-white font-semibold px-6 py-2.5 rounded-xl transition-all disabled:opacity-70 bg-blue-600 hover:bg-blue-700 text-sm shadow-sm"
+            >
               {loading
                 ? <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
                 : <span className="material-symbols-outlined" style={{ fontSize: '18px' }}>send</span>
@@ -605,8 +561,8 @@ function NewsForm({ title, onSubmit, loading, error, onBack, initial }) {
               Publish
             </button>
             <button type="button" onClick={onBack}
-              className="px-6 py-2.5 rounded-xl font-semibold transition-colors"
-              style={{ background: '#f0ecf9', color: '#1b1b24', fontSize: '14px' }}>
+              className="px-6 py-2.5 rounded-xl font-semibold transition-colors bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm"
+            >
               Batal
             </button>
           </div>

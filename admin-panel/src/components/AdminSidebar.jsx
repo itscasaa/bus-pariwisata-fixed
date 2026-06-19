@@ -7,7 +7,7 @@ const AdminSidebar = () => {
   const menuItems = [
     { icon: 'dashboard', label: 'Dashboard', path: '/' },
     { icon: 'directions_bus', label: 'Kelola Armada', path: '/armada' },
-    { icon: 'percent', label: 'Kelola Discount', path: '/discount' },
+    { icon: 'map', label: 'Kelola Wisata', path: '/wisata' },
     { icon: 'payments', label: 'Kelola Price List', path: '/price-list' },
     { icon: 'newspaper', label: 'Kelola Berita', path: '/news' },
     { icon: 'language', label: 'Lihat Website', path: 'https://mafinatrans.duckdns.org', external: true },

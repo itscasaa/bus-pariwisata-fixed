@@ -25,7 +25,7 @@ try {
     // ── GET: list semua diskon ───────────────────────────────────────────────
     if ($method === 'GET') {
         $result = mysqli_query($conn,
-            "SELECT id, judul, badge, deskripsi, gambar, status, urutan FROM paket_wisata ORDER BY urutan ASC, id ASC"
+            "SELECT id, judul, badge, kategori, durasi, deskripsi, gambar, status, urutan FROM paket_wisata ORDER BY urutan ASC, id ASC"
         );
         $data = [];
         while ($row = mysqli_fetch_assoc($result)) {
@@ -33,6 +33,8 @@ try {
                 'id'        => (int)$row['id'],
                 'judul'     => $row['judul'],
                 'badge'     => $row['badge'],
+                'kategori'  => $row['kategori'] ?? '',
+                'durasi'    => $row['durasi'] ?? '',
                 'deskripsi' => $row['deskripsi'],
                 'gambar'    => $row['gambar'],
                 'status'    => $row['status'],
@@ -77,9 +79,8 @@ try {
                 $urutan = ((int)mysqli_fetch_assoc($r)['m']) + 1;
             }
 
-            // Gunakan default untuk kategori, durasi, harga
-            $kategori = '';
-            $durasi   = '';
+            $kategori = trim($_POST['kategori'] ?? $body['kategori'] ?? '');
+            $durasi   = trim($_POST['durasi']   ?? $body['durasi']   ?? '');
             $harga    = 0;
 
             $stmt = mysqli_prepare($conn,
@@ -120,9 +121,8 @@ try {
                 }
             }
 
-            // Gunakan default untuk kategori, durasi, harga
-            $kategori = '';
-            $durasi   = '';
+            $kategori = trim($_POST['kategori'] ?? $body['kategori'] ?? '');
+            $durasi   = trim($_POST['durasi']   ?? $body['durasi']   ?? '');
             $harga    = 0;
 
             $stmt = mysqli_prepare($conn,

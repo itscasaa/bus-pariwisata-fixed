@@ -7,10 +7,10 @@ const ITEMS_PER_PAGE = 5;
 
 // ─── Badge config per tipe ────────────────────────────────────────────────────
 const TIPE_CONFIG = {
-  big_bus:    { label: 'Executive', bg: '#c3c0ff', color: '#3323cc' },
-  medium_bus: { label: 'VIP Class', bg: '#e3dfff', color: '#100069' },
-  elf:        { label: 'Standard',  bg: '#eae6f4', color: '#464555' },
-  hiace:      { label: 'Microbus',  bg: '#ffdbcc', color: '#7b2f00' },
+  big_bus:    { label: 'Big Bus',    bg: '#e0e7ff', color: '#4338ca' },
+  medium_bus: { label: 'Medium Bus', bg: '#dbeafe', color: '#1d4ed8' },
+  elf:        { label: 'Elf',        bg: '#f1f5f9', color: '#475569' },
+  hiace:      { label: 'HiAce',      bg: '#fef3c7', color: '#d97706' },
 };
 
 // ─── Status badge ─────────────────────────────────────────────────────────────
@@ -25,6 +25,182 @@ const formatRp = n => n ? 'Rp ' + new Intl.NumberFormat('id-ID').format(n) : '-'
 
 const getTipeConfig  = t => TIPE_CONFIG[t]   || TIPE_CONFIG.elf;
 const getStatusConfig = s => STATUS_CONFIG[s] || STATUS_CONFIG.available;
+
+// ─── Category Slider Component ────────────────────────────────────────────────
+const CategorySlider = ({
+  catKey,
+  busesInCat,
+  catConfig,
+  navigate,
+  deleting,
+  handleHapus,
+  getStatusConfig,
+  API_BASE,
+  formatRp
+}) => {
+  const containerRef = React.useRef(null);
+
+  const scrollLeft = () => {
+    if (containerRef.current) {
+      containerRef.current.scrollBy({ left: -320, behavior: 'smooth' });
+    }
+  };
+
+  const scrollRight = () => {
+    if (containerRef.current) {
+      containerRef.current.scrollBy({ left: 320, behavior: 'smooth' });
+    }
+  };
+
+  return (
+    <div className="space-y-4">
+      {/* Category Title Header */}
+      <div className="flex items-center justify-between pb-2 border-b border-zinc-100">
+        <div className="flex items-center gap-2.5">
+          <span className="w-2.5 h-6 bg-blue-600 rounded-full"></span>
+          <h3 className="text-base font-extrabold text-zinc-855">
+            {catConfig.label}
+          </h3>
+          <span className="bg-blue-50 text-blue-600 text-[10px] font-bold px-2.5 py-0.5 rounded-full border border-blue-100/50">
+            {busesInCat.length} Unit
+          </span>
+        </div>
+
+        {/* Navigation Buttons (only if multiple items) */}
+        {busesInCat.length > 1 && (
+          <div className="flex items-center gap-2">
+            <button
+              onClick={scrollLeft}
+              className="w-8 h-8 rounded-full border border-zinc-200 bg-white flex items-center justify-center text-zinc-500 hover:text-zinc-900 hover:bg-zinc-50 transition-all cursor-pointer shadow-sm active:scale-95"
+              title="Slide Kiri"
+            >
+              <span className="material-symbols-outlined text-sm font-bold">chevron_left</span>
+            </button>
+            <button
+              onClick={scrollRight}
+              className="w-8 h-8 rounded-full border border-zinc-200 bg-white flex items-center justify-center text-zinc-500 hover:text-zinc-900 hover:bg-zinc-50 transition-all cursor-pointer shadow-sm active:scale-95"
+              title="Slide Kanan"
+            >
+              <span className="material-symbols-outlined text-sm font-bold">chevron_right</span>
+            </button>
+          </div>
+        )}
+      </div>
+
+      {/* Horizontal Scroll Slide Track */}
+      <div
+        ref={containerRef}
+        className="flex flex-nowrap gap-6 overflow-x-auto pb-4 pt-1 snap-x scrollbar-thin scroll-smooth"
+      >
+        {busesInCat.map(bus => {
+          const status = getStatusConfig('available');
+
+          return (
+            <div
+              key={bus.id}
+              className="w-80 shrink-0 bg-white border border-zinc-200/70 rounded-[20px] overflow-hidden snap-start flex flex-col shadow-sm hover:shadow-md transition-all duration-350"
+            >
+              {/* Image Cover Container */}
+              <div className="aspect-[16/10] overflow-hidden bg-zinc-50 relative border-b border-zinc-100">
+                <img
+                  src={
+                    (bus.gambar_utama || bus.gambar)
+                      ? ((bus.gambar_utama || bus.gambar).startsWith('http')
+                        ? (bus.gambar_utama || bus.gambar)
+                        : `${API_BASE}${bus.gambar_utama || bus.gambar}`)
+                      : ''
+                  }
+                  alt={bus.nama_bus}
+                  className="w-full h-full object-cover"
+                  onError={e => {
+                    e.target.onerror = null;
+                    e.target.src = 'https://placehold.co/320x200/f1f5f9/94a3b8?text=Bus';
+                  }}
+                />
+                {/* Badges on Cover Image */}
+                <div className="absolute top-3 left-3">
+                  <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-white/95 text-blue-600 shadow-sm border border-zinc-100/50">
+                    {bus.kapasitas} Seats
+                  </span>
+                </div>
+                <div className="absolute top-3 right-3">
+                  <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-600 border border-emerald-100/50 shadow-sm">
+                    Available
+                  </span>
+                </div>
+              </div>
+
+              {/* Info Body */}
+              <div className="p-5 flex-1 flex flex-col justify-between">
+                <div>
+                  <h4 className="font-extrabold text-zinc-800 text-base leading-snug truncate" title={bus.nama_bus}>
+                    {bus.nama_bus}
+                  </h4>
+                  <p className="text-zinc-400 text-[11px] mt-1 font-semibold">
+                    {catConfig.label}
+                  </p>
+
+                  {/* Rental Price */}
+                  <div className="mt-4 flex items-baseline gap-1.5">
+                    <span className="text-base font-black text-blue-600">{formatRp(bus.harga_sewa)}</span>
+                    <span className="text-[10px] text-zinc-400 font-bold">/ hari</span>
+                  </div>
+
+                  {/* Discount Badge */}
+                  {bus.diskon ? (
+                    <div className="mt-2">
+                      <span className="px-2.5 py-1 bg-red-50 text-red-600 rounded-lg text-[10px] font-bold border border-red-100/60">
+                        {bus.diskon}
+                      </span>
+                    </div>
+                  ) : (
+                    <div className="mt-2 h-5"></div>
+                  )}
+                </div>
+
+                {/* Card Control Buttons */}
+                <div className="mt-6 pt-4 border-t border-zinc-100 flex items-center justify-between gap-2">
+                  {/* Manage Photos Button */}
+                  <button
+                    onClick={() => navigate(`/armada/${bus.id}/images`)}
+                    className="flex-1 py-2 px-3 rounded-xl bg-blue-50 text-blue-600 hover:bg-blue-100/80 border border-blue-100/40 text-xs font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-sm"
+                    title="Kelola foto eksterior, interior, kursi, dan fasilitas bus"
+                  >
+                    <span className="material-symbols-outlined text-sm">photo_library</span>
+                    <span>Foto ({bus.images ? bus.images.length : 0})</span>
+                  </button>
+
+                  {/* Edit & Delete Action Buttons */}
+                  <div className="flex gap-1.5">
+                    <button
+                      onClick={() => navigate(`/armada/edit/${bus.id}`)}
+                      className="w-9 h-9 rounded-xl bg-slate-50 border border-slate-200 text-slate-600 hover:bg-slate-100 hover:text-zinc-955 transition-all flex items-center justify-center cursor-pointer shadow-sm"
+                      title="Edit"
+                    >
+                      <span className="material-symbols-outlined text-[18px]">edit</span>
+                    </button>
+                    <button
+                      onClick={() => handleHapus(bus.id, bus.nama_bus)}
+                      disabled={deleting === bus.id}
+                      className="w-9 h-9 rounded-xl bg-red-50 border border-red-100 text-red-650 hover:bg-red-100 transition-all flex items-center justify-center cursor-pointer disabled:opacity-50 shadow-sm"
+                      title="Hapus"
+                    >
+                      {deleting === bus.id ? (
+                        <span className="w-4 h-4 border-2 border-red-600 border-t-transparent rounded-full animate-spin inline-block" />
+                      ) : (
+                        <span className="material-symbols-outlined text-[18px]">delete</span>
+                      )}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+};
 
 // ─── Main Component ───────────────────────────────────────────────────────────
 export default function Armada() {
@@ -97,14 +273,77 @@ export default function Armada() {
     }
   };
 
+  const categoriesList = [
+    { value: '', label: 'Semua Tipe' },
+    { value: 'big_bus', label: 'Big Bus' },
+    { value: 'medium_bus', label: 'Medium Bus' },
+    { value: 'elf', label: 'Elf' },
+    { value: 'hiace', label: 'HiAce' }
+  ];
+
+  const getCategoryCount = (value) => {
+    let list = buses;
+    if (search) {
+      list = list.filter(b => b.nama_bus.toLowerCase().includes(search.toLowerCase()));
+    }
+    if (value) {
+      list = list.filter(b => b.tipe === value);
+    }
+    return list.length;
+  };
+
+  if (loading) {
+    return (
+      <main className="flex-1">
+        <PageHeader title="Kelola Armada" subtitle="Kelola data bus dan ketersediaan armada Anda" />
+        <div className="px-4 lg:px-8 pb-24 lg:pb-12">
+          <div className="bg-white border border-zinc-200/60 rounded-[24px] p-6 animate-pulse space-y-8">
+            <div className="flex justify-between items-center">
+              <div className="h-10 bg-slate-100 rounded-full w-2/3"></div>
+              <div className="h-10 bg-slate-100 rounded-xl w-32"></div>
+            </div>
+            <div className="space-y-4">
+              <div className="h-6 bg-slate-100 rounded w-1/4"></div>
+              <div className="flex gap-6 overflow-hidden">
+                {[1, 2, 3].map(i => (
+                  <div key={i} className="w-80 h-96 bg-slate-100 rounded-[20px] shrink-0"></div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    );
+  }
+
+  // Group filtered buses by category
+  const categorizedBuses = {};
+  filtered.forEach(bus => {
+    const cat = bus.tipe || 'other';
+    if (!categorizedBuses[cat]) categorizedBuses[cat] = [];
+    categorizedBuses[cat].push(bus);
+  });
+
+  const categoryOrder = ['big_bus', 'medium_bus', 'elf', 'hiace'];
+  const sortedCategories = Object.keys(categorizedBuses)
+    .filter(cat => !filterTipe || cat === filterTipe)
+    .sort((a, b) => {
+      const idxA = categoryOrder.indexOf(a);
+      const idxB = categoryOrder.indexOf(b);
+      if (idxA === -1 && idxB === -1) return a.localeCompare(b);
+      if (idxA === -1) return 1;
+      if (idxB === -1) return -1;
+      return idxA - idxB;
+    });
+
   return (
     <main className="flex-1">
       <PageHeader title="Kelola Armada" subtitle="Kelola data bus dan ketersediaan armada Anda" />
 
-      <div className="px-4 lg:px-unit-xl pb-24 lg:pb-unit-xl">
+      <div className="px-4 lg:px-8 pb-24 lg:pb-12">
         <div
-          className="bg-surface-container-lowest rounded-[24px] p-unit-lg"
-          style={{ boxShadow: '0px 10px 30px rgba(0,0,0,0.03)' }}
+          className="bg-white border border-zinc-200/60 rounded-[24px] p-6"
+          style={{ boxShadow: '0px 10px 30px rgba(0,0,0,0.01)' }}
         >
           {error && (
             <div className="bg-[#ffdad6] text-[#ba1a1a] text-sm px-4 py-3 rounded-xl flex items-center gap-2 mb-5">
@@ -112,372 +351,112 @@ export default function Armada() {
             </div>
           )}
 
-
           {/* ── Toolbar ── */}
-          <div className="flex flex-col md:flex-row md:items-center justify-between mb-unit-lg gap-4">
+          <div className="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4 pb-6 border-b border-zinc-100">
             {/* Filters */}
-            <div className="flex items-center gap-3 flex-wrap">
-              {/* Filter Tipe */}
-              <div className="relative">
-                <select
-                  value={filterTipe}
-                  onChange={e => setFilterTipe(e.target.value)}
-                  className="appearance-none bg-surface-container-low border border-outline-variant
-                             px-4 py-2.5 pr-10 rounded-xl text-body-md font-medium text-on-surface-variant
-                             focus:outline-none focus:ring-2"
-                  style={{ '--tw-ring-color': 'rgba(53,37,205,0.2)' }}
-                >
-                  <option value="">Semua Tipe Bus</option>
-                  <option value="big_bus">Executive Class</option>
-                  <option value="medium_bus">VIP Class</option>
-                  <option value="elf">Standard Class</option>
-                  <option value="hiace">Microbus</option>
-                </select>
-                <span className="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2
-                                 pointer-events-none text-outline" style={{ fontSize: '20px' }}>
-                  expand_more
-                </span>
+            <div className="flex flex-col sm:flex-row sm:items-center gap-4 flex-1">
+              {/* Category Pills (Task 11) */}
+              <div className="flex flex-wrap gap-2 shrink-0">
+                {categoriesList.map(cat => {
+                  const count = getCategoryCount(cat.value);
+                  const isActive = filterTipe === cat.value;
+                  return (
+                    <button
+                      key={cat.value}
+                      onClick={() => setFilterTipe(cat.value)}
+                      className={`px-4 py-2 rounded-full text-xs font-bold transition-all border cursor-pointer ${
+                        isActive
+                          ? 'bg-blue-600 border-blue-600 text-white shadow-sm'
+                          : 'bg-zinc-50 border-zinc-200 text-zinc-650 hover:bg-zinc-100 hover:text-zinc-800'
+                      }`}
+                    >
+                      {cat.label} ({count})
+                    </button>
+                  );
+                })}
               </div>
 
               {/* Search */}
               <div
-                className="flex items-center gap-2 bg-surface-container px-4 py-2.5 rounded-xl
-                           border border-transparent transition-all"
-                style={{ minWidth: '220px' }}
+                className="flex items-center gap-2 bg-zinc-50 border border-zinc-200 px-4 py-2 rounded-xl
+                           transition-all max-w-xs w-full"
               >
-                <span className="material-symbols-outlined text-outline" style={{ fontSize: '20px' }}>
+                <span className="material-symbols-outlined text-zinc-400" style={{ fontSize: '20px' }}>
                   search
                 </span>
                 <input
                   type="text"
                   value={search}
                   onChange={e => setSearch(e.target.value)}
-                  placeholder="Cari armada..."
-                  className="bg-transparent border-none focus:ring-0 focus:outline-none text-body-md
-                             text-on-surface w-full"
-                  style={{ fontSize: '14px' }}
+                  placeholder="Cari nama bus..."
+                  className="bg-transparent border-none focus:ring-0 focus:outline-none text-xs text-zinc-700 w-full placeholder-zinc-400 font-medium"
                 />
                 {search && (
-                  <button onClick={() => setSearch('')} className="text-outline hover:text-primary">
+                  <button onClick={() => setSearch('')} className="text-zinc-400 hover:text-blue-600">
                     <span className="material-symbols-outlined" style={{ fontSize: '18px' }}>close</span>
                   </button>
                 )}
               </div>
-
-              {/* Result count */}
-              {!loading && (
-                <span className="text-outline" style={{ fontSize: '13px' }}>
-                  {filtered.length} armada
-                </span>
-              )}
             </div>
 
             {/* Tambah Button */}
             <button
               onClick={() => navigate('/armada/tambah')}
-              className="flex items-center gap-2 text-white font-semibold px-6 py-3 rounded-xl
-                         transition-all hover:scale-[1.02] active:scale-95 shrink-0"
-              style={{
-                background: 'linear-gradient(135deg, #4f46e5 0%, #4338ca 100%)',
-                boxShadow: '0 4px 15px rgba(79,70,229,0.3)',
-                fontSize: '14px',
-              }}
+              className="flex items-center gap-2 text-white font-bold px-6 py-2.5 rounded-xl
+                         transition-all hover:scale-[1.02] active:scale-95 shrink-0 bg-blue-600 hover:bg-blue-700 shadow-sm text-xs cursor-pointer border-none"
             >
-              <span className="material-symbols-outlined" style={{ fontSize: '20px' }}>add</span>
+              <span className="material-symbols-outlined text-[18px]">add</span>
               Tambah Armada
             </button>
           </div>
 
-          {/* ── Table ── */}
-          <div className="overflow-x-auto">
-            <table className="w-full text-left min-w-[1000px]">
-              <thead>
-                <tr className="border-b border-surface-container-high">
-                  {['Armada', 'Tipe', 'Kapasitas', 'Harga (Sewa/Hari)', 'Diskon', 'Status', 'Aksi'].map(h => (
-                    <th key={h}
-                      className="pb-4 text-outline uppercase tracking-wider"
-                      style={{ fontSize: '12px', fontWeight: '500', letterSpacing: '0.05em' }}
+          {/* ── Grouped Slide Content ── */}
+          <div className="space-y-12">
+            {/* Empty state */}
+            {filtered.length === 0 && (
+              <div className="py-16 text-center">
+                <div className="flex flex-col items-center gap-3">
+                  <div className="w-20 h-20 bg-zinc-50 border border-zinc-200 rounded-full flex items-center justify-center">
+                    <span className="material-symbols-outlined text-zinc-400"
+                      style={{ fontSize: '40px' }}>directions_bus</span>
+                  </div>
+                  <p className="font-semibold text-zinc-700" style={{ fontSize: '15px' }}>
+                    {search || filterTipe ? 'Tidak ada hasil pencarian' : 'Belum ada armada bus'}
+                  </p>
+                  {(search || filterTipe) && (
+                    <button
+                      onClick={() => { setSearch(''); setFilterTipe(''); }}
+                      className="text-blue-600 underline font-semibold text-xs cursor-pointer"
                     >
-                      {h}
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-
-              <tbody className="divide-y divide-surface-container">
-                {/* Loading skeleton */}
-                {loading && [1,2,3,4].map(i => (
-                  <tr key={i}>
-                    <td className="py-4" colSpan={6}>
-                      <div className="h-14 bg-surface-container rounded-2xl animate-pulse" />
-                    </td>
-                  </tr>
-                ))}
-
-                {/* Empty state */}
-                {!loading && paginated.length === 0 && (
-                  <tr>
-                    <td colSpan={6} className="py-16 text-center">
-                      <div className="flex flex-col items-center gap-3">
-                        <div className="w-20 h-20 bg-surface-container-low rounded-full flex items-center justify-center">
-                          <span className="material-symbols-outlined text-outline-variant"
-                            style={{ fontSize: '40px' }}>directions_bus</span>
-                        </div>
-                        <p className="font-semibold text-on-surface" style={{ fontSize: '15px' }}>
-                          {search || filterTipe ? 'Tidak ada hasil' : 'Belum ada armada'}
-                        </p>
-                        {(search || filterTipe) && (
-                          <button
-                            onClick={() => { setSearch(''); setFilterTipe(''); }}
-                            className="text-primary underline"
-                            style={{ fontSize: '13px' }}
-                          >
-                            Reset filter
-                          </button>
-                        )}
-                      </div>
-                    </td>
-                  </tr>
-                )}
-
-                {/* Data rows */}
-                {!loading && paginated.map(bus => {
-                  const tipe   = getTipeConfig(bus.tipe);
-                  const status = getStatusConfig('available'); // default available
-
-                  return (
-                    <tr
-                      key={bus.id}
-                      className="hover:bg-surface-container-low transition-colors group"
-                    >
-                      {/* Armada */}
-                      <td className="py-4 pr-4">
-                        <div className="flex items-center gap-4">
-                          {/* Gambar landscape */}
-                          <div
-                            className="shrink-0 rounded-2xl overflow-hidden bg-surface-dim w-24 h-16 min-w-[96px]"
-                          >
-                            <img
-                              src={
-                                (bus.gambar_utama || bus.gambar)
-                                  ? ((bus.gambar_utama || bus.gambar).startsWith('http')
-                                    ? (bus.gambar_utama || bus.gambar)
-                                    : `${API_BASE}${bus.gambar_utama || bus.gambar}`)
-                                  : ''
-                              }
-                              alt={bus.nama_bus}
-                              style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
-                              onError={e => {
-                                e.target.onerror = null;
-                                e.target.src = 'https://placehold.co/96x64/e4e1ee/777587?text=Bus';
-                              }}
-                            />
-                          </div>
-                          <div>
-                            <p className="font-bold text-on-surface flex items-center gap-2" style={{ fontSize: '15px' }}>
-                              {bus.nama_bus}
-                              {bus.images && bus.images.length > 0 && (
-                                <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded font-semibold text-[10px]" style={{ backgroundColor: 'rgba(53,37,205,0.08)', color: '#3525cd' }}>
-                                  <span className="material-symbols-outlined" style={{ fontSize: '10.5px', verticalAlign: 'middle' }}>image</span>
-                                  {bus.images.length}
-                                </span>
-                              )}
-                            </p>
-                            <p className="text-outline mt-0.5" style={{ fontSize: '12px' }}>
-                              {bus.tipe?.replace('_', ' ').toUpperCase()}
-                            </p>
-                          </div>
-                        </div>
-                      </td>
-
-                      {/* Tipe */}
-                      <td className="py-4 pr-4">
-                        <span
-                          className="px-3 py-1 rounded-full text-xs font-semibold"
-                          style={{ background: tipe.bg, color: tipe.color }}
-                        >
-                          {tipe.label}
-                        </span>
-                      </td>
-
-                      {/* Kapasitas */}
-                      <td className="py-4 pr-4">
-                        <div className="flex items-center gap-1 text-on-surface-variant"
-                          style={{ fontSize: '14px' }}>
-                          <span className="material-symbols-outlined" style={{ fontSize: '18px' }}>
-                            airline_seat_recline_normal
-                          </span>
-                          {bus.kapasitas} Seats
-                        </div>
-                      </td>
-
-                      {/* Harga */}
-                      <td className="py-4 pr-4 font-semibold text-on-surface" style={{ fontSize: '14px' }}>
-                        {formatRp(bus.harga_sewa)}
-                      </td>
-
-                      {/* Diskon */}
-                      <td className="py-4 pr-4">
-                        {bus.diskon ? (
-                          <span className="px-2.5 py-1 bg-[#ba1a1a]/10 text-[#ba1a1a] rounded-lg text-xs font-bold">
-                            {bus.diskon}
-                          </span>
-                        ) : (
-                          <span className="text-outline text-xs">-</span>
-                        )}
-                      </td>
-
-                      {/* Status */}
-                      <td className="py-4 pr-4">
-                        <span
-                          className="px-3 py-1 rounded-full text-xs font-semibold"
-                          style={{ background: status.bg, color: status.color }}
-                        >
-                          {status.label}
-                        </span>
-                      </td>
-
-                      {/* Aksi */}
-                      <td className="py-4 whitespace-nowrap text-right w-[240px]">
-                        <div className="flex items-center justify-end gap-2">
-                          <button
-                            onClick={() => navigate(`/armada/${bus.id}/images`)}
-                            className="inline-flex items-center gap-2 px-3 py-1.5 rounded-[14px] transition-all hover:scale-105 text-left border border-primary/10"
-                            style={{
-                              background: 'rgba(53,37,205,0.06)',
-                              color: '#3525cd',
-                            }}
-                            onMouseEnter={e => e.currentTarget.style.background = 'rgba(53,37,205,0.12)'}
-                            onMouseLeave={e => e.currentTarget.style.background = 'rgba(53,37,205,0.06)'}
-                            title="Kelola foto eksterior, interior, kursi, dan fasilitas bus"
-                          >
-                            <span className="material-symbols-outlined text-primary" style={{ fontSize: '18px' }}>
-                              photo_library
-                            </span>
-                            <div className="flex flex-col text-left leading-tight">
-                              <span className="font-bold text-[11.5px] whitespace-nowrap">Kelola Foto Bus</span>
-                              <span className="text-[9.5px] text-outline opacity-80 whitespace-nowrap">
-                                {bus.images && bus.images.length > 0 ? `${bus.images.length} Foto` : '0 Foto'}
-                              </span>
-                            </div>
-                          </button>
-                          <button
-                            onClick={() => navigate(`/armada/edit/${bus.id}`)}
-                            className="w-10 h-10 inline-flex items-center justify-center rounded-[14px] transition-all hover:scale-105"
-                            style={{
-                              background: 'rgba(53,37,205,0.08)',
-                              color: '#3525cd',
-                            }}
-                            onMouseEnter={e => e.currentTarget.style.background = 'rgba(53,37,205,0.15)'}
-                            onMouseLeave={e => e.currentTarget.style.background = 'rgba(53,37,205,0.08)'}
-                            title="Edit"
-                          >
-                            <span className="material-symbols-outlined" style={{ fontSize: '20px' }}>
-                              edit
-                            </span>
-                          </button>
-                          <button
-                            onClick={() => handleHapus(bus.id, bus.nama_bus)}
-                            disabled={deleting === bus.id}
-                            className="w-10 h-10 inline-flex items-center justify-center rounded-[14px] transition-all hover:scale-105 disabled:opacity-50"
-                            style={{
-                              background: 'rgba(186,26,26,0.08)',
-                              color: '#ba1a1a',
-                            }}
-                            onMouseEnter={e => e.currentTarget.style.background = 'rgba(186,26,26,0.15)'}
-                            onMouseLeave={e => e.currentTarget.style.background = 'rgba(186,26,26,0.08)'}
-                            title="Hapus"
-                          >
-                            {deleting === bus.id ? (
-                              <span className="w-5 h-5 border-2 border-error border-t-transparent
-                                               rounded-full animate-spin inline-block" />
-                            ) : (
-                              <span className="material-symbols-outlined" style={{ fontSize: '20px' }}>
-                                delete
-                              </span>
-                            )}
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
-
-          {/* ── Pagination ── */}
-          {!loading && totalPages > 1 && (
-            <div className="mt-unit-lg flex items-center justify-between border-t border-surface-container pt-unit-md">
-              <p className="text-outline" style={{ fontSize: '12px', fontWeight: '500' }}>
-                Menampilkan {(page - 1) * ITEMS_PER_PAGE + 1}–
-                {Math.min(page * ITEMS_PER_PAGE, filtered.length)} dari {filtered.length} armada
-              </p>
-
-              <div className="flex gap-2">
-                {/* Prev */}
-                <button
-                  onClick={() => setPage(p => Math.max(1, p - 1))}
-                  disabled={page === 1}
-                  className="p-2 rounded-lg border border-outline-variant hover:bg-surface-container-low
-                             transition-colors disabled:opacity-40"
-                >
-                  <span className="material-symbols-outlined text-on-surface-variant"
-                    style={{ fontSize: '20px' }}>chevron_left</span>
-                </button>
-
-                {/* Page numbers */}
-                {Array.from({ length: totalPages }, (_, i) => i + 1)
-                  .filter(n => n === 1 || n === totalPages || Math.abs(n - page) <= 1)
-                  .reduce((acc, n, idx, arr) => {
-                    if (idx > 0 && n - arr[idx - 1] > 1) acc.push('...');
-                    acc.push(n);
-                    return acc;
-                  }, [])
-                  .map((n, i) =>
-                    n === '...' ? (
-                      <span key={`dot-${i}`} className="px-3 py-2 text-outline"
-                        style={{ fontSize: '13px' }}>…</span>
-                    ) : (
-                      <button
-                        key={n}
-                        onClick={() => setPage(n)}
-                        className="px-4 py-2 rounded-lg font-semibold transition-colors"
-                        style={{
-                          fontSize: '12px',
-                          background: page === n ? '#4f46e5' : 'transparent',
-                          color:      page === n ? '#ffffff' : '#464555',
-                          border:     page === n ? 'none' : '1px solid #c7c4d8',
-                        }}
-                      >
-                        {n}
-                      </button>
-                    )
-                  )
-                }
-
-                {/* Next */}
-                <button
-                  onClick={() => setPage(p => Math.min(totalPages, p + 1))}
-                  disabled={page === totalPages}
-                  className="p-2 rounded-lg border border-outline-variant hover:bg-surface-container-low
-                             transition-colors disabled:opacity-40"
-                >
-                  <span className="material-symbols-outlined text-on-surface-variant"
-                    style={{ fontSize: '20px' }}>chevron_right</span>
-                </button>
+                      Reset filter
+                    </button>
+                  )}
+                </div>
               </div>
-            </div>
-          )}
+            )}
 
-          {/* Single page info */}
-          {!loading && totalPages <= 1 && filtered.length > 0 && (
-            <div className="mt-unit-lg border-t border-surface-container pt-unit-md">
-              <p className="text-outline" style={{ fontSize: '12px', fontWeight: '500' }}>
-                Menampilkan {filtered.length} armada
-              </p>
-            </div>
-          )}
+            {/* Render Category Snap-Sliders */}
+            {filtered.length > 0 && sortedCategories.map(catKey => {
+              const busesInCat = categorizedBuses[catKey] || [];
+              if (busesInCat.length === 0) return null;
+              const catConfig = getTipeConfig(catKey);
+
+              return (
+                <CategorySlider
+                  key={catKey}
+                  catKey={catKey}
+                  busesInCat={busesInCat}
+                  catConfig={catConfig}
+                  navigate={navigate}
+                  deleting={deleting}
+                  handleHapus={handleHapus}
+                  getStatusConfig={getStatusConfig}
+                  API_BASE={API_BASE}
+                  formatRp={formatRp}
+                />
+              );
+            })}
+          </div>
 
         </div>
       </div>

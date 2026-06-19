@@ -301,7 +301,7 @@ export default function ArmadaGallery() {
 
         {/* 3-Step Guide (Task 8) */}
         <div className="bg-gradient-to-r from-primary/5 to-primary/10 border border-primary/20 rounded-[20px] p-5 mb-6">
-          <h4 className="font-bold text-[#3525cd] text-sm mb-3 flex items-center gap-1.5">
+          <h4 className="font-bold text-blue-600 text-sm mb-3 flex items-center gap-1.5">
             <span className="material-symbols-outlined text-[18px]">info</span>
             Panduan Cepat Mengelola Galeri Foto
           </h4>
@@ -347,7 +347,7 @@ export default function ArmadaGallery() {
                 <div>
                   <span className="text-[11px] text-outline font-bold uppercase tracking-wider">Tipe / Kelas Kelas</span>
                   <div className="mt-1">
-                    <span className="px-3 py-1 rounded-full text-xs font-bold" style={{ backgroundColor: 'rgba(53,37,205,0.08)', color: '#3525cd' }}>
+                    <span className="px-3 py-1 rounded-full text-xs font-bold bg-blue-50 text-blue-600 border border-blue-100/50">
                       {getTipeLabel(bus.tipe)}
                     </span>
                   </div>
@@ -466,11 +466,7 @@ export default function ArmadaGallery() {
               <button
                 type="submit"
                 disabled={uploading || selectedFiles.length === 0}
-                className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-primary text-white rounded-xl font-bold text-body-md hover:opacity-90 transition-all disabled:opacity-50"
-                style={{
-                  background: 'linear-gradient(135deg, #4f46e5 0%, #4338ca 100%)',
-                  boxShadow: '0 4px 15px rgba(79,70,229,0.2)',
-                }}
+                className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-bold text-body-md transition-all disabled:opacity-50 shadow-sm"
               >
                 {uploading ? (
                   <span className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></span>

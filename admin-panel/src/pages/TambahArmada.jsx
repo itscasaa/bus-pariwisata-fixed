@@ -132,8 +132,7 @@ export function TambahArmada() {
               <button
                 type="button"
                 onClick={() => navigate(`/armada/${successBusId}/images`)}
-                className="flex-1 py-3 px-4 bg-primary text-white rounded-xl font-bold hover:opacity-90 flex items-center justify-center gap-2 transition-all shadow-md shadow-primary/20"
-                style={{ background: 'linear-gradient(135deg, #4f46e5 0%, #4338ca 100%)' }}
+                className="flex-1 py-3 px-4 text-white rounded-xl font-bold hover:opacity-95 flex items-center justify-center gap-2 transition-all bg-blue-600 hover:bg-blue-700 shadow-sm"
               >
                 <span className="material-symbols-outlined">photo_library</span>
                 Kelola Galeri Foto
@@ -171,7 +170,7 @@ export function TambahArmada() {
 
         {/* Step Guide (Task 2) */}
         <div className="bg-gradient-to-r from-primary/5 to-primary/10 border border-primary/20 rounded-[20px] p-5 mb-6">
-          <h4 className="font-bold text-[#3525cd] text-sm mb-3 flex items-center gap-1.5">
+          <h4 className="font-bold text-blue-600 text-sm mb-3 flex items-center gap-1.5">
             <span className="material-symbols-outlined text-[18px]">info</span>
             Alur Pembuatan Data Armada Bus
           </h4>
@@ -373,11 +372,7 @@ export function TambahArmada() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-primary text-white rounded-xl font-bold text-body-md hover:opacity-90 transition-all disabled:opacity-50"
-                style={{
-                  background: 'linear-gradient(135deg, #4f46e5 0%, #4338ca 100%)',
-                  boxShadow: '0 4px 15px rgba(79,70,229,0.2)',
-                }}
+                className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-bold text-body-md transition-all disabled:opacity-50 shadow-sm"
               >
                 {loading ? (
                   <span className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
@@ -754,11 +749,7 @@ export function EditArmada() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-primary text-white rounded-xl font-bold text-body-md hover:opacity-90 transition-all disabled:opacity-50"
-                style={{
-                  background: 'linear-gradient(135deg, #4f46e5 0%, #4338ca 100%)',
-                  boxShadow: '0 4px 15px rgba(79,70,229,0.2)',
-                }}
+                className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-bold text-body-md transition-all disabled:opacity-50 shadow-sm"
               >
                 {loading ? (
                   <span className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></span>

@@ -7,7 +7,7 @@ import Armada from './pages/Armada';
 import { TambahArmada, EditArmada } from './pages/TambahArmada';
 import PriceList from './pages/PriceList';
 import { TambahHarga, EditHarga } from './pages/TambahHarga';
-import Discount, { TambahDiscount, EditDiscount } from './pages/Discount';
+import Wisata, { TambahWisata, EditWisata } from './pages/Wisata';
 import News, { TambahNews, EditNews } from './pages/News';
 import ArmadaGallery from './pages/ArmadaGallery';
 
@@ -23,7 +23,7 @@ const PublicRoute = ({ children }) => {
 
 const App = () => {
   return (
-    <div className="min-h-screen bg-[#fcf8ff]">
+    <div className="min-h-screen bg-surface text-on-surface">
       <Routes>
         <Route path="/login" element={<PublicRoute><Login /></PublicRoute>} />
         
@@ -40,9 +40,9 @@ const App = () => {
           <Route path="price-list/tambah" element={<TambahHarga />} />
           <Route path="price-list/edit/:id" element={<EditHarga />} />
           
-          <Route path="discount" element={<Discount />} />
-          <Route path="discount/tambah" element={<TambahDiscount />} />
-          <Route path="discount/edit/:id" element={<EditDiscount />} />
+          <Route path="wisata" element={<Wisata />} />
+          <Route path="wisata/tambah" element={<TambahWisata />} />
+          <Route path="wisata/edit/:id" element={<EditWisata />} />
           
           <Route path="news" element={<News />} />
           <Route path="news/tambah" element={<TambahNews />} />
