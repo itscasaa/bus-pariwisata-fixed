@@ -133,7 +133,7 @@ export default function News() {
           </div>
 
           {/* Desktop/Tablet Table View */}
-          <div className="overflow-x-auto">
+          <div className="hidden sm:block overflow-x-auto">
             <table className="w-full text-left border-collapse">
               <thead>
                 <tr className="border-b border-zinc-100">
@@ -233,10 +233,95 @@ export default function News() {
             </table>
           </div>
 
+          {/* Mobile Card List View */}
+          <div className="block sm:hidden space-y-4">
+            {loading ? (
+              <div className="text-center py-10 text-zinc-400 text-xs font-semibold">
+                Memuat data...
+              </div>
+            ) : filtered.length === 0 ? (
+              <div className="text-center py-10 text-zinc-450 text-xs font-semibold">
+                Tidak ada data berita
+              </div>
+            ) : (
+              paginated.map(item => (
+                <div key={item.id} className="bg-zinc-50 border border-zinc-200/60 rounded-[20px] p-5 shadow-sm space-y-4">
+                  {/* Header: Gambar, Title & Category */}
+                  <div className="flex gap-3">
+                    <div className="shrink-0 rounded-xl overflow-hidden bg-zinc-50 border border-zinc-150 w-20 h-16">
+                      <img
+                        src={item.gambar ? (item.gambar.startsWith('http') ? item.gambar : `${API_BASE}${item.gambar}`) : ''}
+                        alt={item.judul}
+                        className="w-full h-full object-cover"
+                        onError={e => { e.target.src = 'https://placehold.co/96x64/e4e1ee/777587?text=News'; }}
+                      />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-1.5 flex-wrap mb-1">
+                        <span className="bg-blue-50 text-blue-600 text-[9px] font-bold px-2 py-0.5 rounded-full border border-blue-100/50">
+                          {item.kategori || 'Berita'}
+                        </span>
+                        <span
+                          className="px-2 py-0.5 rounded-full text-[9px] font-bold border"
+                          style={item.status === 'publish'
+                            ? { background: '#dcfce7', color: '#15803d', borderColor: '#bbf7d0' }
+                            : { background: '#fef3c7', color: '#b45309', borderColor: '#fde68a' }}
+                        >
+                          {item.status === 'publish' ? 'Published' : 'Draft'}
+                        </span>
+                      </div>
+                      <h4 className="font-bold text-zinc-800 text-sm leading-snug line-clamp-2">{item.judul}</h4>
+                    </div>
+                  </div>
+
+                  {/* Content snippet & date */}
+                  <div className="space-y-1.5">
+                    <p className="text-zinc-500 text-xs line-clamp-2">
+                      {item.konten ? item.konten.replace(/<[^>]*>/g, '') : ''}
+                    </p>
+                    <div className="flex items-center gap-1 text-[11px] text-zinc-400 font-semibold">
+                      <span className="material-symbols-outlined text-[14px]">calendar_today</span>
+                      <span>
+                        {item.created_at
+                          ? new Date(item.created_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' })
+                          : '-'}
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Actions */}
+                  <div className="flex gap-2.5 pt-3 border-t border-zinc-200/60">
+                    <button
+                      onClick={() => navigate(`/news/edit/${item.id}`)}
+                      className="flex-1 flex items-center justify-center gap-1.5 py-2 px-3 rounded-xl bg-blue-50 text-blue-600 hover:bg-blue-100 border border-blue-100/30 text-xs font-bold transition-all cursor-pointer border-none"
+                    >
+                      <span className="material-symbols-outlined text-[16px]">edit</span>
+                      <span>Edit</span>
+                    </button>
+                    <button
+                      onClick={() => handleDelete(item.id, item.judul)}
+                      disabled={deleting === item.id}
+                      className="flex-1 flex items-center justify-center gap-1.5 py-2 px-3 rounded-xl bg-red-50 text-red-650 hover:bg-red-100 border border-red-100/30 text-xs font-bold transition-all cursor-pointer border-none disabled:opacity-50"
+                    >
+                      {deleting === item.id ? (
+                        <span className="w-4 h-4 border-2 border-red-600 border-t-transparent rounded-full animate-spin inline-block" />
+                      ) : (
+                        <>
+                          <span className="material-symbols-outlined text-[16px]">delete</span>
+                          <span>Hapus</span>
+                        </>
+                      )}
+                    </button>
+                  </div>
+                </div>
+              ))
+            )}
+          </div>
+
           {/* Pagination */}
           {!loading && totalPages > 1 && (
-            <div className="flex items-center justify-between mt-6 pt-6 border-t border-zinc-100">
-              <p className="text-zinc-400 text-xs">
+            <div className="flex items-center justify-center sm:justify-between mt-6 pt-6 border-t border-zinc-100">
+              <p className="text-zinc-400 text-xs hidden sm:block">
                 Showing {(page - 1) * ITEMS_PER_PAGE + 1}–{Math.min(page * ITEMS_PER_PAGE, filtered.length)} of {filtered.length} articles
               </p>
               <div className="flex gap-2">
