@@ -84,11 +84,11 @@ const Login = () => {
           />
 
           {/* Logo brand at the top */}
-          <div className="flex items-center gap-3.5 z-10">
-            <div className="w-10 h-10 flex items-center justify-center overflow-hidden">
-              <img src={logoImg} alt="Mafina Trans Logo" className="w-full h-full object-contain" style={{ filter: 'brightness(0) invert(1)' }} />
+          <div className="flex items-center gap-4 z-10">
+            <div className="w-16 h-16 flex items-center justify-center overflow-hidden">
+              <img src={logoImg} alt="Mafina Trans Logo" className="w-full h-full object-contain" style={{ filter: 'brightness(0) invert(1) drop-shadow(0 0 6px rgba(255,255,255,0.3))' }} />
             </div>
-            <span className="font-extrabold text-white text-lg tracking-wider">MAFINA TRANS</span>
+            <span className="font-extrabold text-white text-xl tracking-wider">MAFINA TRANS</span>
           </div>
 
           {/* Visual tag & title at the bottom */}
@@ -122,11 +122,11 @@ const Login = () => {
 
           {/* Header on mobile view (shows logo since left card is hidden) */}
           <div className="lg:hidden flex flex-col items-center mb-8 text-center relative pt-8 pb-4">
-            <div className="w-16 h-16 flex items-center justify-center mb-3 overflow-hidden z-10">
-              <img src={logoImg} alt="Mafina Trans Logo" className="w-full h-full object-contain" style={{ filter: 'brightness(0) invert(1) drop-shadow(0 0 8px rgba(255,255,255,0.6))' }} />
+            <div className="w-24 h-24 flex items-center justify-center mb-4 overflow-hidden z-10">
+              <img src={logoImg} alt="Mafina Trans Logo" className="w-full h-full object-contain" style={{ filter: 'brightness(0) invert(1) drop-shadow(0 0 12px rgba(255,255,255,0.6))' }} />
             </div>
-            <h1 className="font-black text-white text-xl tracking-wide z-10">MAFINA TRANS</h1>
-            <p className="text-zinc-500 text-xs mt-0.5 z-10">Admin Dashboard</p>
+            <h1 className="font-black text-white text-2xl tracking-wide z-10">MAFINA TRANS</h1>
+            <p className="text-zinc-400 text-sm mt-1.5 z-10">Admin Dashboard</p>
           </div>
 
           <div className="text-left mb-8 hidden lg:block">
