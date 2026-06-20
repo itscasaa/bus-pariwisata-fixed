@@ -63,8 +63,8 @@ const Login = () => {
 
           {/* Logo brand at the top */}
           <div className="flex items-center gap-3.5 z-10">
-            <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center border border-zinc-200/20 p-1.5 overflow-hidden shadow-md">
-              <img src={logoImg} alt="Mafina Trans Logo" className="w-full h-full object-contain" />
+            <div className="w-10 h-10 flex items-center justify-center overflow-hidden">
+              <img src={logoImg} alt="Mafina Trans Logo" className="w-full h-full object-contain" style={{ filter: 'drop-shadow(0 0 6px rgba(255, 255, 255, 0.5))' }} />
             </div>
             <span className="font-extrabold text-white text-lg tracking-wider">MAFINA TRANS</span>
           </div>
@@ -87,8 +87,8 @@ const Login = () => {
         <div className="w-full lg:w-1/2 p-8 lg:p-14 flex flex-col justify-center bg-[#111827]">
           {/* Header on mobile view (shows logo since left card is hidden) */}
           <div className="lg:hidden flex flex-col items-center mb-8 text-center">
-            <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center mb-3 border border-zinc-200/10 p-1.5 overflow-hidden shadow-sm">
-              <img src={logoImg} alt="Mafina Trans Logo" className="w-full h-full object-contain" />
+            <div className="w-16 h-16 flex items-center justify-center mb-3 overflow-hidden">
+              <img src={logoImg} alt="Mafina Trans Logo" className="w-full h-full object-contain" style={{ filter: 'drop-shadow(0 0 8px rgba(37, 99, 235, 0.4))' }} />
             </div>
             <h1 className="font-black text-white text-xl tracking-wide">MAFINA TRANS</h1>
             <p className="text-zinc-500 text-xs mt-0.5">Admin Dashboard</p>
@@ -172,14 +172,7 @@ const Login = () => {
             </button>
           </form>
 
-          {/* Hint / Helper Creds */}
-          <div className="mt-8 text-center p-3.5 rounded-xl bg-blue-950/20 border border-blue-900/30">
-            <p style={{ fontSize: '11px', color: '#9ca3af', fontWeight: '550' }}>
-              Default Admin: <span className="text-blue-400 font-bold">admin</span>
-              {' / '}
-              <span className="text-blue-400 font-bold">admin123</span>
-            </p>
-          </div>
+
 
           <div className="text-center mt-6 hidden lg:block">
             <p style={{ fontSize: '11px', color: '#6b7280' }}>
