@@ -9,21 +9,10 @@
  * Field ringkas: pakai kolom jika ada, kalau tidak diturunkan dari konten.
  */
 
-error_reporting(0);
-ini_set('display_errors', 0);
-
+include_once '../config/koneksi.php';
 header('Content-Type: application/json; charset=utf-8');
-header('Access-Control-Allow-Origin: *');
-header('Access-Control-Allow-Methods: GET, OPTIONS');
-header('Access-Control-Allow-Headers: Content-Type');
-
-if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-    http_response_code(200); exit;
-}
 
 $response = ['status' => 'error', 'message' => '', 'data' => []];
-
-include_once '../config/koneksi.php';
 
 if (!isset($conn) || !$conn) {
     http_response_code(503);

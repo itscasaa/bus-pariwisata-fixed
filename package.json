@@ -1,5 +1,23 @@
 {
+  "name": "mafina-trans-testing",
+  "version": "1.0.0",
+  "description": "Automated QA testing system for Mafina Trans",
+  "scripts": {
+    "test:all": "playwright test",
+    "test:e2e": "playwright test tests/e2e",
+    "test:api": "playwright test tests/api",
+    "test:ui": "playwright test --ui",
+    "test:headed": "playwright test --headed",
+    "test:report": "playwright show-report",
+    "test:html": "tsx tests/report/generate-html-report.ts",
+    "test:full-report": "playwright test; tsx tests/report/generate-html-report.ts"
+  },
   "dependencies": {
     "chokidar": "^5.0.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.61.0",
+    "@types/node": "^26.0.0",
+    "tsx": "^4.22.4"
   }
 }

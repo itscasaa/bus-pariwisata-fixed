@@ -10,6 +10,8 @@ if (isset($_SESSION['admin_id'])) {
 $error = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    require_once __DIR__ . '/../config/rate_limiter.php';
+    checkRateLimit('login', 5, 60);
     $username = trim($_POST['username'] ?? '');
     $password = trim($_POST['password'] ?? '');
 

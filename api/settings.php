@@ -82,14 +82,11 @@ if ($method === 'GET') {
 }
 
 if ($method === 'POST') {
-    // Session validation
-    session_start();
-    if (!isset($_SESSION['admin_id'])) {
-        http_response_code(401);
-        $response['message'] = 'Akses ditolak. Silakan login sebagai administrator.';
-        echo json_encode($response, JSON_UNESCAPED_UNICODE);
-        exit;
-    }
+    // Session & Token validation via auth guard
+    require_once __DIR__ . '/../config/auth_guard.php';
+
+    require_once __DIR__ . '/../config/rate_limiter.php';
+    checkRateLimit('settings', 5, 60);
 
     try {
         // Parse input body

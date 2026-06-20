@@ -5,6 +5,8 @@
 // Kompatibel: XAMPP (local) | InfinityFree | VPS
 // ============================================================
 
+require_once __DIR__ . '/cors.php';
+
 // Suppress display errors — errors logged saja, tidak tampil ke browser
 error_reporting(E_ALL);
 ini_set('display_errors', 0);

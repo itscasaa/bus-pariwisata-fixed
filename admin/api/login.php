@@ -15,6 +15,9 @@ if (!isset($conn) || !$conn) {
     sendResponse('error', 'Koneksi database tidak tersedia.', [], 503);
 }
 
+require_once '../../config/rate_limiter.php';
+checkRateLimit('login', 5, 60);
+
 // Ambil input JSON
 $body = json_decode(file_get_contents('php://input'), true) ?? [];
 $username = trim($body['username'] ?? '');
@@ -42,6 +45,14 @@ try {
         ]);
         $signature = hash_hmac('sha256', $payload, JWT_SECRET_KEY);
         $token = base64_encode($payload) . '.' . $signature;
+
+        // Initialize server-side session for compatibility with legacy page security checks
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+        $_SESSION['admin_id']   = $admin['id'];
+        $_SESSION['admin_nama'] = $admin['nama'];
+        $_SESSION['admin_user'] = $admin['username'];
 
         sendResponse('success', 'Login berhasil.', [
             'token' => $token,

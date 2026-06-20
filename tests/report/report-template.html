@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mafina Trans Testing Report</title>
+  <style>
+    {{STYLE}}
+  </style>
+</head>
+<body>
+
+  <div class="dashboard-container">
+    
+    <!-- Header -->
+    <div class="dashboard-header">
+      <div class="dashboard-title">
+        <h1>Mafina Trans QA Report</h1>
+        <p>Laporan Hasil Uji Otomatis & Analisis Keamanan Aplikasi</p>
+      </div>
+      <div class="dashboard-meta">
+        {{STATUS_BADGE}}
+        <div style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 0.5rem;">
+          Waktu Uji: <strong>{{DATE_TIME}}</strong><br>
+          URL Diuji: <a href="{{TESTED_URL}}" target="_blank" style="color: var(--color-info); font-weight: 600;">{{TESTED_URL}}</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Summary Statistics -->
+    <div class="summary-grid">
+      <div class="card" style="border-left: 5px solid var(--color-info);">
+        <span class="card-label">Total Uji</span>
+        <span class="card-value" style="color: var(--color-info);">{{TOTAL_COUNT}}</span>
+      </div>
+      <div class="card" style="border-left: 5px solid var(--color-pass);">
+        <span class="card-label">Lolos (Passed)</span>
+        <span class="card-value" style="color: var(--color-pass);">{{PASSED_COUNT}}</span>
+      </div>
+      <div class="card" style="border-left: 5px solid var(--color-fail);">
+        <span class="card-label">Gagal (Failed)</span>
+        <span class="card-value" style="color: var(--color-fail);">{{FAILED_COUNT}}</span>
+      </div>
+      <div class="card" style="border-left: 5px solid var(--color-warn);">
+        <span class="card-label">Dilewati (Skipped)</span>
+        <span class="card-value" style="color: var(--color-warn);">{{SKIPPED_COUNT}}</span>
+      </div>
+      <div class="card" style="border-left: 5px solid #8b5cf6;">
+        <span class="card-label">Tingkat Kelulusan</span>
+        <span class="card-value" style="color: #8b5cf6;">{{PASS_RATE}}%</span>
+      </div>
+    </div>
+
+    <!-- Recommendations Section -->
+    <div class="recs-container">
+      <h3 style="margin-top: 0; color: #1e3a8a; display: flex; align-items: center; gap: 0.5rem;">
+        💡 Rekomendasi QA & Perbaikan Masalah
+      </h3>
+      <ul class="recs-list">
+        {{RECOMMENDATIONS}}
+      </ul>
+    </div>
+
+    <!-- API Health / Core Status -->
+    <div class="section-title">🔌 Ringkasan Layanan API & Integrasi</div>
+    <div class="table-container" style="margin-bottom: 2rem;">
+      <table>
+        <thead>
+          <tr>
+            <th>API Endpoint</th>
+            <th>Metode</th>
+            <th>Tujuan Pengujian</th>
+            <th>Status Respons</th>
+            <th>Keamanan / Error Leakage</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{API_HEALTH_SECTION}}
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Security Warnings -->
+    <div class="section-title">🛡️ Status Analisis Keamanan & Proteksi</div>
+    <div class="table-container" style="margin-bottom: 2rem;">
+      <table>
+        <thead>
+          <tr>
+            <th>Kategori Celah</th>
+            <th>Uraian Tes</th>
+            <th>Status Kerentanan</th>
+            <th>Keterangan / Temuan</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{SECURITY_WARNINGS_SECTION}}
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Backend Admin API Security -->
+    <div class="section-title">🔒 Keamanan API Backend Admin (Backend Admin API Security)</div>
+    <div class="table-container" style="margin-bottom: 2rem;">
+      <table>
+        <thead>
+          <tr>
+            <th>Endpoint API Admin</th>
+            <th>Metode</th>
+            <th>Deskripsi / Proteksi</th>
+            <th>Hasil Skenario Tanpa Auth</th>
+            <th>Hasil Skenario Dengan Auth</th>
+            <th>Status Keamanan</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{BACKEND_ADMIN_API_SECTION}}
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Production Hardening Audit -->
+    <div class="section-title">🛡️ Audit Pengerasan Produksi (Production Hardening Audit)</div>
+    <div class="table-container" style="margin-bottom: 2rem;">
+      <table>
+        <thead>
+          <tr>
+            <th>Kategori Pengerasan</th>
+            <th>Uraian Detail Hardening</th>
+            <th>Status Cek</th>
+            <th>Proteksi / Status Implementasi</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{PRODUCTION_HARDENING_SECTION}}
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Page Errors / Assets Validation -->
+    <div class="details-grid">
+      <!-- Broken Images -->
+      <div class="card">
+        <h3 class="section-title" style="margin: 0 0 1rem 0; font-size: 1.1rem; color: #475569;">🖼️ Validasi Gambar / Aset Rusak</h3>
+        <div style="font-size: 0.875rem;">
+          {{BROKEN_IMAGES_SECTION}}
+        </div>
+      </div>
+      
+      <!-- Console Errors -->
+      <div class="card">
+        <h3 class="section-title" style="margin: 0 0 1rem 0; font-size: 1.1rem; color: #475569;">💻 Log Error Konsol Browser</h3>
+        <div style="font-size: 0.875rem;">
+          {{CONSOLE_ERRORS_SECTION}}
+        </div>
+      </div>
+    </div>
+
+    <!-- Failed Tests Detail (If Any) -->
+    {{FAILED_TESTS_SECTION}}
+
+    <!-- Detailed Tests List -->
+    <div class="section-title">📊 Rincian Detail Seluruh Pengujian</div>
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Nama Pengujian (Test Spec)</th>
+            <th>Kategori</th>
+            <th>Status</th>
+            <th>Durasi (ms)</th>
+            <th>Detail Hasil / Log Kesalahan</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{TEST_ROWS}}
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+      <p>Mafina Trans QA Testing Dashboard — Dibuat secara otomatis dengan Playwright & Custom HTML Reporter.</p>
+      <p>Waktu Pembuatan Laporan: {{REPORT_GENERATED_TIME}}</p>
+    </div>
+
+  </div>
+
+</body>
+</html>

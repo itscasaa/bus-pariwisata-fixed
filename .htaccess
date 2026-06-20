@@ -42,14 +42,12 @@ AddDefaultCharset UTF-8
   ExpiresByType application/javascript "access plus 1 week"
 </IfModule>
 
-# ── Blokir akses langsung ke config/koneksi.php ───────────────
-<Files "koneksi.php">
-  Order Allow,Deny
-  Deny from all
-</Files>
+# ── Blokir akses ke folder sensitif ───────────────────────────
+RewriteRule ^config/ - [F,L]
+RewriteRule ^database/ - [F,L]
 
-# ── Blokir akses ke file SQL ──────────────────────────────────
-<FilesMatch "\.sql$">
+# ── Blokir akses ke file sensitif ─────────────────────────────
+<FilesMatch "\.(env|sql|bak|zip|git|gitignore|htaccess)$">
   Order Allow,Deny
   Deny from all
 </FilesMatch>

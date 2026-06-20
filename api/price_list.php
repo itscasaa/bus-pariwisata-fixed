@@ -9,19 +9,11 @@
 
 // Production error handling
 error_reporting(0);
-ini_set('display_errors', 0);
+// Include database connection
+include_once '../config/koneksi.php';
 
 // Set response headers
 header('Content-Type: application/json; charset=utf-8');
-header('Access-Control-Allow-Origin: *');
-header('Access-Control-Allow-Methods: GET, OPTIONS');
-header('Access-Control-Allow-Headers: Content-Type');
-
-// Handle preflight requests
-if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-  http_response_code(200);
-  exit;
-}
 
 // Initialize response structure
 $response = [
@@ -29,9 +21,6 @@ $response = [
   'message' => '',
   'data' => []
 ];
-
-// Include database connection
-include_once '../config/koneksi.php';
 
 // Validate database connection
 if (!isset($conn) || !$conn) {
@@ -63,7 +52,7 @@ try {
     $stmt = mysqli_prepare($conn, "SELECT id, nama_destinasi, durasi, harga_hiace, harga_elf, harga_medium, harga_big FROM price_list WHERE nama_destinasi LIKE ? ORDER BY nama_destinasi ASC");
     
     if ($stmt === false) {
-      throw new Exception('Failed to prepare statement: ' . mysqli_error($conn));
+      throw new Exception('Failed to prepare statement.');
     }
 
     // Bind parameter
@@ -103,7 +92,7 @@ try {
     $query = mysqli_query($conn, "SELECT id, nama_destinasi, durasi, harga_hiace, harga_elf, harga_medium, harga_big FROM price_list ORDER BY id ASC");
 
     if ($query === false) {
-      throw new Exception('Database query failed: ' . mysqli_error($conn));
+      throw new Exception('Database query failed.');
     }
 
     // Fetch all results

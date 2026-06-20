@@ -37,7 +37,8 @@ const AdminDashboard = () => {
   }, []);
 
   const handleLogout = () => {
-    // TODO: Implement logout logic
+    localStorage.removeItem('admin_token');
+    localStorage.removeItem('admin_nama');
     navigate('/admin/login');
   };
 

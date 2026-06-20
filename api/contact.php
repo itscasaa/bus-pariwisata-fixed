@@ -18,8 +18,12 @@ if (!isset($conn) || !$conn) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+  http_response_code(405);
   respond('error', 'Invalid request method.', []);
 }
+
+require_once __DIR__ . '/../config/rate_limiter.php';
+checkRateLimit('contact', 10, 60);
 
 $input = $_POST;
 if (empty($input)) {
@@ -56,9 +60,8 @@ if ($ok === false) {
 
 $execOk = $stmt->execute();
 if (!$execOk) {
-  $err = $stmt->error ? $stmt->error : mysqli_error($conn);
   $stmt->close();
-  respond('error', 'Gagal menyimpan pesan: ' . $err, []);
+  respond('error', 'Gagal menyimpan pesan.', []);
 }
 
 $stmt->close();
