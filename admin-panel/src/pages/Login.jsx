@@ -45,8 +45,18 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 lg:p-8 bg-[#090d16] font-sans">
-      <div className="w-full max-w-[1000px] bg-[#111827] rounded-[32px] overflow-hidden flex flex-col lg:flex-row border border-zinc-800/80 shadow-2xl lg:min-h-[600px]">
+    <div className="min-h-screen flex items-center justify-center p-4 lg:p-8 bg-[#090d16] font-sans relative overflow-hidden">
+      
+      {/* Global Background Glow Ornaments */}
+      <div className="absolute top-0 left-1/4 w-[300px] h-[300px] rounded-full bg-blue-600/10 blur-[90px] pointer-events-none" />
+      <div className="absolute bottom-10 right-1/4 w-[260px] h-[260px] rounded-full bg-yellow-500/5 blur-[80px] pointer-events-none" />
+      
+      <div 
+        className="w-full max-w-[1000px] bg-[#111827]/90 backdrop-blur-md rounded-[32px] overflow-hidden flex flex-col lg:flex-row border border-zinc-800/80 shadow-2xl lg:min-h-[600px] relative z-10"
+        style={{
+          boxShadow: '0 0 50px -10px rgba(37, 99, 235, 0.12), 0 25px 50px -12px rgba(0, 0, 0, 0.5)'
+        }}
+      >
         
         {/* Left Column: Premium Visual Card (Hidden on Mobile) */}
         <div className="hidden lg:flex lg:w-1/2 p-12 flex-col justify-between relative overflow-hidden"
@@ -60,6 +70,17 @@ const Login = () => {
           {/* Glowing blur effects */}
           <div className="absolute top-1/4 left-1/4 w-[160px] h-[160px] rounded-full bg-blue-500/20 blur-[60px]" />
           <div className="absolute bottom-1/4 right-1/4 w-[140px] h-[140px] rounded-full bg-yellow-500/10 blur-[50px]" />
+
+          {/* Vertical light-beam lines ornament on desktop left card */}
+          <div className="absolute top-0 inset-x-0 h-32 opacity-20 pointer-events-none"
+            style={{
+              background: 'linear-gradient(180deg, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0) 100%)',
+              maskImage: 'linear-gradient(to right, black 1px, transparent 1px)',
+              WebkitMaskImage: 'linear-gradient(to right, black 1px, transparent 1px)',
+              maskSize: '16px 100%',
+              WebkitMaskSize: '16px 100%',
+            }}
+          />
 
           {/* Logo brand at the top */}
           <div className="flex items-center gap-3.5 z-10">
@@ -84,14 +105,28 @@ const Login = () => {
         </div>
 
         {/* Right Column: Login Form */}
-        <div className="w-full lg:w-1/2 py-10 px-6 lg:p-14 flex flex-col justify-center bg-[#111827]">
+        <div className="w-full lg:w-1/2 py-10 px-6 lg:p-14 flex flex-col justify-center bg-[#111827]/80 relative overflow-hidden">
+          
           {/* Header on mobile view (shows logo since left card is hidden) */}
-          <div className="lg:hidden flex flex-col items-center mb-8 text-center">
-            <div className="w-16 h-16 flex items-center justify-center mb-3 overflow-hidden">
-              <img src={logoImg} alt="Mafina Trans Logo" className="w-full h-full object-contain" style={{ filter: 'brightness(0) invert(1)' }} />
+          <div className="lg:hidden flex flex-col items-center mb-8 text-center relative pt-8 pb-4 overflow-hidden rounded-[24px]">
+            {/* Vertical light-beam lines ornament */}
+            <div className="absolute top-0 inset-x-0 h-24 opacity-25 pointer-events-none"
+              style={{
+                background: 'linear-gradient(180deg, rgba(37,99,235,0.4) 0%, rgba(37,99,235,0) 100%)',
+                maskImage: 'linear-gradient(to right, black 1px, transparent 1px)',
+                WebkitMaskImage: 'linear-gradient(to right, black 1px, transparent 1px)',
+                maskSize: '12px 100%',
+                WebkitMaskSize: '12px 100%',
+              }}
+            />
+            {/* Radial highlight in center */}
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-40 h-20 rounded-full bg-blue-500/20 blur-[24px] pointer-events-none" />
+            
+            <div className="w-16 h-16 flex items-center justify-center mb-3 overflow-hidden z-10">
+              <img src={logoImg} alt="Mafina Trans Logo" className="w-full h-full object-contain" style={{ filter: 'brightness(0) invert(1) drop-shadow(0 0 8px rgba(255,255,255,0.6))' }} />
             </div>
-            <h1 className="font-black text-white text-xl tracking-wide">MAFINA TRANS</h1>
-            <p className="text-zinc-500 text-xs mt-0.5">Admin Dashboard</p>
+            <h1 className="font-black text-white text-xl tracking-wide z-10">MAFINA TRANS</h1>
+            <p className="text-zinc-500 text-xs mt-0.5 z-10">Admin Dashboard</p>
           </div>
 
           <div className="text-left mb-8 hidden lg:block">
@@ -99,7 +134,7 @@ const Login = () => {
             <p className="text-zinc-400 text-sm mt-1.5 font-medium">Silakan login untuk melanjutkan ke panel admin</p>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-5 text-left">
+          <form onSubmit={handleSubmit} className="space-y-5 text-left z-10">
             {/* Username */}
             <div>
               <label className="block text-zinc-400 text-xs font-bold uppercase tracking-wider mb-2">
@@ -171,8 +206,6 @@ const Login = () => {
               )}
             </button>
           </form>
-
-
 
           <div className="text-center mt-6 hidden lg:block">
             <p style={{ fontSize: '11px', color: '#6b7280' }}>
