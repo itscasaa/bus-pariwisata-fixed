@@ -44,35 +44,69 @@ const Login = () => {
     }
   };
 
-
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 bg-slate-50"
-      style={{ background: 'linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%)' }}>
-      <div className="w-full max-w-md">
+    <div className="min-h-screen flex items-center justify-center p-4 lg:p-8 bg-[#090d16] font-sans">
+      <div className="w-full max-w-[1000px] bg-[#111827] rounded-[32px] overflow-hidden flex flex-col lg:flex-row border border-zinc-800/80 shadow-2xl min-h-[600px]">
+        
+        {/* Left Column: Premium Visual Card (Hidden on Mobile) */}
+        <div className="hidden lg:flex lg:w-1/2 p-12 flex-col justify-between relative overflow-hidden"
+          style={{
+            background: 'radial-gradient(circle at 30% 20%, #1e40af 0%, #073b78 50%, #090d16 100%)'
+          }}
+        >
+          {/* Subtle background overlay details */}
+          <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#ffffff_1px,transparent_1px)] [background-size:16px_16px]" />
+          
+          {/* Glowing blur effects */}
+          <div className="absolute top-1/4 left-1/4 w-[160px] h-[160px] rounded-full bg-blue-500/20 blur-[60px]" />
+          <div className="absolute bottom-1/4 right-1/4 w-[140px] h-[140px] rounded-full bg-yellow-500/10 blur-[50px]" />
 
-        {/* Logo Card */}
-        <div className="bg-white rounded-[24px] p-8 mb-5 text-center shadow-custom">
-          <div className="w-20 h-20 bg-white rounded-2xl flex items-center justify-center mx-auto mb-4 border border-zinc-200/60 shadow-sm p-2 overflow-hidden">
-            <img src={logoImg} alt="Mafina Trans Logo" className="w-full h-full object-contain" />
+          {/* Logo brand at the top */}
+          <div className="flex items-center gap-3.5 z-10">
+            <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center border border-zinc-200/20 p-1.5 overflow-hidden shadow-md">
+              <img src={logoImg} alt="Mafina Trans Logo" className="w-full h-full object-contain" />
+            </div>
+            <span className="font-extrabold text-white text-lg tracking-wider">MAFINA TRANS</span>
           </div>
-          <h1 className="font-bold text-blue-600 mb-1" style={{ fontSize: '22px' }}>Mafina Trans</h1>
-          <p className="text-zinc-500 font-semibold" style={{ fontSize: '13px' }}>Admin Dashboard</p>
+
+          {/* Visual tag & title at the bottom */}
+          <div className="z-10 text-left">
+            <span className="bg-blue-600/35 border border-blue-400/30 text-blue-300 text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-widest inline-block mb-3.5">
+              Portal Admin
+            </span>
+            <h2 className="text-3xl font-black text-white leading-tight mb-3">
+              Sewa Bus Pariwisata<br />Terpercaya & Nyaman
+            </h2>
+            <p className="text-zinc-400 text-sm font-medium leading-relaxed">
+              Kelola armada, harga sewa, paket wisata, dan berita terbaru Mafina Trans dengan sistem dasbor admin terpusat.
+            </p>
+          </div>
         </div>
 
-        {/* Login Form Card */}
-        <div className="bg-white rounded-[24px] p-8 shadow-custom border border-zinc-200/40">
-          <h2 className="font-bold text-zinc-800 mb-1" style={{ fontSize: '20px' }}>Selamat Datang</h2>
-          <p className="text-zinc-400 mb-6 font-semibold" style={{ fontSize: '13px' }}>Silakan login untuk melanjutkan</p>
+        {/* Right Column: Login Form */}
+        <div className="w-full lg:w-1/2 p-8 lg:p-14 flex flex-col justify-center bg-[#111827]">
+          {/* Header on mobile view (shows logo since left card is hidden) */}
+          <div className="lg:hidden flex flex-col items-center mb-8 text-center">
+            <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center mb-3 border border-zinc-200/10 p-1.5 overflow-hidden shadow-sm">
+              <img src={logoImg} alt="Mafina Trans Logo" className="w-full h-full object-contain" />
+            </div>
+            <h1 className="font-black text-white text-xl tracking-wide">MAFINA TRANS</h1>
+            <p className="text-zinc-500 text-xs mt-0.5">Admin Dashboard</p>
+          </div>
 
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <div className="text-left mb-8 hidden lg:block">
+            <h2 className="text-2xl font-black text-white tracking-tight">Selamat Datang</h2>
+            <p className="text-zinc-400 text-sm mt-1.5 font-medium">Silakan login untuk melanjutkan ke panel admin</p>
+          </div>
+
+          <form onSubmit={handleSubmit} className="space-y-5 text-left">
             {/* Username */}
             <div>
-              <label className="block text-zinc-500 uppercase mb-2 font-bold"
-                style={{ fontSize: '11px', letterSpacing: '0.05em' }}>
+              <label className="block text-zinc-400 text-xs font-bold uppercase tracking-wider mb-2">
                 Username
               </label>
               <div className="relative">
-                <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400"
+                <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-zinc-500"
                   style={{ fontSize: '20px' }}>person</span>
                 <input
                   type="text"
@@ -80,8 +114,7 @@ const Login = () => {
                   value={formData.username}
                   onChange={handleChange}
                   placeholder="Masukkan username"
-                  className="w-full pl-10 pr-4 py-3 bg-zinc-50 border border-zinc-200 focus:border-blue-500 focus:ring-1 focus:ring-blue-500/20 transition-all rounded-xl text-zinc-700 placeholder-zinc-400 focus:outline-none"
-                  style={{ fontSize: '14px' }}
+                  className="w-full pl-11 pr-4 py-3 bg-[#1f2937] border border-zinc-800 focus:border-blue-500 focus:ring-1 focus:ring-blue-500/20 transition-all rounded-xl text-white placeholder-zinc-500 text-sm focus:outline-none"
                   required
                 />
               </div>
@@ -89,12 +122,11 @@ const Login = () => {
 
             {/* Password */}
             <div>
-              <label className="block text-zinc-500 uppercase mb-2 font-bold"
-                style={{ fontSize: '11px', letterSpacing: '0.05em' }}>
+              <label className="block text-zinc-400 text-xs font-bold uppercase tracking-wider mb-2">
                 Password
               </label>
               <div className="relative">
-                <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400"
+                <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-zinc-500"
                   style={{ fontSize: '20px' }}>lock</span>
                 <input
                   type="password"
@@ -102,30 +134,28 @@ const Login = () => {
                   value={formData.password}
                   onChange={handleChange}
                   placeholder="Masukkan password"
-                  className="w-full pl-10 pr-4 py-3 bg-zinc-50 border border-zinc-200 focus:border-blue-500 focus:ring-1 focus:ring-blue-500/20 transition-all rounded-xl text-zinc-700 placeholder-zinc-400 focus:outline-none"
-                  style={{ fontSize: '14px' }}
+                  className="w-full pl-11 pr-4 py-3 bg-[#1f2937] border border-zinc-800 focus:border-blue-500 focus:ring-1 focus:ring-blue-500/20 transition-all rounded-xl text-white placeholder-zinc-500 text-sm focus:outline-none"
                   required
                 />
               </div>
             </div>
 
-            {/* Error */}
+            {/* Error Message */}
             {error && (
-              <div className="flex items-center gap-2 px-4 py-3 rounded-xl"
-                style={{ background: '#fef2f2', color: '#b91c1c', border: '1px solid #fee2e2', fontSize: '13px', fontWeight: '500' }}>
+              <div className="flex items-center gap-2 px-4 py-3 rounded-xl border"
+                style={{ background: '#fef2f210', color: '#f87171', borderColor: '#f8717130', fontSize: '13px', fontWeight: '500' }}>
                 <span className="material-symbols-outlined text-sm" style={{ fontSize: '18px' }}>error</span>
-                {error}
+                <div>{error}</div>
               </div>
             )}
 
-            {/* Submit */}
+            {/* Submit Button */}
             <button
               type="submit"
               disabled={loading}
-              className="w-full text-white font-bold py-3.5 rounded-xl flex items-center justify-center gap-2 transition-all hover:scale-[1.01] active:scale-[0.99] border-none shadow-sm cursor-pointer"
+              className="w-full text-white font-bold py-3.5 rounded-xl flex items-center justify-center gap-2 transition-all hover:scale-[1.01] active:scale-[0.99] border-none shadow-lg cursor-pointer bg-blue-600 hover:bg-blue-700 text-sm"
               style={{
-                background: loading ? '#93c5fd' : 'linear-gradient(135deg, #2563eb, #3b82f6)',
-                fontSize: '14px',
+                background: loading ? '#2563eb80' : 'linear-gradient(135deg, #1d4ed8, #2563eb)',
               }}
             >
               {loading ? (
@@ -136,27 +166,28 @@ const Login = () => {
               ) : (
                 <>
                   <span className="material-symbols-outlined" style={{ fontSize: '20px' }}>login</span>
-                  <span>Login</span>
+                  <span>Masuk ke Dashboard</span>
                 </>
               )}
             </button>
           </form>
 
-          {/* Hint */}
-          <div className="mt-5 text-center p-3 rounded-xl bg-blue-50/70 border border-blue-100/50">
-            <p style={{ fontSize: '12px', color: '#4b5563', fontWeight: '500' }}>
-              Default: <span className="font-bold text-blue-600">admin</span>
+          {/* Hint / Helper Creds */}
+          <div className="mt-8 text-center p-3.5 rounded-xl bg-blue-950/20 border border-blue-900/30">
+            <p style={{ fontSize: '11px', color: '#9ca3af', fontWeight: '550' }}>
+              Default Admin: <span className="text-blue-400 font-bold">admin</span>
               {' / '}
-              <span className="font-bold text-blue-600">admin123</span>
+              <span className="text-blue-400 font-bold">admin123</span>
+            </p>
+          </div>
+
+          <div className="text-center mt-6 hidden lg:block">
+            <p style={{ fontSize: '11px', color: '#6b7280' }}>
+              © 2026 Mafina Trans. All rights reserved.
             </p>
           </div>
         </div>
 
-        <div className="text-center mt-5">
-          <p style={{ fontSize: '13px', color: 'rgba(255,255,255,0.7)' }}>
-            © 2025 Mafina Trans. All rights reserved.
-          </p>
-        </div>
       </div>
     </div>
   );
