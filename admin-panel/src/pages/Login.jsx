@@ -46,7 +46,7 @@ const Login = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4 lg:p-8 bg-[#090d16] font-sans">
-      <div className="w-full max-w-[1000px] bg-[#111827] rounded-[32px] overflow-hidden flex flex-col lg:flex-row border border-zinc-800/80 shadow-2xl min-h-[600px]">
+      <div className="w-full max-w-[1000px] bg-[#111827] rounded-[32px] overflow-hidden flex flex-col lg:flex-row border border-zinc-800/80 shadow-2xl lg:min-h-[600px]">
         
         {/* Left Column: Premium Visual Card (Hidden on Mobile) */}
         <div className="hidden lg:flex lg:w-1/2 p-12 flex-col justify-between relative overflow-hidden"
@@ -84,7 +84,7 @@ const Login = () => {
         </div>
 
         {/* Right Column: Login Form */}
-        <div className="w-full lg:w-1/2 p-8 lg:p-14 flex flex-col justify-center bg-[#111827]">
+        <div className="w-full lg:w-1/2 py-10 px-6 lg:p-14 flex flex-col justify-center bg-[#111827]">
           {/* Header on mobile view (shows logo since left card is hidden) */}
           <div className="lg:hidden flex flex-col items-center mb-8 text-center">
             <div className="w-16 h-16 flex items-center justify-center mb-3 overflow-hidden">
