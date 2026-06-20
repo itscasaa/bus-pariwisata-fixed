@@ -71,10 +71,11 @@ const Login = () => {
           <div className="absolute top-1/4 left-1/4 w-[160px] h-[160px] rounded-full bg-blue-500/20 blur-[60px]" />
           <div className="absolute bottom-1/4 right-1/4 w-[140px] h-[140px] rounded-full bg-yellow-500/10 blur-[50px]" />
 
-          {/* Vertical light-beam lines ornament on desktop left card */}
-          <div className="absolute top-0 inset-x-0 h-32 opacity-20 pointer-events-none"
+
+          {/* Vertical light-beam lines ornament covering the entire left card */}
+          <div className="absolute inset-0 opacity-15 pointer-events-none"
             style={{
-              background: 'linear-gradient(180deg, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0) 100%)',
+              background: 'linear-gradient(180deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0.02) 100%)',
               maskImage: 'linear-gradient(to right, black 1px, transparent 1px)',
               WebkitMaskImage: 'linear-gradient(to right, black 1px, transparent 1px)',
               maskSize: '16px 100%',
@@ -104,24 +105,23 @@ const Login = () => {
           </div>
         </div>
 
-        {/* Right Column: Login Form */}
         <div className="w-full lg:w-1/2 py-10 px-6 lg:p-14 flex flex-col justify-center bg-[#111827]/80 relative overflow-hidden">
           
+          {/* Vertical light-beam lines ornament covering the entire card background */}
+          <div className="absolute inset-0 opacity-15 pointer-events-none"
+            style={{
+              background: 'linear-gradient(180deg, rgba(37,99,235,0.25) 0%, rgba(37,99,235,0.02) 100%)',
+              maskImage: 'linear-gradient(to right, black 1px, transparent 1px)',
+              WebkitMaskImage: 'linear-gradient(to right, black 1px, transparent 1px)',
+              maskSize: '14px 100%',
+              WebkitMaskSize: '14px 100%',
+            }}
+          />
+          {/* Radial highlight in center */}
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-72 h-40 rounded-full bg-blue-500/10 blur-[50px] pointer-events-none" />
+
           {/* Header on mobile view (shows logo since left card is hidden) */}
-          <div className="lg:hidden flex flex-col items-center mb-8 text-center relative pt-8 pb-4 overflow-hidden rounded-[24px]">
-            {/* Vertical light-beam lines ornament */}
-            <div className="absolute top-0 inset-x-0 h-24 opacity-25 pointer-events-none"
-              style={{
-                background: 'linear-gradient(180deg, rgba(37,99,235,0.4) 0%, rgba(37,99,235,0) 100%)',
-                maskImage: 'linear-gradient(to right, black 1px, transparent 1px)',
-                WebkitMaskImage: 'linear-gradient(to right, black 1px, transparent 1px)',
-                maskSize: '12px 100%',
-                WebkitMaskSize: '12px 100%',
-              }}
-            />
-            {/* Radial highlight in center */}
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-40 h-20 rounded-full bg-blue-500/20 blur-[24px] pointer-events-none" />
-            
+          <div className="lg:hidden flex flex-col items-center mb-8 text-center relative pt-8 pb-4">
             <div className="w-16 h-16 flex items-center justify-center mb-3 overflow-hidden z-10">
               <img src={logoImg} alt="Mafina Trans Logo" className="w-full h-full object-contain" style={{ filter: 'brightness(0) invert(1) drop-shadow(0 0 8px rgba(255,255,255,0.6))' }} />
             </div>
