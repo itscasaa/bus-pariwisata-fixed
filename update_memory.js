@@ -14,7 +14,7 @@ m.databaseSchema.tables.bus.data = [
   {id:7,  nama:'Malika Wisata', tipe:'big_bus',    kapasitas:59, harga:3500000, spek:'2 LCD TV+Dispenser'},
   {id:8,  nama:'Malika Wisata', tipe:'big_bus',    kapasitas:45, harga:4500000, spek:'SmokingRoom+Toilet+2LCD+Dispenser'},
   {id:9,  nama:'Malika Wisata', tipe:'big_bus',    kapasitas:48, harga:3500000, spek:'2 LCD TV+Dispenser'},
-  {id:10, nama:'Malika Wisata', tipe:'medium_long',kapasitas:35, harga:3000000, spek:'1 LCD TV+Dispenser'},
+  {id:10, nama:'Malika Wisata', tipe:'medium_bus',kapasitas:35, harga:3000000, spek:'1 LCD TV+Dispenser'},
   {id:11, nama:'Malika Wisata', tipe:'medium_bus', kapasitas:31, harga:3000000, spek:'1 LCD TV'}
 ];
 

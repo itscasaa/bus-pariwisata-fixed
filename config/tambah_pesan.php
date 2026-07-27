@@ -12,13 +12,13 @@ if (isset($_POST['kirim'])) {
     $query = "INSERT INTO pesan_masuk (nama, email, judul, pesan) 
               VALUES ('$nama', '$email', '$judul', '$pesan')";
 
-    if (mysqli_query($koneksi, $query)) {
+    if (db_query($koneksi, $query)) {
         echo "<script>
                 alert('Pesan berhasil terkirim!');
                 window.location.href='../kontak.php';
               </script>";
     } else {
-        echo "Gagal: " . mysqli_error($koneksi);
+        echo "Gagal: " . db_error($koneksi);
     }
 }
 ?>

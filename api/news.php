@@ -30,22 +30,22 @@ if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
 
 try {
     // ── Jika tabel news tidak ada → kembalikan data kosong, JANGAN 404/500 ──
-    $tbl = mysqli_query($conn, "SHOW TABLES LIKE 'news'");
-    if (!$tbl || mysqli_num_rows($tbl) === 0) {
+    $tbl = db_query($conn, "SHOW TABLES LIKE 'news'");
+    if (!$tbl || db_num_rows($tbl) === 0) {
         http_response_code(200);
         $response['status']  = 'success';
         $response['message'] = '';
         $response['data']    = [];
         echo json_encode($response, JSON_UNESCAPED_UNICODE);
-        if (isset($conn) && $conn) mysqli_close($conn);
+        if (isset($conn) && $conn) db_close($conn);
         exit;
     }
 
     // ── Deteksi kolom yang tersedia ────────────────────────────────────────
     $cols = [];
-    $col_q = mysqli_query($conn, "SHOW COLUMNS FROM news");
+    $col_q = db_query($conn, "SHOW COLUMNS FROM news");
     if ($col_q) {
-        while ($c = mysqli_fetch_assoc($col_q)) $cols[] = $c['Field'];
+        while ($c = db_fetch_assoc($col_q)) $cols[] = $c['Field'];
     }
     $has_ringkas = in_array('ringkas', $cols, true);
     $has_status  = in_array('status', $cols, true);
@@ -67,34 +67,34 @@ try {
 
     if ($id > 0) {
         $sql  = "SELECT $select_list FROM news WHERE id = ? LIMIT 1";
-        $stmt = mysqli_prepare($conn, $sql);
-        mysqli_stmt_bind_param($stmt, 'i', $id);
-        mysqli_stmt_execute($stmt);
-        $result = mysqli_stmt_get_result($stmt);
-        $row    = mysqli_fetch_assoc($result);
-        mysqli_stmt_close($stmt);
+        $stmt = db_prepare($conn, $sql);
+        db_stmt_bind_param($stmt, 'i', $id);
+        db_stmt_execute($stmt);
+        $result = db_stmt_get_result($stmt);
+        $row    = db_fetch_assoc($result);
+        db_stmt_close($stmt);
 
         if (!$row) { http_response_code(404); $response['message'] = 'Berita tidak ditemukan.'; }
         else        { $response['status'] = 'success'; $response['data'] = formatNews($row, $has_ringkas); }
 
     } elseif ($slug !== '' && $has_slug) {
         $sql  = "SELECT $select_list FROM news WHERE slug = ? LIMIT 1";
-        $stmt = mysqli_prepare($conn, $sql);
-        mysqli_stmt_bind_param($stmt, 's', $slug);
-        mysqli_stmt_execute($stmt);
-        $result = mysqli_stmt_get_result($stmt);
-        $row    = mysqli_fetch_assoc($result);
-        mysqli_stmt_close($stmt);
+        $stmt = db_prepare($conn, $sql);
+        db_stmt_bind_param($stmt, 's', $slug);
+        db_stmt_execute($stmt);
+        $result = db_stmt_get_result($stmt);
+        $row    = db_fetch_assoc($result);
+        db_stmt_close($stmt);
 
         if (!$row) { http_response_code(404); $response['message'] = 'Berita tidak ditemukan.'; }
         else        { $response['status'] = 'success'; $response['data'] = formatNews($row, $has_ringkas); }
 
     } else {
         $sql = "SELECT $select_list FROM news $where_publish ORDER BY created_at DESC, id DESC";
-        $result = mysqli_query($conn, $sql);
+        $result = db_query($conn, $sql);
         $data = [];
         if ($result) {
-            while ($row = mysqli_fetch_assoc($result)) {
+            while ($row = db_fetch_assoc($result)) {
                 $data[] = formatNews($row, $has_ringkas);
             }
         }
@@ -112,7 +112,7 @@ try {
 }
 
 echo json_encode($response, JSON_UNESCAPED_UNICODE);
-if (isset($conn) && $conn) mysqli_close($conn);
+if (isset($conn) && $conn) db_close($conn);
 
 // ── Helper: normalisasi semua path gambar → /images/... ──────────────────────
 function normalizeImagePath($path) {

@@ -151,76 +151,88 @@ ON DUPLICATE KEY UPDATE id = id;
 
 -- ============================================================
 -- SEED: bus (11 armada — data final)
--- Path gambar disimpan relatif (mis. 'bus1/bu1.jpeg').
--- API (api/buses.php) menormalkan menjadi '/images/bus1/bu1.jpeg'.
+-- Path gambar disimpan relatif (mis. 'bus1/bu1.webp').
+-- API (api/buses.php) menormalkan menjadi '/images/bus1/bu1.webp'.
 -- ============================================================
 INSERT INTO bus (id, nama_bus, tipe, kapasitas, harga_sewa, gambar_utama, deskripsi, fasilitas_json) VALUES
-(1,  'Pratama Trans', 'big_bus',     45, 4500000, 'bus1/bu1.jpeg',      'Bus besar Pratama Trans dengan kapasitas 45 kursi. Dilengkapi Smoking Area dan Toilet untuk kenyamanan perjalanan jarak jauh. Fasilitas hiburan lengkap: 2 unit LCD TV, Android Entertainment System, karaoke + microphone, cooler box, Port USB, dan kompartemen bagasi atas & bawah.', '["Seat 3-2","Smoking Area","Toilet","AC","2 Unit LCD TV","Audio Set","Android Entertainment System","Karaoke + Microphone","Cooler Box","Port USB","Kompartemen Bagasi Atas + Bawah","Lampu Baca"]'),
-(2,  'Pratama Trans', 'medium_bus',  33, 3000000, 'bus2/mini_bus2.jpeg','Bus medium Pratama Trans dengan kapasitas 33 kursi. Dilengkapi AC, 1 unit LCD TV, Android Entertainment System, karaoke + microphone, Port USB, dan kompartemen bagasi atas & bawah.', '["Seat 3-2","AC","1 Unit LCD TV","Audio Set","Android Entertainment System","Karaoke + Microphone","Port USB","Kompartemen Bagasi Atas + Bawah","Lampu Baca"]'),
-(3,  'Pratama Trans', 'big_bus',     59, 4500000, 'bus3/bus3.jpeg',     'Bus besar Pratama Trans dengan kapasitas 59 kursi dan interior modern. Dilengkapi AC, 2 unit LCD TV, Android Entertainment System, karaoke + microphone, Port USB, dan kompartemen bagasi atas & bawah.', '["Seat 3-2","AC","2 Unit LCD TV","Audio Set","Android Entertainment System","Karaoke + Microphone","Port USB","Kompartemen Bagasi Atas + Bawah","Lampu Baca"]'),
-(4,  'Pratama Trans', 'big_bus',     59, 5000000, 'bus4/bus4.jpeg',     'Bus besar Pratama Trans dengan kapasitas 59 kursi, dilengkapi Dispenser air minum, AC, 2 unit LCD TV, Android Entertainment System, karaoke + microphone, Port USB, dan kompartemen bagasi atas & bawah.', '["Seat 3-2","AC","2 Unit LCD TV","Audio Set","Android Entertainment System","Karaoke + Microphone","Port USB","Kompartemen Bagasi Atas + Bawah","Lampu Baca","Dispenser"]'),
-(5,  'Malika Wisata', 'big_bus',     59, 3500000, 'bus5/bus5.jpeg',     'Bus besar Malika Wisata dengan kapasitas 59 kursi dan desain interior elegan. Dilengkapi AC, 2 unit LCD TV, Android Entertainment System, karaoke + microphone, Dispenser air minum, Port USB, dan kompartemen bagasi atas & bawah.', '["Seat 3-2","AC","2 Unit LCD TV","Audio Set","Android Entertainment System","Karaoke + Microphone","Port USB","Kompartemen Bagasi Atas + Bawah","Lampu Baca","Dispenser"]'),
-(6,  'Malika Wisata', 'medium_bus',  31, 3500000, 'bus6/bus6.jpeg',     'Bus medium Malika Wisata dengan kapasitas 31 kursi, armada terbaru yang nyaman untuk wisata grup. Dilengkapi AC, 1 unit LCD TV, Android Entertainment System, karaoke + microphone, Port USB, dan kompartemen bagasi atas & bawah.', '["Seat 3-2","AC","1 Unit LCD TV","Audio Set","Android Entertainment System","Karaoke + Microphone","Port USB","Kompartemen Bagasi Atas + Bawah","Lampu Baca"]'),
-(7,  'Malika Wisata', 'big_bus',     59, 3500000, 'bus7/bus1.jpeg',     'Bus besar Malika Wisata dengan kapasitas 59 kursi. Dilengkapi AC, 2 unit LCD TV, Android Entertainment System, karaoke + microphone, Dispenser air minum, Port USB, dan kompartemen bagasi atas & bawah.', '["Seat 3-2","AC","2 Unit LCD TV","Audio Set","Android Entertainment System","Karaoke + Microphone","Port USB","Kompartemen Bagasi Atas + Bawah","Lampu Baca","Dispenser"]'),
-(8,  'Malika Wisata', 'big_bus',     45, 4500000, 'bus8/bus1.jpeg',     'Bus besar Malika Wisata dengan kapasitas 45 kursi, dilengkapi Smoking Room dan Toilet. Fasilitas: 2 unit LCD TV, Android Entertainment System, karaoke + microphone, Dispenser air minum, Port USB, dan kompartemen bagasi atas & bawah.', '["Seat 3-2","Smoking Room","Toilet","AC","2 Unit LCD TV","Audio Set","Android Entertainment System","Karaoke + Microphone","Port USB","Kompartemen Bagasi Atas + Bawah","Lampu Baca","Dispenser"]'),
-(9,  'Malika Wisata', 'big_bus',     48, 3500000, 'bus9/bus1.jpeg',     'Bus besar Malika Wisata dengan kapasitas 48 kursi. Dilengkapi AC, 2 unit LCD TV, Android Entertainment System, karaoke + microphone, Dispenser air minum, Port USB, dan kompartemen bagasi atas & bawah.', '["Seat 3-2","AC","2 Unit LCD TV","Audio Set","Android Entertainment System","Karaoke + Microphone","Port USB","Kompartemen Bagasi Atas + Bawah","Lampu Baca","Dispenser"]'),
-(10, 'Malika Wisata', 'medium_long', 35, 3000000, 'bus10/bus1.jpeg',    'Bus medium long Malika Wisata dengan kapasitas 35 kursi. Dilengkapi AC, 1 unit LCD TV, Android Entertainment System, karaoke + microphone, Dispenser air minum, Port USB, dan kompartemen bagasi atas & bawah.', '["Seat 3-2","AC","1 Unit LCD TV","Audio Set","Android Entertainment System","Karaoke + Microphone","Port USB","Kompartemen Bagasi Atas + Bawah","Lampu Baca","Dispenser"]'),
-(11, 'Malika Wisata', 'medium_bus',  31, 3000000, 'bus11/bus1.jpeg',    'Bus medium Malika Wisata dengan kapasitas 31 kursi. Dilengkapi AC, 1 unit LCD TV, Android Entertainment System, karaoke + microphone, Port USB, dan kompartemen bagasi atas & bawah.', '["Seat 3-2","AC","1 Unit LCD TV","Audio Set","Android Entertainment System","Karaoke + Microphone","Port USB","Kompartemen Bagasi Atas + Bawah","Lampu Baca"]')
+(1,  'Pratama Trans', 'big_bus',     59, 4500000, 'bus1/bu1.webp',      'Bus besar Pratama Trans dengan kapasitas 59 kursi. Dilengkapi Smoking Area dan Toilet untuk kenyamanan perjalanan jarak jauh. Fasilitas hiburan lengkap: 2 unit LCD TV, Android Entertainment System, karaoke + microphone, cooler box, Port USB, dan kompartemen bagasi atas & bawah.', '["Seat 3-2","Smoking Area","Toilet","AC","2 Unit LCD TV","Audio Set","Android Entertainment System","Karaoke + Microphone","Cooler Box","Port USB","Kompartemen Bagasi Atas + Bawah","Lampu Baca"]'),
+(2,  'Pratama Trans', 'medium_bus',  33, 3000000, 'bus2/mini_bus2.webp','Bus medium Pratama Trans dengan kapasitas 33 kursi. Dilengkapi AC, 1 unit LCD TV, Android Entertainment System, karaoke + microphone, Port USB, dan kompartemen bagasi atas & bawah.', '["Seat 3-2","AC","1 Unit LCD TV","Audio Set","Android Entertainment System","Karaoke + Microphone","Port USB","Kompartemen Bagasi Atas + Bawah","Lampu Baca"]'),
+(3,  'Pratama Trans', 'big_bus',     59, 4500000, 'bus3/bus3.webp',     'Bus besar Pratama Trans dengan kapasitas 59 kursi dan interior modern. Dilengkapi AC, 2 unit LCD TV, Android Entertainment System, karaoke + microphone, Port USB, dan kompartemen bagasi atas & bawah.', '["Seat 3-2","AC","2 Unit LCD TV","Audio Set","Android Entertainment System","Karaoke + Microphone","Port USB","Kompartemen Bagasi Atas + Bawah","Lampu Baca"]'),
+(4,  'Pratama Trans', 'big_bus',     59, 5000000, 'bus4/bus4.webp',     'Bus besar Pratama Trans dengan kapasitas 59 kursi, dilengkapi Dispenser air minum, AC, 2 unit LCD TV, Android Entertainment System, karaoke + microphone, Port USB, dan kompartemen bagasi atas & bawah.', '["Seat 3-2","AC","2 Unit LCD TV","Audio Set","Android Entertainment System","Karaoke + Microphone","Port USB","Kompartemen Bagasi Atas + Bawah","Lampu Baca","Dispenser"]'),
+(5,  'Malika Wisata', 'big_bus',     59, 3500000, 'bus5/bus5.webp',     'Bus besar Malika Wisata dengan kapasitas 59 kursi dan desain interior elegan. Dilengkapi AC, 2 unit LCD TV, Android Entertainment System, karaoke + microphone, Dispenser air minum, Port USB, dan kompartemen bagasi atas & bawah.', '["Seat 3-2","AC","2 Unit LCD TV","Audio Set","Android Entertainment System","Karaoke + Microphone","Port USB","Kompartemen Bagasi Atas + Bawah","Lampu Baca","Dispenser"]'),
+(6,  'Malika Wisata', 'medium_bus',  31, 3500000, 'bus6/interior depan.webp',     'Bus medium Malika Wisata dengan kapasitas 31 kursi, armada terbaru yang nyaman untuk wisata grup. Dilengkapi Dispenser air minum, AC, 1 unit LCD TV, Android Entertainment System, karaoke + microphone, Port USB, dan kompartemen bagasi atas & bawah.', '["Seat 3-2","AC","1 Unit LCD TV","Audio Set","Android Entertainment System","Karaoke + Microphone","Port USB","Kompartemen Bagasi Atas + Bawah","Lampu Baca","Dispenser"]'),
+(7,  'Malika Wisata', 'big_bus',     59, 3500000, 'bus7/malika_bigbus1.webp',     'Bus besar Malika Wisata dengan kapasitas 59 kursi. Dilengkapi AC, 2 unit LCD TV, Android Entertainment System, karaoke + microphone, Dispenser air minum, Port USB, dan kompartemen bagasi atas & bawah.', '["Seat 3-2","AC","2 Unit LCD TV","Audio Set","Android Entertainment System","Karaoke + Microphone","Port USB","Kompartemen Bagasi Atas + Bawah","Lampu Baca","Dispenser"]'),
+(8,  'Malika Wisata', 'big_bus',     59, 4500000, 'bus8/malika2.webp',     'Bus besar Malika Wisata dengan kapasitas 59 kursi, dilengkapi Smoking Room dan Toilet. Fasilitas: 2 unit LCD TV, Android Entertainment System, karaoke + microphone, Dispenser air minum, Port USB, dan kompartemen bagasi atas & bawah.', '["Seat 3-2","Smoking Room","Toilet","AC","2 Unit LCD TV","Audio Set","Android Entertainment System","Karaoke + Microphone","Port USB","Kompartemen Bagasi Atas + Bawah","Lampu Baca","Dispenser"]'),
+(9,  'Malika Wisata', 'big_bus',     59, 3500000, 'bus9/malikabigbus.webp',     'Bus besar Malika Wisata dengan kapasitas 59 kursi. Dilengkapi AC, 2 unit LCD TV, Android Entertainment System, karaoke + microphone, Dispenser air minum, Port USB, dan kompartemen bagasi atas & bawah.', '["Seat 3-2","AC","2 Unit LCD TV","Audio Set","Android Entertainment System","Karaoke + Microphone","Port USB","Kompartemen Bagasi Atas + Bawah","Lampu Baca","Dispenser"]'),
+(10, 'Malika Wisata', 'medium_bus', 35, 3000000, 'bus10/bus1.webp',    'Bus medium Malika Wisata dengan kapasitas 35 kursi. Dilengkapi AC, 1 unit LCD TV, Android Entertainment System, karaoke + microphone, Dispenser air minum, Port USB, dan kompartemen bagasi atas & bawah.', '["Seat 3-2","AC","1 Unit LCD TV","Audio Set","Android Entertainment System","Karaoke + Microphone","Port USB","Kompartemen Bagasi Atas + Bawah","Lampu Baca","Dispenser"]'),
+(11, 'Malika Wisata', 'medium_bus',  31, 3000000, 'bus11/bus1.webp',    'Bus medium Malika Wisata dengan kapasitas 31 kursi. Dilengkapi AC, 1 unit LCD TV, Android Entertainment System, karaoke + microphone, Port USB, dan kompartemen bagasi atas & bawah.', '["Seat 3-2","AC","1 Unit LCD TV","Audio Set","Android Entertainment System","Karaoke + Microphone","Port USB","Kompartemen Bagasi Atas + Bawah","Lampu Baca"]')
 ON DUPLICATE KEY UPDATE id = id;
 
 -- ============================================================
 -- SEED: bus_images
 -- ============================================================
 INSERT IGNORE INTO bus_images (bus_id, path, label, urutan) VALUES
-(1, 'bus1/bu1.jpeg',             'Eksterior Bus',   0),
-(1, 'bus1/bangku_depan.jpeg',    'Bangku Depan',    1),
-(1, 'bus1/bangku_belakang.jpeg', 'Bangku Belakang', 2),
-(2, 'bus2/mini_bus2.jpeg',       'Eksterior Bus',   0),
-(2, 'bus2/supir.jpeg',           'Area Supir',      1),
-(2, 'bus2/bangku_depan.jpeg',    'Bangku Depan',    2),
-(2, 'bus2/bangku_depan2.jpeg',   'Bangku Depan 2',  3),
-(2, 'bus2/bangku_belakang.jpeg', 'Bangku Belakang', 4),
-(3, 'bus3/bus3.jpeg',            'Eksterior Bus',   0),
-(3, 'bus3/bangku_depan.jpeg',    'Bangku Depan',    1),
-(3, 'bus3/bangku_depan1.jpeg',   'Bangku Depan 1',  2),
-(3, 'bus3/bangku_depan2.jpeg',   'Bangku Depan 2',  3),
-(3, 'bus3/bangku_belakang.jpeg', 'Bangku Belakang', 4),
-(4, 'bus4/bus4.jpeg',             'Eksterior Bus',     0),
-(4, 'bus4/bangku_depan.jpeg',     'Bangku Depan',      1),
-(4, 'bus4/bangku_belakang.jpeg',  'Bangku Belakang',   2),
-(4, 'bus4/bangku_belakang2.jpeg', 'Bangku Belakang 2', 3),
-(4, 'bus4/dispenser.jpeg',        'Dispenser Air',     4),
-(5, 'bus5/bus5.jpeg',             'Eksterior Bus',  0),
-(5, 'bus5/bangku_depan.jpeg',     'Bangku Depan',   1),
-(5, 'bus5/bangku_depan2.jpeg',    'Bangku Depan 2', 2),
-(6,  'bus6/bus6.jpeg',  'Eksterior Bus', 0),
-(7,  'bus7/bus1.jpeg',  'Eksterior Bus', 0),
-(8,  'bus8/bus1.jpeg',  'Eksterior Bus', 0),
-(9,  'bus9/bus1.jpeg',  'Eksterior Bus', 0),
-(10, 'bus10/bus1.jpeg', 'Eksterior Bus', 0),
-(11, 'bus11/bus1.jpeg', 'Eksterior Bus', 0);
+(1, 'bus1/bu1.webp',             'Eksterior Bus',   0),
+(1, 'bus1/bangku_depan.webp',    'Bangku Depan',    1),
+(1, 'bus1/bangku_belakang.webp', 'Bangku Belakang', 2),
+(2, 'bus2/mini_bus2.webp',       'Eksterior Bus',   0),
+(2, 'bus2/supir.webp',           'Area Supir',      1),
+(2, 'bus2/bangku_depan.webp',    'Bangku Depan',    2),
+(2, 'bus2/bangku_depan2.webp',   'Bangku Depan 2',  3),
+(2, 'bus2/bangku_belakang.webp', 'Bangku Belakang', 4),
+(3, 'bus3/bus3.webp',            'Eksterior Bus',   0),
+(3, 'bus3/bangku_depan.webp',    'Bangku Depan',    1),
+(3, 'bus3/bangku_depan1.webp',   'Bangku Depan 1',  2),
+(3, 'bus3/bangku_depan2.webp',   'Bangku Depan 2',  3),
+(3, 'bus3/bangku_belakang.webp', 'Bangku Belakang', 4),
+(4, 'bus4/bus4.webp',             'Eksterior Bus',     0),
+(4, 'bus4/bangku_depan.webp',     'Bangku Depan',      1),
+(4, 'bus4/bangku_belakang.webp',  'Bangku Belakang',   2),
+(4, 'bus4/bangku_belakang2.webp', 'Bangku Belakang 2', 3),
+(4, 'bus4/dispenser.webp',        'Dispenser Air',     4),
+(5, 'bus5/bus5.webp',             'Eksterior Bus',  0),
+(5, 'bus5/bangku_depan.webp',     'Bangku Depan',   1),
+(5, 'bus5/media__1783173907136.webp',    'Bangku Belakang', 2),
+(6,  'bus6/interior depan.webp', 'Interior Depan', 0),
+(6,  'bus6/bangku_depan.webp', 'Bangku Depan', 1),
+(6,  'bus6/dispenser.webp', 'Dispenser Air', 2),
+(6,  'bus6/bangku_belakang.webp', 'Bangku Belakang', 3),
+(7,  'bus7/malika_bigbus1.webp',  'Eksterior Bus', 0),
+(7,  'bus7/bangku belakang.webp',  'Bangku Belakang', 1),
+(7,  'bus7/bangkudepan.webp',  'Bangku Depan', 2),
+(7,  'bus7/dispenser.webp',  'Dispenser Air', 3),
+(8,  'bus8/malika2.webp',  'Eksterior Bus', 0),
+(8,  'bus8/bangkudepan.webp',  'Bangku Depan', 1),
+(8,  'bus8/media__1783171475659.webp',  'Bangku Belakang', 2),
+(8,  'bus8/media__1783171475662.webp',  'Dispenser Air', 3),
+(9,  'bus9/malikabigbus.webp',  'Eksterior Bus', 0),
+(9,  'bus9/bangkudepan.webp',  'Bangku Depan', 1),
+(9,  'bus9/bangkubelakang.webp',  'Bangku Belakang', 2),
+(9,  'bus9/dispenser.webp',  'Dispenser Air', 3),
+(10, 'bus10/bus1.webp', 'Eksterior Bus', 0),
+(11, 'bus11/bus1.webp', 'Eksterior Bus', 0);
 
 -- ============================================================
 -- SEED: paket_wisata (16 paket)
 -- Path gambar '/images/destinasi/...' (sudah production-safe).
 -- ============================================================
 INSERT INTO paket_wisata (id, judul, badge, kategori, durasi, harga, deskripsi, gambar, status, urutan) VALUES
-(1,  'Bandung',              'PAKET 1 HARI',  '1 Hari',  '1 Hari',          2200000, 'Jelajahi keindahan Bandung, mulai dari belanja di factory outlet hingga menikmati udara sejuk pegunungan.',                           '/images/destinasi/bandung.jpeg',           'aktif', 1),
-(2,  'Taman Bunga Nusantara','PAKET 1 HARI',  '1 Hari',  '1 Hari',          2500000, 'Nikmati keindahan taman bunga terbesar di Indonesia dengan koleksi bunga dari seluruh dunia.',                                        '/images/destinasi/bunga_nusantara.jpeg',   'aktif', 2),
-(3,  'Kebun Raya Bogor',     'PAKET 1 HARI',  '1 Hari',  '1 Hari',          2300000, 'Wisata alam yang menyegarkan di kebun raya dengan koleksi tumbuhan langka dan udara pegunungan yang sejuk.',                         '/images/destinasi/kebun_cibodas.jpeg',     'aktif', 3),
-(4,  'Anyer',                'PAKET 1 HARI',  '1 Hari',  '1 Hari',          2600000, 'Nikmati keindahan pantai Anyer dengan pasir putih dan sunset yang memukau.',                                                          '/images/destinasi/anyer.jpeg',             'aktif', 4),
-(5,  'Taman Safari',         'PAKET 1 HARI',  '1 Hari',  '1 Hari',          2700000, 'Petualangan seru bersama satwa liar di Taman Safari dengan berbagai atraksi menarik.',                                               '/images/destinasi/taman_safari.jpeg',      'aktif', 5),
-(6,  'Maribaya Bandung',     'PAKET 1 HARI',  '1 Hari',  '1 Hari',          2200000, 'Wisata alam dengan pemandian air hangat, curug, dan hutan pinus yang asri.',                                                         '/images/destinasi/maribaya_bandung.jpeg',  'aktif', 6),
-(7,  'Taman Mini',           'PAKET 1 HARI',  '1 Hari',  '1 Hari',          2500000, 'Jelajahi kebudayaan Indonesia dalam satu tempat di Taman Mini Indonesia Indah.',                                                     '/images/destinasi/taman_mini.jpeg',        'aktif', 7),
-(8,  'Cimory Dierland Bogor','PAKET 1 HARI',  '1 Hari',  '1 Hari',          2300000, 'Wisata kuliner dan dairy farm di Cimory dengan pemandangan pegunungan yang indah.',                                                  '/images/destinasi/bogor-cimory.jpeg',      'aktif', 8),
-(9,  'Tangkuban Perahu',     'PAKET 2 HARI',  '2 Hari',  '2 Hari 1 Malam',  2400000, 'Kunjungi kawah gunung berapi aktif yang legendaris dengan pemandangan alam yang spektakuler.',                                      '/images/destinasi/tangkuban_perahu.jpeg',  'aktif', 9),
-(10, 'Dieng Yogya',          'PAKET 3 HARI',  '3 Hari',  '3 Hari 2 Malam',  4500000, 'Jelajahi keajaiban Dieng Plateau dan budaya Yogyakarta dalam satu perjalanan.',                                                     '/images/destinasi/dieng-yogya.jpeg',       'aktif', 10),
-(11, 'Yogyakarta',           'PAKET 3 HARI',  '3 Hari',  '3 Hari 2 Malam',  6500000, 'Borobudur, Prambanan, Malioboro, dan wisata budaya Yogyakarta dengan penginapan hotel bintang 3.',                                  '/images/destinasi/yogyakarta.jpeg',        'aktif', 11),
-(12, 'Jawa Tengah',          'PAKET 4 HARI',  '4 Hari',  '4 Hari',          8000000, 'Perjalanan lintas Jawa Tengah mengunjungi candi-candi megah dan budaya lokal.',                                                     '/images/destinasi/jawatengah.jpeg',        'aktif', 12),
-(13, 'Bromo Batu Malang',    'PAKET 4 HARI',  '4 Hari',  '4 Hari',          6800000, 'Saksikan sunrise Gunung Bromo dan nikmati wisata Batu Malang yang sejuk.',                                                          '/images/destinasi/bromo-batu_malang.jpeg', 'aktif', 13),
-(14, 'Batu Malang',          'PAKET 4 HARI',  '4 Hari',  '4 Hari',          6500000, 'Nikmati udara sejuk dan wisata alam di kota wisata Batu Malang.',                                                                   '/images/destinasi/batu_malang.jpeg',       'aktif', 14),
-(15, 'Bali',                 'PAKET 5 HARI',  '5 Hari',  '5 Hari 4 Malam',  7500000, 'Nikmati keindahan pantai, pura, dan budaya Bali dengan akomodasi hotel terbaik.',                                                   '/images/destinasi/bali.jpeg',              'aktif', 15),
-(16, 'Bali Lombok',          'PAKET 10 HARI', '10 Hari', '10 Hari 9 Malam', 5500000, 'Jelajahi keindahan Bali dan Lombok dalam satu paket perjalanan yang tak terlupakan.',                                               '/images/destinasi/bali-lombok.jpeg',       'aktif', 16)
+(1,  'Bandung',              'PAKET 1 HARI',  '1 Hari',  '1 Hari',          2200000, 'Jelajahi keindahan Bandung, mulai dari belanja di factory outlet hingga menikmati udara sejuk pegunungan.',                           '/images/destinasi/bandung.webp',           'aktif', 1),
+(2,  'Taman Bunga Nusantara','PAKET 1 HARI',  '1 Hari',  '1 Hari',          2500000, 'Nikmati keindahan taman bunga terbesar di Indonesia dengan koleksi bunga dari seluruh dunia.',                                        '/images/destinasi/bunga_nusantara.webp',   'aktif', 2),
+(3,  'Kebun Raya Bogor',     'PAKET 1 HARI',  '1 Hari',  '1 Hari',          2300000, 'Wisata alam yang menyegarkan di kebun raya dengan koleksi tumbuhan langka dan udara pegunungan yang sejuk.',                         '/images/destinasi/kebun_cibodas.webp',     'aktif', 3),
+(4,  'Anyer',                'PAKET 1 HARI',  '1 Hari',  '1 Hari',          2600000, 'Nikmati keindahan pantai Anyer dengan pasir putih dan sunset yang memukau.',                                                          '/images/destinasi/anyer.webp',             'aktif', 4),
+(5,  'Taman Safari',         'PAKET 1 HARI',  '1 Hari',  '1 Hari',          2700000, 'Petualangan seru bersama satwa liar di Taman Safari dengan berbagai atraksi menarik.',                                               '/images/destinasi/taman_safari.webp',      'aktif', 5),
+(6,  'Maribaya Bandung',     'PAKET 1 HARI',  '1 Hari',  '1 Hari',          2200000, 'Wisata alam dengan pemandian air hangat, curug, dan hutan pinus yang asri.',                                                         '/images/destinasi/maribaya_bandung.webp',  'aktif', 6),
+(7,  'Taman Mini',           'PAKET 1 HARI',  '1 Hari',  '1 Hari',          2500000, 'Jelajahi kebudayaan Indonesia dalam satu tempat di Taman Mini Indonesia Indah.',                                                     '/images/destinasi/taman_mini.webp',        'aktif', 7),
+(8,  'Cimory Dierland Bogor','PAKET 1 HARI',  '1 Hari',  '1 Hari',          2300000, 'Wisata kuliner dan dairy farm di Cimory dengan pemandangan pegunungan yang indah.',                                                  '/images/destinasi/bogor-cimory.webp',      'aktif', 8),
+(9,  'Tangkuban Perahu',     'PAKET 2 HARI',  '2 Hari',  '2 Hari 1 Malam',  2400000, 'Kunjungi kawah gunung berapi aktif yang legendaris dengan pemandangan alam yang spektakuler.',                                      '/images/destinasi/tangkuban_perahu.webp',  'aktif', 9),
+(10, 'Dieng Yogya',          'PAKET 3 HARI',  '3 Hari',  '3 Hari 2 Malam',  4500000, 'Jelajahi keajaiban Dieng Plateau dan budaya Yogyakarta dalam satu perjalanan.',                                                     '/images/destinasi/dieng-yogya.webp',       'aktif', 10),
+(11, 'Yogyakarta',           'PAKET 3 HARI',  '3 Hari',  '3 Hari 2 Malam',  6500000, 'Borobudur, Prambanan, Malioboro, dan wisata budaya Yogyakarta dengan penginapan hotel bintang 3.',                                  '/images/destinasi/yogyakarta.webp',        'aktif', 11),
+(12, 'Jawa Tengah',          'PAKET 4 HARI',  '4 Hari',  '4 Hari',          8000000, 'Perjalanan lintas Jawa Tengah mengunjungi candi-candi megah dan budaya lokal.',                                                     '/images/destinasi/jawatengah.webp',        'aktif', 12),
+(13, 'Bromo Batu Malang',    'PAKET 4 HARI',  '4 Hari',  '4 Hari',          6800000, 'Saksikan sunrise Gunung Bromo dan nikmati wisata Batu Malang yang sejuk.',                                                          '/images/destinasi/bromo-batu_malang.webp', 'aktif', 13),
+(14, 'Batu Malang',          'PAKET 4 HARI',  '4 Hari',  '4 Hari',          6500000, 'Nikmati udara sejuk dan wisata alam di kota wisata Batu Malang.',                                                                   '/images/destinasi/batu_malang.webp',       'aktif', 14),
+(15, 'Bali',                 'PAKET 5 HARI',  '5 Hari',  '5 Hari 4 Malam',  7500000, 'Nikmati keindahan pantai, pura, dan budaya Bali dengan akomodasi hotel terbaik.',                                                   '/images/destinasi/bali.webp',              'aktif', 15),
+(16, 'Bali Lombok',          'PAKET 10 HARI', '10 Hari', '10 Hari 9 Malam', 5500000, 'Jelajahi keindahan Bali dan Lombok dalam satu paket perjalanan yang tak terlupakan.',                                               '/images/destinasi/bali-lombok.webp',       'aktif', 16)
 ON DUPLICATE KEY UPDATE id = id;
 
 -- ============================================================
@@ -270,6 +282,14 @@ ON DUPLICATE KEY UPDATE id = id;
 CREATE TABLE IF NOT EXISTS settings (
   setting_key   VARCHAR(50)  NOT NULL PRIMARY KEY,
   setting_value TEXT         NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS rate_limits (
+  ip           VARCHAR(45)  NOT NULL,
+  endpoint     VARCHAR(100) NOT NULL,
+  attempts     INT          NOT NULL DEFAULT 1,
+  last_attempt BIGINT       NOT NULL,
+  PRIMARY KEY (ip, endpoint)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 INSERT IGNORE INTO settings (setting_key, setting_value) VALUES 

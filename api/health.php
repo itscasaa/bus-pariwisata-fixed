@@ -16,8 +16,8 @@ $tables_status   = [];
 
 if ($db_ok) {
     foreach ($tables_required as $tbl) {
-        $check              = mysqli_query($conn, "SHOW TABLES LIKE '$tbl'");
-        $tables_status[$tbl] = ($check && mysqli_num_rows($check) > 0);
+        $check              = db_query($conn, "SHOW TABLES LIKE '$tbl'");
+        $tables_status[$tbl] = ($check && db_num_rows($check) > 0);
     }
 }
 
@@ -34,5 +34,5 @@ $response = [
 http_response_code($db_ok ? 200 : 503);
 echo json_encode($response, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
 
-if ($db_ok) mysqli_close($conn);
+if ($db_ok) db_close($conn);
 ?>

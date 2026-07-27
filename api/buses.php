@@ -64,11 +64,11 @@ function normalizeImagePath($path) {
 
 try {
     // ── Deteksi kolom yang tersedia di tabel bus ──────────────────────────────
-    $col_check = mysqli_query($conn, "SHOW COLUMNS FROM bus");
+    $col_check = db_query($conn, "SHOW COLUMNS FROM bus");
     if (!$col_check) throw new Exception('Tabel bus tidak ditemukan.');
 
     $cols = [];
-    while ($c = mysqli_fetch_assoc($col_check)) $cols[] = $c['Field'];
+    while ($c = db_fetch_assoc($col_check)) $cols[] = $c['Field'];
 
     $col_gambar    = in_array('gambar_utama', $cols)    ? 'gambar_utama'               : 'gambar';
     $col_tipe      = in_array('tipe', $cols)             ? 'tipe'                        : "'bus' AS tipe";
@@ -81,39 +81,39 @@ try {
     if ($bus_id_filter > 0) {
         $sql  = "SELECT id, nama_bus, $col_tipe, kapasitas, harga_sewa, diskon,
                         $col_gambar AS gambar_utama, $col_deskripsi, $col_fasilitas
-                 FROM bus WHERE id = ? LIMIT 1";
-        $stmt = mysqli_prepare($conn, $sql);
-        mysqli_stmt_bind_param($stmt, 'i', $bus_id_filter);
-        mysqli_stmt_execute($stmt);
-        $query = mysqli_stmt_get_result($stmt);
+                 FROM bus WHERE id = ? AND id != 5 LIMIT 1";
+        $stmt = db_prepare($conn, $sql);
+        db_stmt_bind_param($stmt, 'i', $bus_id_filter);
+        db_stmt_execute($stmt);
+        $query = db_stmt_get_result($stmt);
     } else {
         $sql   = "SELECT id, nama_bus, $col_tipe, kapasitas, harga_sewa, diskon,
                          $col_gambar AS gambar_utama, $col_deskripsi, $col_fasilitas
-                  FROM bus ORDER BY id ASC";
-        $query = mysqli_query($conn, $sql);
+                  FROM bus WHERE id != 5 ORDER BY id ASC";
+        $query = db_query($conn, $sql);
     }
 
     if ($query === false) throw new Exception('Query bus gagal.');
 
     // ── Cek apakah tabel bus_images ada ──────────────────────────────────────
-    $img_tbl       = mysqli_query($conn, "SHOW TABLES LIKE 'bus_images'");
-    $has_img_table = $img_tbl && mysqli_num_rows($img_tbl) > 0;
+    $img_tbl       = db_query($conn, "SHOW TABLES LIKE 'bus_images'");
+    $has_img_table = $img_tbl && db_num_rows($img_tbl) > 0;
 
     $buses = [];
-    while ($row = mysqli_fetch_assoc($query)) {
+    while ($row = db_fetch_assoc($query)) {
         $bus_id = (int)$row['id'];
 
         // ── Gambar tambahan ───────────────────────────────────────────────────
         $images = [];
         if ($has_img_table) {
-            $img_stmt = mysqli_prepare($conn,
+            $img_stmt = db_prepare($conn,
                 "SELECT id, path, label, tipe_gambar, urutan, is_cover FROM bus_images WHERE bus_id = ? ORDER BY urutan ASC, id ASC"
             );
-            mysqli_stmt_bind_param($img_stmt, 'i', $bus_id);
-            mysqli_stmt_execute($img_stmt);
-            $img_result = mysqli_stmt_get_result($img_stmt);
+            db_stmt_bind_param($img_stmt, 'i', $bus_id);
+            db_stmt_execute($img_stmt);
+            $img_result = db_stmt_get_result($img_stmt);
             if ($img_result) {
-                while ($img = mysqli_fetch_assoc($img_result)) {
+                while ($img = db_fetch_assoc($img_result)) {
                     $images[] = [
                         'id'          => (int)$img['id'],
                         'path'        => normalizeImagePath($img['path']),
@@ -124,7 +124,7 @@ try {
                     ];
                 }
             }
-            mysqli_stmt_close($img_stmt);
+            db_stmt_close($img_stmt);
         }
 
         // ── Decode fasilitas JSON ─────────────────────────────────────────────
@@ -172,5 +172,5 @@ try {
 }
 
 echo json_encode($response, JSON_UNESCAPED_UNICODE);
-if (isset($conn) && $conn) mysqli_close($conn);
+if (isset($conn) && $conn) db_close($conn);
 ?>

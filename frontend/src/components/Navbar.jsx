@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import siteData from '../data/siteData';
 import logoImg from '../assets/logo.webp';
+import logoImg2x from '../assets/logo_2x.webp';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -35,16 +36,15 @@ const Navbar = () => {
       }}
     >
       <div className="container mx-auto px-4 lg:px-6">
-        <div className="flex items-center justify-between h-20 lg:h-[88px]">
+        <div className="flex items-center justify-between h-20 lg:h-[80px]">
           
-          {/* Logo - Transparent, no capsule background */}
+          {/* Logo - Premium Brand Logo */}
           <Link to="/" className="flex items-center group">
             <img
               src={logoImg}
-              alt="Mafina Trans"
-              width={160}
-              height={160}
-              className="h-14 lg:h-[60px] w-auto object-contain transition-transform duration-300 group-hover:scale-105"
+              srcSet={`${logoImg} 1x, ${logoImg2x} 2x`}
+              alt="Mafina Trans Logo"
+              className="h-8 lg:h-9 w-auto object-contain transition-transform duration-300 group-hover:scale-[1.02]"
             />
           </Link>
 

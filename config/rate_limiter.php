@@ -22,18 +22,18 @@ function checkRateLimit($endpoint, $limit, $window) {
 
     // 1. Clean up old entries with 5% probability to prevent table bloat
     if (mt_rand(1, 100) <= 5) {
-        mysqli_query($conn, "DELETE FROM rate_limits WHERE last_attempt < " . ($now - 3600));
+        db_query($conn, "DELETE FROM rate_limits WHERE last_attempt < " . ($now - 3600));
     }
 
     try {
         // 2. Fetch current status
-        $stmt = mysqli_prepare($conn, "SELECT attempts, last_attempt FROM rate_limits WHERE ip = ? AND endpoint = ? LIMIT 1");
+        $stmt = db_prepare($conn, "SELECT attempts, last_attempt FROM rate_limits WHERE ip = ? AND endpoint = ? LIMIT 1");
         if ($stmt) {
-            mysqli_stmt_bind_param($stmt, 'ss', $ip, $endpoint);
-            mysqli_stmt_execute($stmt);
-            $result = mysqli_stmt_get_result($stmt);
-            $row = mysqli_fetch_assoc($result);
-            mysqli_stmt_close($stmt);
+            db_stmt_bind_param($stmt, 'ss', $ip, $endpoint);
+            db_stmt_execute($stmt);
+            $result = db_stmt_get_result($stmt);
+            $row = db_fetch_assoc($result);
+            db_stmt_close($stmt);
 
             if ($row) {
                 $attempts = (int)$row['attempts'];
@@ -41,11 +41,11 @@ function checkRateLimit($endpoint, $limit, $window) {
 
                 if (($now - $last_attempt) > $window) {
                     // Window passed, reset attempts
-                    $stmtUpdate = mysqli_prepare($conn, "UPDATE rate_limits SET attempts = 1, last_attempt = ? WHERE ip = ? AND endpoint = ?");
+                    $stmtUpdate = db_prepare($conn, "UPDATE rate_limits SET attempts = 1, last_attempt = ? WHERE ip = ? AND endpoint = ?");
                     if ($stmtUpdate) {
-                        mysqli_stmt_bind_param($stmtUpdate, 'iss', $now, $ip, $endpoint);
-                        mysqli_stmt_execute($stmtUpdate);
-                        mysqli_stmt_close($stmtUpdate);
+                        db_stmt_bind_param($stmtUpdate, 'iss', $now, $ip, $endpoint);
+                        db_stmt_execute($stmtUpdate);
+                        db_stmt_close($stmtUpdate);
                     }
                 } else {
                     if ($attempts >= $limit) {
@@ -60,21 +60,21 @@ function checkRateLimit($endpoint, $limit, $window) {
                         exit;
                     } else {
                         // Increment attempts
-                        $stmtUpdate = mysqli_prepare($conn, "UPDATE rate_limits SET attempts = attempts + 1 WHERE ip = ? AND endpoint = ?");
+                        $stmtUpdate = db_prepare($conn, "UPDATE rate_limits SET attempts = attempts + 1 WHERE ip = ? AND endpoint = ?");
                         if ($stmtUpdate) {
-                            mysqli_stmt_bind_param($stmtUpdate, 'ss', $ip, $endpoint);
-                            mysqli_stmt_execute($stmtUpdate);
-                            mysqli_stmt_close($stmtUpdate);
+                            db_stmt_bind_param($stmtUpdate, 'ss', $ip, $endpoint);
+                            db_stmt_execute($stmtUpdate);
+                            db_stmt_close($stmtUpdate);
                         }
                     }
                 }
             } else {
                 // Insert first attempt
-                $stmtInsert = mysqli_prepare($conn, "INSERT INTO rate_limits (ip, endpoint, attempts, last_attempt) VALUES (?, ?, 1, ?)");
+                $stmtInsert = db_prepare($conn, "INSERT INTO rate_limits (ip, endpoint, attempts, last_attempt) VALUES (?, ?, 1, ?)");
                 if ($stmtInsert) {
-                    mysqli_stmt_bind_param($stmtInsert, 'ssi', $ip, $endpoint, $now);
-                    mysqli_stmt_execute($stmtInsert);
-                    mysqli_stmt_close($stmtInsert);
+                    db_stmt_bind_param($stmtInsert, 'ssi', $ip, $endpoint, $now);
+                    db_stmt_execute($stmtInsert);
+                    db_stmt_close($stmtInsert);
                 }
             }
         }

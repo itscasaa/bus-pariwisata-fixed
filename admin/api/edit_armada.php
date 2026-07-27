@@ -48,18 +48,18 @@ if (!$nama || !$kapasitas || !$harga) {
 }
 
 try {
-    $stmt = mysqli_prepare($conn,
+    $stmt = db_prepare($conn,
         "UPDATE bus SET nama_bus = ?, tipe = ?, kapasitas = ?, harga_sewa = ?, diskon = ?, gambar_utama = ?, deskripsi = ?, fasilitas_json = ? 
          WHERE id = ?"
     );
-    mysqli_stmt_bind_param($stmt, 'ssiissssi', $nama, $tipe, $kapasitas, $harga, $diskon, $gambar, $deskripsi, $fasilitas, $id);
+    db_stmt_bind_param($stmt, 'ssiissssi', $nama, $tipe, $kapasitas, $harga, $diskon, $gambar, $deskripsi, $fasilitas, $id);
     
-    if (mysqli_stmt_execute($stmt)) {
+    if (db_stmt_execute($stmt)) {
         sendResponse('success', 'Armada berhasil diperbarui.');
     } else {
         sendResponse('error', 'Gagal memperbarui armada.');
     }
-    mysqli_stmt_close($stmt);
+    db_stmt_close($stmt);
 } catch (Exception $e) {
     sendResponse('error', 'Terjadi kesalahan sistem internal.', [], 500);
 }

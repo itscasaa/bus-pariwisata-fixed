@@ -19,7 +19,7 @@ include_once '../layout/navbar.php';
         body { font-family: 'Poppins', sans-serif; }
         .hero-section {
             /* Perbaikan Path Gambar Background */
-            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('../public/images/bus3.jpeg');
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('../public/images/bus3.webp');
             background-size: cover;
             background-position: center;
             min-height: 500px;
@@ -59,18 +59,18 @@ include_once '../layout/navbar.php';
     <div class="row">
         <?php
         // Mengambil data bus dari database
-        $query = mysqli_query($conn, "SELECT * FROM bus ORDER BY id DESC LIMIT 3");
+        $query = db_query($conn, "SELECT * FROM bus ORDER BY id DESC LIMIT 3");
 
         if (!$query) {
-            echo "<div class='alert alert-danger'>Kesalahan Database: " . mysqli_error($conn) . "</div>";
-        } elseif (mysqli_num_rows($query) == 0) {
+            echo "<div class='alert alert-danger'>Kesalahan Database: " . db_error($conn) . "</div>";
+        } elseif (db_num_rows($query) == 0) {
             echo "<div class='col-12 text-center'><p class='alert alert-info'>Belum ada data armada bus yang tersedia.</p></div>";
         } else {
-            while ($data = mysqli_fetch_array($query)) {
+            while ($data = db_fetch_array($query)) {
         ?>
         <div class="col-md-4">
             <div class="card shadow border-0 mb-4">
-                <img src="../public/images/bus2.jpeg/<?php echo !empty($data['gambar']) ? $data['gambar'] : 'default-bus.jpg'; ?>" 
+                <img src="../public/images/bus2.webp/<?php echo !empty($data['gambar']) ? $data['gambar'] : 'default-bus.jpg'; ?>" 
                      class="card-img-top" alt="<?php echo $data['nama_bus']; ?>">
                 <div class="card-body">
                     <h5 class="card-title fw-bold"><?php echo $data['nama_bus']; ?></h5>

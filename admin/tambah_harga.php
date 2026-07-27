@@ -12,17 +12,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $big     = (int)($_POST['harga_big']    ?? 0);
 
     if ($dest && $durasi) {
-        $stmt = mysqli_prepare($conn,
+        $stmt = db_prepare($conn,
             "INSERT INTO price_list (nama_destinasi, durasi, harga_hiace, harga_elf, harga_medium, harga_big)
              VALUES (?, ?, ?, ?, ?, ?)"
         );
-        mysqli_stmt_bind_param($stmt, 'ssiiii', $dest, $durasi, $hiace, $elf, $medium, $big);
-        if (mysqli_stmt_execute($stmt)) {
+        db_stmt_bind_param($stmt, 'ssiiii', $dest, $durasi, $hiace, $elf, $medium, $big);
+        if (db_stmt_execute($stmt)) {
             setFlash('success', 'Harga destinasi berhasil ditambahkan!');
             header('Location: price_list.php');
             exit;
         } else {
-            $error = 'Gagal menyimpan: ' . mysqli_error($conn);
+            $error = 'Gagal menyimpan: ' . db_error($conn);
         }
     } else {
         $error = 'Nama destinasi dan durasi wajib diisi.';

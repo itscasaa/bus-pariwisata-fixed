@@ -10,7 +10,7 @@ const AdminSidebar = () => {
     { icon: 'map', label: 'Kelola Wisata', path: '/wisata' },
     { icon: 'payments', label: 'Kelola Price List', path: '/price-list' },
     { icon: 'newspaper', label: 'Kelola Berita', path: '/news' },
-    { icon: 'language', label: 'Lihat Website', path: 'https://mafinatrans.duckdns.org', external: true },
+    { icon: 'language', label: 'Lihat Website', path: 'https://mafinatrans.com', external: true },
   ];
 
   const isActive = (path) => location.pathname === path;

@@ -4,16 +4,16 @@ cekLogin();
 $pageTitle = 'Dashboard';
 
 // Statistik
-$total_bus     = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) as t FROM bus"))['t'];
-$total_harga   = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) as t FROM price_list"))['t'];
-$total_news    = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) as t FROM news"))['t'];
-$total_images  = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) as t FROM bus_images"))['t'];
+$total_bus     = db_fetch_assoc(db_query($conn, "SELECT COUNT(*) as t FROM bus"))['t'];
+$total_harga   = db_fetch_assoc(db_query($conn, "SELECT COUNT(*) as t FROM price_list"))['t'];
+$total_news    = db_fetch_assoc(db_query($conn, "SELECT COUNT(*) as t FROM news"))['t'];
+$total_images  = db_fetch_assoc(db_query($conn, "SELECT COUNT(*) as t FROM bus_images"))['t'];
 
 // Armada terbaru
-$q_bus = mysqli_query($conn, "SELECT id, nama_bus, tipe, kapasitas, harga_sewa FROM bus ORDER BY id DESC LIMIT 5");
+$q_bus = db_query($conn, "SELECT id, nama_bus, tipe, kapasitas, harga_sewa FROM bus ORDER BY id DESC LIMIT 5");
 
 // News terbaru
-$q_news = mysqli_query($conn, "SELECT id, judul, status, created_at FROM news ORDER BY created_at DESC LIMIT 5");
+$q_news = db_query($conn, "SELECT id, judul, status, created_at FROM news ORDER BY created_at DESC LIMIT 5");
 
 include 'layout_header.php';
 ?>
@@ -68,7 +68,7 @@ include 'layout_header.php';
       <a href="armada.php" class="text-xs text-[#1d6ec5] hover:underline">Lihat Semua →</a>
     </div>
     <div class="divide-y divide-gray-50">
-      <?php while ($bus = mysqli_fetch_assoc($q_bus)): ?>
+      <?php while ($bus = db_fetch_assoc($q_bus)): ?>
       <div class="px-5 py-3.5 flex items-center justify-between">
         <div class="flex items-center gap-3">
           <div class="w-9 h-9 rounded-lg bg-blue-50 flex items-center justify-center shrink-0">
@@ -95,7 +95,7 @@ include 'layout_header.php';
       <a href="news.php" class="text-xs text-[#1d6ec5] hover:underline">Lihat Semua →</a>
     </div>
     <div class="divide-y divide-gray-50">
-      <?php while ($n = mysqli_fetch_assoc($q_news)): ?>
+      <?php while ($n = db_fetch_assoc($q_news)): ?>
       <div class="px-5 py-3.5 flex items-center justify-between gap-3">
         <div class="flex items-center gap-3 min-w-0">
           <div class="w-9 h-9 rounded-lg bg-yellow-50 flex items-center justify-center shrink-0">

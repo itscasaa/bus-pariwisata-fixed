@@ -47,7 +47,7 @@ if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
   respond('error', 'Format email tidak valid.', []);
 }
 
-$stmt = mysqli_prepare($conn, "INSERT INTO pesan_masuk (nama, email, judul, pesan) VALUES (?, ?, ?, ?)");
+$stmt = db_prepare($conn, "INSERT INTO pesan_masuk (nama, email, judul, pesan) VALUES (?, ?, ?, ?)");
 if ($stmt === false) {
   respond('error', 'Gagal menyiapkan query.', []);
 }

@@ -43,19 +43,19 @@ if (!$nama || !$kapasitas || !$harga) {
 }
 
 try {
-    $stmt = mysqli_prepare($conn,
+    $stmt = db_prepare($conn,
         "INSERT INTO bus (nama_bus, tipe, kapasitas, harga_sewa, diskon, gambar_utama, deskripsi, fasilitas_json)
          VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
     );
-    mysqli_stmt_bind_param($stmt, 'ssiissss', $nama, $tipe, $kapasitas, $harga, $diskon, $gambar, $deskripsi, $fasilitas);
+    db_stmt_bind_param($stmt, 'ssiissss', $nama, $tipe, $kapasitas, $harga, $diskon, $gambar, $deskripsi, $fasilitas);
     
-    if (mysqli_stmt_execute($stmt)) {
-        $new_id = mysqli_insert_id($conn);
+    if (db_stmt_execute($stmt)) {
+        $new_id = db_insert_id($conn);
         sendResponse('success', 'Armada berhasil ditambahkan.', ['id' => $new_id]);
     } else {
         sendResponse('error', 'Gagal menambahkan armada.');
     }
-    mysqli_stmt_close($stmt);
+    db_stmt_close($stmt);
 } catch (Exception $e) {
     sendResponse('error', 'Terjadi kesalahan sistem internal.', [], 500);
 }

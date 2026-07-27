@@ -1,5 +1,35 @@
+# ============================================================
+# Nginx Virtual Host Configuration - Surya Tour Trans
+# Protected against IP bypass scans
+# ============================================================
+
+# 1. Catch-all default server for Port 80 (HTTP)
+# Returns HTTP 444 (Connection Closed without response) for direct IP access
 server {
-    server_name mafinatrans.duckdns.org;
+    listen 80 default_server;
+    listen [::]:80 default_server;
+    server_name _;
+    return 444;
+}
+
+# 2. Catch-all default server for Port 443 (HTTPS)
+# Establishes TLS handshake and then drops connection with 444
+server {
+    listen 443 ssl default_server;
+    listen [::]:443 ssl default_server;
+    server_name _;
+
+    ssl_certificate /etc/letsencrypt/live/mafinatrans.com/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/mafinatrans.com/privkey.pem;
+    include /etc/letsencrypt/options-ssl-nginx.conf;
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
+
+    return 444;
+}
+
+# 3. Main Virtual Host for mafinatrans.com (HTTPS)
+server {
+    server_name mafinatrans.com www.mafinatrans.com;
     root /var/www/bus-pariwisata;
     index index.html index.htm index.php;
 
@@ -8,7 +38,7 @@ server {
     add_header X-Frame-Options "SAMEORIGIN" always;
     add_header Referrer-Policy "strict-origin-when-cross-origin" always;
     add_header Permissions-Policy "camera=(), microphone=(), geolocation=()" always;
-    add_header Content-Security-Policy "default-src 'self' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; style-src 'self' 'unsafe-inline' https:; img-src 'self' data: https:; font-src 'self' https:; connect-src 'self' https:; frame-ancestors 'self';" always;
+    add_header Content-Security-Policy "default-src 'self' https: http: 'unsafe-inline' 'unsafe-eval' data:; img-src 'self' data: https: http:; font-src 'self' https: http: data:; connect-src 'self' https: http:;" always;
 
     # Support React SPA routing
     location / {
@@ -60,19 +90,17 @@ server {
         return 404;
     }
 
-    listen 443 ssl http2; # managed by Certbot
-    ssl_certificate /etc/letsencrypt/live/mafinatrans.duckdns.org/fullchain.pem; # managed by Certbot
-    ssl_certificate_key /etc/letsencrypt/live/mafinatrans.duckdns.org/privkey.pem; # managed by Certbot
+    listen 443 ssl; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/mafinatrans.com/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/mafinatrans.com/privkey.pem; # managed by Certbot
     include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
     ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
 }
 
+# 4. HTTP to HTTPS redirect for mafinatrans.com
 server {
-    if ($host = mafinatrans.duckdns.org) {
-        return 301 https://$host$request_uri;
-    } # managed by Certbot
-
     listen 80;
-    server_name mafinatrans.duckdns.org;
-    return 404; # managed by Certbot
+    listen [::]:80;
+    server_name mafinatrans.com www.mafinatrans.com;
+    return 301 https://$host$request_uri;
 }

@@ -35,7 +35,7 @@ $create_query = "CREATE TABLE IF NOT EXISTS settings (
     setting_key   VARCHAR(50)  NOT NULL PRIMARY KEY,
     setting_value TEXT         NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4";
-mysqli_query($conn, $create_query);
+db_query($conn, $create_query);
 
 // Seed defaults
 $defaults = [
@@ -44,26 +44,26 @@ $defaults = [
 ];
 
 foreach ($defaults as $key => $val) {
-    $stmt = mysqli_prepare($conn, "SELECT 1 FROM settings WHERE setting_key = ?");
-    mysqli_stmt_bind_param($stmt, 's', $key);
-    mysqli_stmt_execute($stmt);
-    mysqli_stmt_store_result($stmt);
-    if (mysqli_stmt_num_rows($stmt) === 0) {
-        $inst = mysqli_prepare($conn, "INSERT INTO settings (setting_key, setting_value) VALUES (?, ?)");
-        mysqli_stmt_bind_param($inst, 'ss', $key, $val);
-        mysqli_stmt_execute($inst);
-        mysqli_stmt_close($inst);
+    $stmt = db_prepare($conn, "SELECT 1 FROM settings WHERE setting_key = ?");
+    db_stmt_bind_param($stmt, 's', $key);
+    db_stmt_execute($stmt);
+    db_stmt_store_result($stmt);
+    if (db_stmt_num_rows($stmt) === 0) {
+        $inst = db_prepare($conn, "INSERT INTO settings (setting_key, setting_value) VALUES (?, ?)");
+        db_stmt_bind_param($inst, 'ss', $key, $val);
+        db_stmt_execute($inst);
+        db_stmt_close($inst);
     }
-    mysqli_stmt_close($stmt);
+    db_stmt_close($stmt);
 }
 
 $method = $_SERVER['REQUEST_METHOD'];
 
 if ($method === 'GET') {
     try {
-        $result = mysqli_query($conn, "SELECT setting_key, setting_value FROM settings");
+        $result = db_query($conn, "SELECT setting_key, setting_value FROM settings");
         $settings = [];
-        while ($row = mysqli_fetch_assoc($result)) {
+        while ($row = db_fetch_assoc($result)) {
             $settings[$row['setting_key']] = $row['setting_value'];
         }
         
@@ -97,18 +97,18 @@ if ($method === 'POST') {
 
         if (isset($input['maintenance_mode'])) {
             $mode = ($input['maintenance_mode'] === true || $input['maintenance_mode'] == 1) ? '1' : '0';
-            $stmt = mysqli_prepare($conn, "UPDATE settings SET setting_value = ? WHERE setting_key = 'maintenance_mode'");
-            mysqli_stmt_bind_param($stmt, 's', $mode);
-            mysqli_stmt_execute($stmt);
-            mysqli_stmt_close($stmt);
+            $stmt = db_prepare($conn, "UPDATE settings SET setting_value = ? WHERE setting_key = 'maintenance_mode'");
+            db_stmt_bind_param($stmt, 's', $mode);
+            db_stmt_execute($stmt);
+            db_stmt_close($stmt);
         }
 
         if (isset($input['maintenance_message'])) {
             $message = trim($input['maintenance_message']);
-            $stmt = mysqli_prepare($conn, "UPDATE settings SET setting_value = ? WHERE setting_key = 'maintenance_message'");
-            mysqli_stmt_bind_param($stmt, 's', $message);
-            mysqli_stmt_execute($stmt);
-            mysqli_stmt_close($stmt);
+            $stmt = db_prepare($conn, "UPDATE settings SET setting_value = ? WHERE setting_key = 'maintenance_message'");
+            db_stmt_bind_param($stmt, 's', $message);
+            db_stmt_execute($stmt);
+            db_stmt_close($stmt);
         }
 
         http_response_code(200);

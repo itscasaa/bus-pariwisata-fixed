@@ -27,7 +27,7 @@ const QuickActions = () => {
       icon: 'rocket_launch',
       label: 'Lihat Website',
       color: 'bg-zinc-50 border border-zinc-200 text-zinc-750 hover:bg-zinc-100 hover:text-zinc-900 shadow-sm',
-      onClick: () => window.open('https://mafinatrans.duckdns.org', '_blank'),
+      onClick: () => window.open('https://mafinatrans.com', '_blank'),
     },
   ];
 

@@ -196,7 +196,7 @@ const BusDetailPage = () => {
                         <img
                           src={img.path}
                           alt={img.label}
-                          className="w-full h-full object-cover"
+                          className={`w-full h-full object-cover ${img.label && (img.label.toLowerCase().includes('depan') || img.label.toLowerCase().includes('keatas') || img.label.toLowerCase().includes('front')) ? 'object-bottom' : ''}`}
                           onError={(e) => { e.target.src = '/images/default-bus.jpg'; }}
                         />
                         {bus.diskon && index === 0 && (
@@ -230,7 +230,7 @@ const BusDetailPage = () => {
                           <img
                             src={img.path}
                             alt={img.label}
-                            className="w-full h-full object-cover"
+                            className={`w-full h-full object-cover ${img.label && (img.label.toLowerCase().includes('depan') || img.label.toLowerCase().includes('keatas') || img.label.toLowerCase().includes('front')) ? 'object-bottom' : ''}`}
                             onError={(e) => { e.target.src = '/images/default-bus.jpg'; }}
                           />
                         </div>
@@ -325,7 +325,7 @@ const BusDetailPage = () => {
                             <img
                               src={img.path}
                               alt={img.label || getCategoryLabel(img.tipe_gambar)}
-                              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                              className={`w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ${img.label && (img.label.toLowerCase().includes('depan') || img.label.toLowerCase().includes('keatas') || img.label.toLowerCase().includes('front')) ? 'object-bottom' : ''}`}
                               onError={(e) => { e.target.src = '/images/default-bus.jpg'; }}
                             />
                             <div className="absolute top-3 left-3 flex gap-1.5">
@@ -390,7 +390,7 @@ const BusDetailPage = () => {
                     href={`https://wa.me/${siteData.whatsapp.number}?text=${encodeURIComponent(`Halo Mafina Trans, saya tertarik untuk menyewa armada ${bus.nama_bus} kapasitas ${bus.kapasitas} kursi${bus.diskon ? ` dengan promo ${bus.diskon}` : ''}. Boleh tanya ketersediaan jadwalnya?`)}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-full bg-[#128C7E] hover:bg-[#0b655b] text-white font-bold py-3.5 rounded-xl transition-all duration-300 flex items-center justify-center gap-2 hover:shadow-lg"
+                    className="w-full bg-[#0B655B] hover:bg-[#084D45] text-white font-bold py-3.5 rounded-xl transition-all duration-300 flex items-center justify-center gap-2 hover:shadow-lg"
                   >
                     <i className="fab fa-whatsapp text-lg"></i>
                     <span>Sewa via WhatsApp</span>

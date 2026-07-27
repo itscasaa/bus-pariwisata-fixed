@@ -30,23 +30,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $error = 'Field Nama Promo dan Discount Tag wajib diisi.';
         } else {
             if ($urutan === 0) {
-                $r      = mysqli_query($conn, "SELECT COALESCE(MAX(urutan),0)+1 AS m FROM paket_wisata");
-                $urutan = (int)mysqli_fetch_assoc($r)['m'];
+                $r      = db_query($conn, "SELECT COALESCE(MAX(urutan),0)+1 AS m FROM paket_wisata");
+                $urutan = (int)db_fetch_assoc($r)['m'];
             }
-            $stmt = mysqli_prepare($conn,
+            $stmt = db_prepare($conn,
                 "INSERT INTO paket_wisata (judul, badge, kategori, durasi, harga, deskripsi, gambar, status, urutan)
                  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)"
             );
-            mysqli_stmt_bind_param($stmt, 'ssssisssi',
+            db_stmt_bind_param($stmt, 'ssssisssi',
                 $judul, $badge, $kategori, $durasi, $harga, $deskripsi, $gambar, $status, $urutan
             );
-            if (mysqli_stmt_execute($stmt)) {
+            if (db_stmt_execute($stmt)) {
                 setFlash('success', "Discount \"$judul\" berhasil ditambahkan.");
                 header('Location: paket_wisata.php'); exit;
             } else {
-                $error = 'Gagal menyimpan: ' . mysqli_stmt_error($stmt);
+                $error = 'Gagal menyimpan: ' . db_stmt_error($stmt);
             }
-            mysqli_stmt_close($stmt);
+            db_stmt_close($stmt);
         }
 
     // ── EDIT ────────────────────────────────────────────────────
@@ -65,34 +65,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if (!$id || !$judul || !$badge) {
             $error = 'Data tidak lengkap.';
         } else {
-            $stmt = mysqli_prepare($conn,
+            $stmt = db_prepare($conn,
                 "UPDATE paket_wisata SET judul=?, badge=?, kategori=?, durasi=?, harga=?, deskripsi=?, gambar=?, status=?, urutan=?
                  WHERE id=?"
             );
-            mysqli_stmt_bind_param($stmt, 'ssssisssii',
+            db_stmt_bind_param($stmt, 'ssssisssii',
                 $judul, $badge, $kategori, $durasi, $harga, $deskripsi, $gambar, $status, $urutan, $id
             );
-            if (mysqli_stmt_execute($stmt)) {
+            if (db_stmt_execute($stmt)) {
                 setFlash('success', "Discount \"$judul\" berhasil diperbarui.");
                 header('Location: paket_wisata.php'); exit;
             } else {
-                $error = 'Gagal update: ' . mysqli_stmt_error($stmt);
+                $error = 'Gagal update: ' . db_stmt_error($stmt);
             }
-            mysqli_stmt_close($stmt);
+            db_stmt_close($stmt);
         }
 
     // ── HAPUS ────────────────────────────────────────────────────
     } elseif ($action === 'hapus') {
         $id = (int)($_POST['id'] ?? 0);
         if ($id > 0) {
-            $stmt = mysqli_prepare($conn, "DELETE FROM paket_wisata WHERE id = ?");
-            mysqli_stmt_bind_param($stmt, 'i', $id);
-            if (mysqli_stmt_execute($stmt)) {
+            $stmt = db_prepare($conn, "DELETE FROM paket_wisata WHERE id = ?");
+            db_stmt_bind_param($stmt, 'i', $id);
+            if (db_stmt_execute($stmt)) {
                 setFlash('success', 'Discount berhasil dihapus.');
             } else {
-                setFlash('error', 'Gagal hapus: ' . mysqli_stmt_error($stmt));
+                setFlash('error', 'Gagal hapus: ' . db_stmt_error($stmt));
             }
-            mysqli_stmt_close($stmt);
+            db_stmt_close($stmt);
         }
         header('Location: paket_wisata.php'); exit;
     }
@@ -102,14 +102,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 $edit_data = null;
 $edit_id   = (int)($_GET['edit'] ?? 0);
 if ($edit_id > 0) {
-    $stmt = mysqli_prepare($conn, "SELECT * FROM paket_wisata WHERE id = ? LIMIT 1");
-    mysqli_stmt_bind_param($stmt, 'i', $edit_id);
-    mysqli_stmt_execute($stmt);
-    $edit_data = mysqli_fetch_assoc(mysqli_stmt_get_result($stmt));
-    mysqli_stmt_close($stmt);
+    $stmt = db_prepare($conn, "SELECT * FROM paket_wisata WHERE id = ? LIMIT 1");
+    db_stmt_bind_param($stmt, 'i', $edit_id);
+    db_stmt_execute($stmt);
+    $edit_data = db_fetch_assoc(db_stmt_get_result($stmt));
+    db_stmt_close($stmt);
 }
 
-$pakets = mysqli_query($conn, "SELECT * FROM paket_wisata ORDER BY urutan ASC, id ASC");
+$pakets = db_query($conn, "SELECT * FROM paket_wisata ORDER BY urutan ASC, id ASC");
 
 include 'layout_header.php';
 ?>
@@ -196,7 +196,7 @@ include 'layout_header.php';
 <div class="bg-white rounded-xl shadow-sm border border-gray-100">
   <div class="px-5 py-4 border-b border-gray-100 flex items-center justify-between">
     <h2 class="font-bold text-gray-800 text-sm">Daftar Discount</h2>
-    <span class="text-xs text-gray-400"><?= mysqli_num_rows($pakets) ?> discount</span>
+    <span class="text-xs text-gray-400"><?= db_num_rows($pakets) ?> discount</span>
   </div>
   <div class="overflow-x-auto">
     <table class="w-full text-sm">
@@ -211,7 +211,7 @@ include 'layout_header.php';
         </tr>
       </thead>
       <tbody class="divide-y divide-gray-50">
-        <?php $no = 1; while ($p = mysqli_fetch_assoc($pakets)): ?>
+        <?php $no = 1; while ($p = db_fetch_assoc($pakets)): ?>
         <tr class="hover:bg-gray-50">
           <td class="px-4 py-3 text-gray-400"><?= $no++ ?></td>
           <td class="px-4 py-3 font-semibold text-gray-800"><?= htmlspecialchars($p['judul']) ?></td>
@@ -243,7 +243,7 @@ include 'layout_header.php';
           </td>
         </tr>
         <?php endwhile; ?>
-        <?php if (mysqli_num_rows($pakets) === 0): ?>
+        <?php if (db_num_rows($pakets) === 0): ?>
         <tr><td colspan="6" class="px-4 py-8 text-center text-gray-400 text-sm">Belum ada data discount.</td></tr>
         <?php endif; ?>
       </tbody>

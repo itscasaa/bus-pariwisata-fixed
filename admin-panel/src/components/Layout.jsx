@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { NavLink, Outlet, useNavigate, useLocation } from 'react-router-dom';
-import logoImg from '../assets/logo.png';
+import logoImg from '../assets/logo.webp';
+import logoIcon from '../assets/logo_icon.webp';
 
 const navItems = [
   { to: '/',             icon: 'dashboard',      label: 'Dashboard',          end: true },
@@ -45,20 +46,16 @@ export default function Layout() {
     return (
       <>
         {/* Logo */}
-        <div className={`mb-8 ${showCollapsed ? 'px-1' : 'px-4'}`}>
-          <div className={`flex items-center ${showCollapsed ? 'justify-center' : 'gap-3.5'}`}>
-            <div className={`${showCollapsed ? 'w-10 h-10' : 'w-14 h-14'} flex items-center justify-center shrink-0`}>
-              <img src={logoImg} alt="Mafina Trans Logo" className="w-full h-full object-contain" />
+        <div className={`mb-8 ${showCollapsed ? 'px-1' : 'px-4'} h-16 flex items-center`}>
+          {showCollapsed ? (
+            <div className="w-full flex justify-center">
+              <img src={logoIcon} alt="M" className="w-10 h-10 object-contain" />
             </div>
-            {!showCollapsed && (
-              <div>
-                <h1 className="font-extrabold text-zinc-900 leading-tight" style={{ fontSize: '16.5px' }}>
-                  Mafina Trans
-                </h1>
-                <p className="text-zinc-400 font-medium" style={{ fontSize: '11px' }}>Admin Dashboard</p>
-              </div>
-            )}
-          </div>
+          ) : (
+            <div className="px-2">
+              <img src={logoImg} alt="Mafina Trans" className="h-10 w-auto object-contain" />
+            </div>
+          )}
         </div>
 
         {/* Nav */}
@@ -89,7 +86,7 @@ export default function Layout() {
         {/* Bottom */}
         <div className={`pt-4 border-t border-zinc-200 space-y-1.5 ${showCollapsed ? 'px-0' : ''}`}>
           <a
-            href="https://mafinatrans.duckdns.org"
+            href="https://mafinatrans.com"
             target="_blank"
             rel="noopener noreferrer"
             title={showCollapsed ? "Lihat Website" : undefined}
@@ -217,8 +214,8 @@ export default function Layout() {
           </button>
 
           <div className="flex items-center gap-2">
-            <div className="w-11 h-11 flex items-center justify-center shrink-0">
-              <img src={logoImg} alt="Logo" className="w-full h-full object-contain" />
+            <div className="w-9 h-9 flex items-center justify-center shrink-0">
+              <img src={logoIcon} alt="Logo" className="w-full h-full object-contain" />
             </div>
             <span className="font-extrabold text-zinc-900" style={{ fontSize: '16.5px' }}>Mafina Trans</span>
           </div>

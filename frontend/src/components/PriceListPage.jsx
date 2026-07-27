@@ -38,7 +38,7 @@ const PriceListPage = () => {
       768: { slidesPerView: 3 },
       1024: { slidesPerView: 4 },
     },
-    className: "pb-8 pt-2 px-1",
+    className: "pb-8 pt-2 px-1 swiper-card-carousel",
   };
 
   const handleOpenModal = (route) => {
@@ -174,7 +174,7 @@ const PriceListPage = () => {
       <div className="border-b border-[#DDEAF6] bg-[#F3FAFF]">
         <div className="container mx-auto px-4 py-4 flex flex-col md:flex-row gap-3">
           <div className="flex items-start gap-2.5 flex-1 bg-green-50 border border-green-200 rounded-2xl px-4 py-3">
-            <i className="fas fa-check-circle text-[#128C7E] text-lg mt-0.5 shrink-0"></i>
+            <i className="fas fa-check-circle text-[#0B655B] text-lg mt-0.5 shrink-0"></i>
             <p className="text-xs text-green-800 leading-relaxed">
               <strong className="block text-green-750 mb-0.5">Harga Sudah Termasuk:</strong>
               Sewa Bus, BBM, Driver, Helper &amp; Asuransi Jiwa
@@ -352,7 +352,7 @@ const PriceListPage = () => {
               {/* Price Terms & Info Box at Bottom */}
               <div className="mt-16 bg-white border border-[#DDEAF6] rounded-3xl overflow-hidden shadow-sm">
                 <div className="flex items-start gap-3 px-6 py-3.5 bg-green-50/50 border-b border-[#DDEAF6]">
-                  <i className="fas fa-check-circle text-[#128C7E] text-base mt-0.5 shrink-0"></i>
+                  <i className="fas fa-check-circle text-[#0B655B] text-base mt-0.5 shrink-0"></i>
                   <p className="text-xs text-green-800 leading-relaxed">
                     <strong>Harga sewa sudah termasuk:</strong> Driver &amp; BBM
                   </p>

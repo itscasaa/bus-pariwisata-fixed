@@ -1,0 +1,305 @@
+-- ============================================================
+-- database/setup_pgsql.sql
+-- Setup database LENGKAP Surya Tour Trans untuk PostgreSQL
+-- ============================================================
+
+-- Drop tables if exist to ensure clean setup
+DROP TABLE IF EXISTS booking CASCADE;
+DROP TABLE IF EXISTS pesan_masuk CASCADE;
+DROP TABLE IF EXISTS news CASCADE;
+DROP TABLE IF EXISTS paket_wisata CASCADE;
+DROP TABLE IF EXISTS price_list CASCADE;
+DROP TABLE IF EXISTS bus_images CASCADE;
+DROP TABLE IF EXISTS bus CASCADE;
+DROP TABLE IF EXISTS admin_users CASCADE;
+DROP TABLE IF EXISTS settings CASCADE;
+DROP TABLE IF EXISTS rate_limits CASCADE;
+
+-- Trigger function for updated_at
+CREATE OR REPLACE FUNCTION update_modified_column()
+RETURNS TRIGGER AS $$
+BEGIN
+    NEW.updated_at = now();
+    RETURN NEW;
+END;
+$$ language 'plpgsql';
+
+-- ============================================================
+-- TABLE: admin_users
+-- ============================================================
+CREATE TABLE admin_users (
+  id         SERIAL PRIMARY KEY,
+  nama       VARCHAR(100) NOT NULL,
+  username   VARCHAR(50)  NOT NULL UNIQUE,
+  password   VARCHAR(255) NOT NULL, -- bcrypt hash
+  created_at TIMESTAMP    DEFAULT CURRENT_TIMESTAMP
+);
+
+-- ============================================================
+-- TABLE: bus
+-- ============================================================
+CREATE TABLE bus (
+  id             SERIAL PRIMARY KEY,
+  nama_bus       VARCHAR(100)  NOT NULL,
+  tipe           VARCHAR(50)   NOT NULL DEFAULT 'big_bus',
+  kapasitas      INT           NOT NULL DEFAULT 0,
+  harga_sewa     BIGINT        NOT NULL DEFAULT 0,
+  gambar_utama   VARCHAR(255)  NOT NULL DEFAULT '',
+  deskripsi      TEXT          NULL,
+  fasilitas_json TEXT          NULL,
+  diskon         VARCHAR(255)  DEFAULT '',
+  created_at     TIMESTAMP     DEFAULT CURRENT_TIMESTAMP
+);
+
+-- ============================================================
+-- TABLE: bus_images
+-- ============================================================
+CREATE TABLE bus_images (
+  id           SERIAL PRIMARY KEY,
+  bus_id       INT           NOT NULL,
+  path         VARCHAR(255)  NOT NULL,
+  label        VARCHAR(100)  NULL,
+  urutan       INT           DEFAULT 0,
+  tipe_gambar  VARCHAR(50)   DEFAULT 'other',
+  is_cover     SMALLINT      DEFAULT 0,
+  FOREIGN KEY (bus_id) REFERENCES bus(id) ON DELETE CASCADE
+);
+
+-- ============================================================
+-- TABLE: price_list
+-- ============================================================
+CREATE TABLE price_list (
+  id             SERIAL PRIMARY KEY,
+  nama_destinasi VARCHAR(200)  NOT NULL,
+  durasi         VARCHAR(50)   NOT NULL DEFAULT '',
+  harga_hiace    BIGINT        NOT NULL DEFAULT 0,
+  harga_elf      BIGINT        NOT NULL DEFAULT 0,
+  harga_medium   BIGINT        NOT NULL DEFAULT 0,
+  harga_big      BIGINT        NOT NULL DEFAULT 0,
+  created_at     TIMESTAMP     DEFAULT CURRENT_TIMESTAMP
+);
+
+-- ============================================================
+-- TABLE: paket_wisata
+-- ============================================================
+CREATE TABLE paket_wisata (
+  id         SERIAL PRIMARY KEY,
+  judul      VARCHAR(200)               NOT NULL,
+  badge      VARCHAR(100)               NOT NULL DEFAULT '',
+  kategori   VARCHAR(50)                NOT NULL DEFAULT '',
+  durasi     VARCHAR(100)               NOT NULL DEFAULT '',
+  harga      BIGINT                     NOT NULL DEFAULT 0,
+  deskripsi  TEXT                       NULL,
+  gambar     VARCHAR(255)               NULL,
+  status     VARCHAR(20)                NOT NULL DEFAULT 'aktif' CHECK (status IN ('aktif','nonaktif')),
+  urutan     INT                        NOT NULL DEFAULT 0,
+  created_at TIMESTAMP                  DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP                  DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TRIGGER update_paket_wisata_modtime BEFORE UPDATE ON paket_wisata FOR EACH ROW EXECUTE PROCEDURE update_modified_column();
+
+-- ============================================================
+-- TABLE: news
+-- ============================================================
+CREATE TABLE news (
+  id         SERIAL PRIMARY KEY,
+  judul      VARCHAR(255)              NOT NULL,
+  slug       VARCHAR(255)              NOT NULL UNIQUE,
+  ringkas    TEXT                      NULL,
+  konten     TEXT                      NOT NULL,
+  gambar     VARCHAR(255)              NULL,
+  status     VARCHAR(20)               NOT NULL DEFAULT 'publish' CHECK (status IN ('publish','draft')),
+  created_at TIMESTAMP                 DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP                 DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TRIGGER update_news_modtime BEFORE UPDATE ON news FOR EACH ROW EXECUTE PROCEDURE update_modified_column();
+
+-- ============================================================
+-- TABLE: pesan_masuk
+-- ============================================================
+CREATE TABLE pesan_masuk (
+  id         SERIAL PRIMARY KEY,
+  nama       VARCHAR(100) NOT NULL,
+  email      VARCHAR(100) NOT NULL,
+  judul      VARCHAR(200) NOT NULL DEFAULT '',
+  pesan      TEXT         NOT NULL,
+  is_read    SMALLINT     NOT NULL DEFAULT 0,
+  created_at TIMESTAMP    DEFAULT CURRENT_TIMESTAMP
+);
+
+-- ============================================================
+-- TABLE: booking
+-- ============================================================
+CREATE TABLE booking (
+  id         SERIAL PRIMARY KEY,
+  nama       VARCHAR(100)  NOT NULL,
+  no_hp      VARCHAR(20)   NOT NULL,
+  email      VARCHAR(100)  NULL,
+  tanggal    VARCHAR(50)   NOT NULL,
+  tujuan     VARCHAR(200)  NOT NULL,
+  jumlah     INT           NULL,
+  bus_id     INT           NULL,
+  created_at TIMESTAMP     DEFAULT CURRENT_TIMESTAMP
+);
+
+-- ============================================================
+-- TABLE: settings
+-- ============================================================
+CREATE TABLE settings (
+  setting_key   VARCHAR(50)  NOT NULL PRIMARY KEY,
+  setting_value TEXT         NULL
+);
+
+-- ============================================================
+-- TABLE: rate_limits
+-- ============================================================
+CREATE TABLE rate_limits (
+  ip           VARCHAR(45)  NOT NULL,
+  endpoint     VARCHAR(100) NOT NULL,
+  attempts     INT          NOT NULL DEFAULT 1,
+  last_attempt BIGINT       NOT NULL,
+  PRIMARY KEY (ip, endpoint)
+);
+
+-- ============================================================
+-- SEED DATA
+-- ============================================================
+
+-- Seed: admin_users (username: mafina_admin_pariwisata / password: admin123)
+INSERT INTO admin_users (id, nama, username, password) VALUES
+(1, 'Administrator', 'mafina_admin_pariwisata', '$2y$10$RR5g4gN3iQHuCLXu6uyvAenAS.Y9ZUByvG9ULmWCT.q9qe3JNHOX.'),
+(2, 'Admin Test', 'admin', '$2y$10$.5djQdjhPKzFAXBOAfH/ouUKieebJaVbjW/PiloDOh8Qp9nU7mB9m');
+
+-- Seed: bus
+INSERT INTO bus (id, nama_bus, tipe, kapasitas, harga_sewa, gambar_utama, deskripsi, fasilitas_json, diskon) VALUES
+(1,  'Pratama Trans', 'big_bus',     59, 4500000, 'bus1/bu1.webp',      'Bus besar Pratama Trans dengan kapasitas 59 kursi. Dilengkapi Smoking Area dan Toilet untuk kenyamanan perjalanan jarak jauh. Fasilitas hiburan lengkap: 2 unit LCD TV, Android Entertainment System, karaoke + microphone, cooler box, Port USB, dan kompartemen bagasi atas & bawah.', '["Seat 3-2","Smoking Area","Toilet","AC","2 Unit LCD TV","Audio Set","Android Entertainment System","Karaoke + Microphone","Cooler Box","Port USB","Kompartemen Bagasi Atas + Bawah","Lampu Baca"]', ''),
+(2,  'Pratama Trans', 'medium_bus',  33, 3000000, 'bus2/mini_bus2.webp','Bus medium Pratama Trans dengan kapasitas 33 kursi. Dilengkapi AC, 1 unit LCD TV, Android Entertainment System, karaoke + microphone, Port USB, dan kompartemen bagasi atas & bawah.', '["Seat 3-2","AC","1 Unit LCD TV","Audio Set","Android Entertainment System","Karaoke + Microphone","Port USB","Kompartemen Bagasi Atas + Bawah","Lampu Baca"]', ''),
+(3,  'Pratama Trans', 'big_bus',     59, 4500000, 'bus3/bus3.webp',     'Bus besar Pratama Trans dengan kapasitas 59 kursi and interior modern. Dilengkapi AC, 2 unit LCD TV, Android Entertainment System, karaoke + microphone, Port USB, dan kompartemen bagasi atas & bawah.', '["Seat 3-2","AC","2 Unit LCD TV","Audio Set","Android Entertainment System","Karaoke + Microphone","Port USB","Kompartemen Bagasi Atas + Bawah","Lampu Baca"]', ''),
+(4,  'Pratama Trans', 'big_bus',     59, 5000000, 'bus4/bus4.webp',     'Bus besar Pratama Trans dengan kapasitas 59 kursi, dilengkapi Dispenser air minum, AC, 2 unit LCD TV, Android Entertainment System, karaoke + microphone, Port USB, dan kompartemen bagasi atas & bawah.', '["Seat 3-2","AC","2 Unit LCD TV","Audio Set","Android Entertainment System","Karaoke + Microphone","Port USB","Kompartemen Bagasi Atas + Bawah","Lampu Baca","Dispenser"]', ''),
+(5,  'Malika Wisata', 'big_bus',     59, 3500000, 'bus5/bus5.webp',     'Bus besar Malika Wisata dengan kapasitas 59 kursi and desain interior elegan. Dilengkapi AC, 2 unit LCD TV, Android Entertainment System, karaoke + microphone, Dispenser air minum, Port USB, dan kompartemen bagasi atas & bawah.', '["Seat 3-2","AC","2 Unit LCD TV","Audio Set","Android Entertainment System","Karaoke + Microphone","Port USB","Kompartemen Bagasi Atas + Bawah","Lampu Baca","Dispenser"]', ''),
+(6,  'Malika Wisata', 'medium_bus',  31, 3500000, 'bus6/interior depan.webp',     'Bus medium Malika Wisata dengan kapasitas 31 kursi, armada terbaru yang nyaman untuk wisata grup. Dilengkapi Dispenser air minum, AC, 1 unit LCD TV, Android Entertainment System, karaoke + microphone, Port USB, dan kompartemen bagasi atas & bawah.', '["Seat 3-2","AC","1 Unit LCD TV","Audio Set","Android Entertainment System","Karaoke + Microphone","Port USB","Kompartemen Bagasi Atas + Bawah","Lampu Baca","Dispenser"]', ''),
+(7,  'Malika Wisata', 'big_bus',     59, 3500000, 'bus7/malika_bigbus1.webp',     'Bus besar Malika Wisata dengan kapasitas 59 kursi. Dilengkapi AC, 2 unit LCD TV, Android Entertainment System, karaoke + microphone, Dispenser air minum, Port USB, dan kompartemen bagasi atas & bawah.', '["Seat 3-2","AC","2 Unit LCD TV","Audio Set","Android Entertainment System","Karaoke + Microphone","Port USB","Kompartemen Bagasi Atas + Bawah","Lampu Baca","Dispenser"]', ''),
+(8,  'Malika Wisata', 'big_bus',     59, 4500000, 'bus8/malika2.webp',     'Bus besar Malika Wisata dengan kapasitas 59 kursi, dilengkapi Smoking Room dan Toilet. Fasilitas: 2 unit LCD TV, Android Entertainment System, karaoke + microphone, Dispenser air minum, Port USB, dan kompartemen bagasi atas & bawah.', '["Seat 3-2","Smoking Room","Toilet","AC","2 Unit LCD TV","Audio Set","Android Entertainment System","Karaoke + Microphone","Port USB","Kompartemen Bagasi Atas + Bawah","Lampu Baca","Dispenser"]', ''),
+(9,  'Malika Wisata', 'big_bus',     59, 3500000, 'bus9/malikabigbus.webp',     'Bus besar Malika Wisata dengan kapasitas 59 kursi. Dilengkapi AC, 2 unit LCD TV, Android Entertainment System, karaoke + microphone, Dispenser air minum, Port USB, dan kompartemen bagasi atas & bawah.', '["Seat 3-2","AC","2 Unit LCD TV","Audio Set","Android Entertainment System","Karaoke + Microphone","Port USB","Kompartemen Bagasi Atas + Bawah","Lampu Baca","Dispenser"]', ''),
+(10, 'Malika Wisata', 'medium_bus', 35, 3000000, 'bus10/bus1.webp',    'Bus medium Malika Wisata dengan kapasitas 35 kursi. Dilengkapi AC, 1 unit LCD TV, Android Entertainment System, karaoke + microphone, Dispenser air minum, Port USB, dan kompartemen bagasi atas & bawah.', '["Seat 3-2","AC","1 Unit LCD TV","Audio Set","Android Entertainment System","Karaoke + Microphone","Port USB","Kompartemen Bagasi Atas + Bawah","Lampu Baca","Dispenser"]', ''),
+(11, 'Malika Wisata', 'medium_bus',  31, 3000000, 'bus11/bus1.webp',    'Bus medium Malika Wisata dengan kapasitas 31 kursi. Dilengkapi AC, 1 unit LCD TV, Android Entertainment System, karaoke + microphone, Port USB, dan kompartemen bagasi atas & bawah.', '["Seat 3-2","AC","1 Unit LCD TV","Audio Set","Android Entertainment System","Karaoke + Microphone","Port USB","Kompartemen Bagasi Atas + Bawah","Lampu Baca"]', '');
+
+-- Seed: bus_images
+INSERT INTO bus_images (bus_id, path, label, urutan) VALUES
+(1, 'bus1/bu1.webp',             'Eksterior Bus',   0),
+(1, 'bus1/bangku_depan.webp',    'Bangku Depan',    1),
+(1, 'bus1/bangku_belakang.webp', 'Bangku Belakang', 2),
+(2, 'bus2/mini_bus2.webp',       'Eksterior Bus',   0),
+(2, 'bus2/supir.webp',           'Area Supir',      1),
+(2, 'bus2/bangku_depan.webp',    'Bangku Depan',    2),
+(2, 'bus2/bangku_depan2.webp',   'Bangku Depan 2',  3),
+(2, 'bus2/bangku_belakang.webp', 'Bangku Belakang', 4),
+(3, 'bus3/bus3.webp',            'Eksterior Bus',   0),
+(3, 'bus3/bangku_depan.webp',    'Bangku Depan',    1),
+(3, 'bus3/bangku_depan1.webp',   'Bangku Depan 1',  2),
+(3, 'bus3/bangku_depan2.webp',   'Bangku Depan 2',  3),
+(3, 'bus3/bangku_belakang.webp', 'Bangku Belakang', 4),
+(4, 'bus4/bus4.webp',             'Eksterior Bus',     0),
+(4, 'bus4/bangku_depan.webp',     'Bangku Depan',      1),
+(4, 'bus4/bangku_belakang.webp',  'Bangku Belakang',   2),
+(4, 'bus4/bangku_belakang2.webp', 'Bangku Belakang 2', 3),
+(4, 'bus4/dispenser.webp',        'Dispenser Air',     4),
+(5, 'bus5/bus5.webp',             'Eksterior Bus',  0),
+(5, 'bus5/bangku_depan.webp',     'Bangku Depan',   1),
+(5, 'bus5/media__1783173907136.webp',    'Bangku Belakang', 2),
+(6, 'bus6/interior depan.webp',        'Interior Depan', 0),
+(6, 'bus6/bangku_depan.webp',     'Bangku Depan',   1),
+(6, 'bus6/dispenser.webp',        'Dispenser Air',  2),
+(6, 'bus6/bangku_belakang.webp',  'Bangku Belakang', 3),
+(7, 'bus7/malika_bigbus1.webp',     'Eksterior Bus',  0),
+(7, 'bus7/bangku belakang.webp',    'Bangku Belakang', 1),
+(7, 'bus7/bangkudepan.webp',        'Bangku Depan',   2),
+(7, 'bus7/dispenser.webp',          'Dispenser Air',  3),
+(8, 'bus8/malika2.webp',                  'Eksterior Bus',  0),
+(8, 'bus8/bangkudepan.webp',              'Bangku Depan',   1),
+(8, 'bus8/media__1783171475659.webp',     'Bangku Belakang', 2),
+(8, 'bus8/media__1783171475662.webp',     'Dispenser Air',  3),
+(9, 'bus9/malikabigbus.webp',             'Eksterior Bus',  0),
+(9, 'bus9/bangkudepan.webp',              'Bangku Depan',   1),
+(9, 'bus9/bangkubelakang.webp',           'Bangku Belakang', 2),
+(9, 'bus9/dispenser.webp',                'Dispenser Air',  3),
+(10,'bus10/bus1.webp',            'Eksterior Bus',  0),
+(11,'bus11/bus1.webp',            'Eksterior Bus',  0);
+
+-- Seed: paket_wisata
+INSERT INTO paket_wisata (id, judul, badge, kategori, durasi, harga, deskripsi, gambar, status, urutan) VALUES
+(1,  'Bandung',              'PAKET 1 HARI',  '1 Hari',  '1 Hari',          2200000, 'Jelajahi keindahan Bandung, mulai dari belanja di factory outlet hingga menikmati udara sejuk pegunungan.',                           '/images/destinasi/bandung.webp',           'aktif', 1),
+(2,  'Taman Bunga Nusantara','PAKET 1 HARI',  '1 Hari',  '1 Hari',          2500000, 'Nikmati keindahan taman bunga terbesar di Indonesia dengan koleksi bunga dari seluruh dunia.',                                        '/images/destinasi/bunga_nusantara.webp',   'aktif', 2),
+(3,  'Kebun Raya Bogor',     'PAKET 1 HARI',  '1 Hari',  '1 Hari',          2300000, 'Wisata alam yang menyegarkan di kebun raya dengan koleksi tumbuhan langka dan udara pegunungan yang sejuk.',                         '/images/destinasi/kebun_cibodas.webp',     'aktif', 3),
+(4,  'Anyer',                'PAKET 1 HARI',  '1 Hari',  '1 Hari',          2600000, 'Nikmati keindahan pantai Anyer dengan pasir putih dan sunset yang memukau.',                                                          '/images/destinasi/anyer.webp',             'aktif', 4),
+(5,  'Taman Safari',         'PAKET 1 HARI',  '1 Hari',  '1 Hari',          2700000, 'Petualangan seru bersama satwa liar di Taman Safari dengan berbagai atraksi menarik.',                                               '/images/destinasi/taman_safari.webp',      'aktif', 5),
+(6,  'Maribaya Bandung',     'PAKET 1 HARI',  '1 Hari',  '1 Hari',          2200000, 'Wisata alam dengan pemandian air hangat, curug, dan hutan pinus yang asri.',                                                         '/images/destinasi/maribaya_bandung.webp',  'aktif', 6),
+(7,  'Taman Mini',           'PAKET 1 HARI',  '1 Hari',  '1 Hari',          2500000, 'Jelajahi kebudayaan Indonesia dalam satu tempat di Taman Mini Indonesia Indah.',                                                     '/images/destinasi/taman_mini.webp',        'aktif', 7),
+(8,  'Cimory Dierland Bogor','PAKET 1 HARI',  '1 Hari',  '1 Hari',          2300000, 'Wisata kuliner dan dairy farm di Cimory dengan pemandangan pegunungan yang indah.',                                                  '/images/destinasi/bogor-cimory.webp',      'aktif', 8),
+(9,  'Tangkuban Perahu',     'PAKET 2 HARI',  '2 Hari',  '2 Hari 1 Malam',  2400000, 'Kunjungi kawah gunung berapi aktif yang legendaris dengan pemandangan alam yang spektakuler.',                                      '/images/destinasi/tangkuban_perahu.webp',  'aktif', 9),
+(10, 'Dieng Yogya',          'PAKET 3 HARI',  '3 Hari',  '3 Hari 2 Malam',  4500000, 'Jelajahi keajaiban Dieng Plateau dan budaya Yogyakarta dalam satu perjalanan.',                                                     '/images/destinasi/dieng-yogya.webp',       'aktif', 10),
+(11, 'Yogyakarta',           'PAKET 3 HARI',  '3 Hari',  '3 Hari 2 Malam',  6500000, 'Borobudur, Prambanan, Malioboro, dan wisata budaya Yogyakarta dengan penginapan hotel bintang 3.',                                  '/images/destinasi/yogyakarta.webp',        'aktif', 11),
+(12, 'Jawa Tengah',          'PAKET 4 HARI',  '4 Hari',  '4 Hari',          8000000, 'Perjalanan lintas Jawa Tengah mengunjungi candi-candi megah dan budaya lokal.',                                                     '/images/destinasi/jawatengah.webp',        'aktif', 12),
+(13, 'Bromo Batu Malang',    'PAKET 4 HARI',  '4 Hari',  '4 Hari',          6800000, 'Saksikan sunrise Gunung Bromo dan nikmati wisata Batu Malang yang sejuk.',                                                          '/images/destinasi/bromo-batu_malang.webp', 'aktif', 13),
+(14, 'Batu Malang',          'PAKET 4 HARI',  '4 Hari',  '4 Hari',          6500000, 'Nikmati udara sejuk dan wisata alam di kota wisata Batu Malang.',                                                                   '/images/destinasi/batu_malang.webp',       'aktif', 14),
+(15, 'Bali',                 'PAKET 5 HARI',  '5 Hari',  '5 Hari 4 Malam',  7500000, 'Nikmati keindahan pantai, pura, dan budaya Bali dengan akomodasi hotel terbaik.',                                                   '/images/destinasi/bali.webp',              'aktif', 15),
+(16, 'Bali Lombok',          'PAKET 10 HARI', '10 Hari', '10 Hari 9 Malam', 5500000, 'Jelajahi keindahan Bali dan Lombok dalam satu paket perjalanan yang tak terlupakan.',                                               '/images/destinasi/bali-lombok.webp',       'aktif', 16);
+
+-- Seed: price_list
+INSERT INTO price_list (id, nama_destinasi, durasi, harga_hiace, harga_elf, harga_medium, harga_big) VALUES
+(1,  'TRANSFER IN/OUT (One Way)',                                              '4 Jam',   1250000,  1350000,  1750000,  2250000),
+(2,  'DK HALF DAY',                                                            '8 Jam',   1400000,  1400000,  1900000,  2500000),
+(3,  'DK FULL DAY',                                                            '12 Jam',  1500000,  1500000,  2000000,  2750000),
+(4,  'JAKARTA, DEPOK, BEKASI, BSD',                                            '12 Jam',  1500000,  1500000,  2000000,  2750000),
+(5,  'SENTUL, BOGOR KOTA, TAMBUN, CIKARANG',                                   '12 Jam',  1650000,  1650000,  2500000,  3250000),
+(6,  'CIAWI, MEGAMENDUNG, TAMAN SAFARI, KARAWANG',                             '15 Jam',  1750000,  1750000,  2750000,  3750000),
+(7,  'CIBODAS, CIMACAN, CIPANAS',                                              '15 Jam',  1900000,  1900000,  3000000,  4250000),
+(8,  'SUKABUMI KOTA',                                                          '15 Jam',  1900000,  1900000,  3000000,  4250000),
+(9,  'BANTEN',                                                                 '18 Jam',  2000000,  2000000,  3500000,  4500000),
+(10, 'PURWAKARTA',                                                             '18 Jam',  2000000,  2000000,  3500000,  4500000),
+(11, 'ANYER, SERANG, CARITA',                                                  '18 Jam',  2000000,  2000000,  3500000,  4500000),
+(12, 'BANDUNG KOTA, LEMBANG, CIMAHI',                                          '18 Jam',  2250000,  2250000,  3700000,  4750000),
+(13, 'CIWIDEY, PENGALENGAN, SUMEDANG',                                         '18 Jam',  2400000,  2400000,  4000000,  5250000),
+(14, 'GARUT, TASIKMALAYA',                                                     '18 Jam',  2500000,  2500000,  4500000,  5750000),
+(15, 'INDRAMAYU, CIREBON, BREBES, KUNINGAN',                                   '18 Jam',  2500000,  2500000,  4500000,  5750000),
+(16, 'CIAWI, MEGAMENDUNG, CISARUA, TAMAN SAFARI, KARAWANG',                    '2 Hari',  3250000,  3250000,  5050000,  6750000),
+(17, 'CIBODAS, CIMACAN, CIPANAS, CILOTO, SUKABUMI KOTA',                       '2 Hari',  3500000,  3500000,  5500000,  7750000),
+(18, 'PURWAKARTA (2 Hari)',                                                    '2 Hari',  3500000,  3500000,  5500000,  7750000),
+(19, 'ANYER, BANTEN, PANDEGLANG, SERANG, CARITA, SUBANG, CIANJUR',             '2 Hari',  3750000,  3750000,  6250000,  8250000),
+(20, 'BANDUNG, LEMBANG, CIMAHI, TANGKUBAN PRAHU, CIATER',                      '2 Hari',  4000000,  4000000,  6750000,  8750000),
+(21, 'GARUT, TASIK, KUNINGAN, CIREBON, CIAMIS, SAWARNA, CILETUH',             '2 Hari',  4500000,  4500000,  7750000,  10250000),
+(22, 'LAMPUNG (2 Hari)',                                                       '2 Hari',  6000000,  6000000,  9000000,  12500000),
+(23, 'GUCI, TEGAL, BREBES, PEKALONGAN, CILACAP, PANGANDARAN, DIENG, WONOSOBO (2H)', '2 Hari', 6000000, 6000000, 9000000, 12500000),
+(24, 'LAMPUNG (3 Hari)',                                                       '3 Hari',  8250000,  8250000,  12000000, 17000000),
+(25, 'GUCI, TEGAL, BREBES, PEKALONGAN, CILACAP, PANGANDARAN, DIENG, WONOSOBO (3H)', '3 Hari', 6750000, 6750000, 10000000, 14250000),
+(26, 'YOGYAKARTA, SEMARANG, DEMAK (3 Hari)',                                   '3 Hari',  7500000,  7500000,  11250000, 15650000),
+(27, 'YOGYAKARTA, SEMARANG, DEMAK (4 Hari)',                                   '4 Hari',  9000000,  9000000,  14000000, 19000000),
+(28, 'SURABAYA, MALANG, BROMO (4 Hari)',                                       '4 Hari',  10000000, 10000000, 15000000, 20500000),
+(29, 'PALEMBANG',                                                              '4 Hari',  11000000, 11000000, 16000000, 22500000),
+(30, 'SURABAYA, MALANG, BROMO (5 Hari)',                                       '5 Hari',  11250000, 11250000, 17500000, 23750000),
+(31, 'BENGKULU, JAMBI',                                                        '5 Hari',  13750000, 13750000, 20000000, 28250000),
+(32, 'BALI, LOMBOK (7 Hari)',                                                  '7 Hari',  15250000, 15250000, 24500000, 33500000),
+(33, 'PEKANBARU, RIAU, PADANG',                                                '8 Hari',  22000000, 22000000, 32000000, 45000000),
+(34, 'BALI, LOMBOK (10 Hari)',                                                 '10 Hari', 22500000, 22500000, 35000000, 47000000),
+(35, 'MEDAN',                                                                  '10 Hari', 0,        0,        0,        0);
+
+-- Seed: settings
+INSERT INTO settings (setting_key, setting_value) VALUES 
+('maintenance_mode', '0'),
+('maintenance_message', 'Website sedang dalam pemeliharaan berkala untuk meningkatkan layanan kami. Silakan hubungi kami via WhatsApp untuk info pemesanan.');
+
+-- ============================================================
+-- SEQUENCE SINKRONISASI
+-- Sangat penting agar auto-increment (SERIAL) di PostgreSQL tidak bentrok
+-- setelah kita memasukkan data seed dengan ID manual.
+-- ============================================================
+SELECT setval(pg_get_serial_sequence('admin_users', 'id'), coalesce(max(id), 1)) FROM admin_users;
+SELECT setval(pg_get_serial_sequence('bus', 'id'), coalesce(max(id), 1)) FROM bus;
+SELECT setval(pg_get_serial_sequence('bus_images', 'id'), coalesce(max(id), 1)) FROM bus_images;
+SELECT setval(pg_get_serial_sequence('price_list', 'id'), coalesce(max(id), 1)) FROM price_list;
+SELECT setval(pg_get_serial_sequence('paket_wisata', 'id'), coalesce(max(id), 1)) FROM paket_wisata;
+SELECT setval(pg_get_serial_sequence('news', 'id'), coalesce(max(id), 1)) FROM news;
+SELECT setval(pg_get_serial_sequence('pesan_masuk', 'id'), coalesce(max(id), 1)) FROM pesan_masuk;
+SELECT setval(pg_get_serial_sequence('booking', 'id'), coalesce(max(id), 1)) FROM booking;

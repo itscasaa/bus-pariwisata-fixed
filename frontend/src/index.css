@@ -32,7 +32,7 @@
 
   --color-cta-yellow: #FFD23F;
   --color-cta-yellow-dark: #F6B800;
-  --color-success-green: #128C7E;
+  --color-success-green: #0B655B;
 }
 
 body {
@@ -185,13 +185,122 @@ body {
 }
 
 /* Smooth scroll */
-html {
-  scroll-behavior: smooth;
+html.lenis, html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
 }
 
 /* Swiper custom */
 .swiper-pagination-bullet-active {
   background: var(--color-primary) !important;
+}
+
+/* Custom Swiper Navigation Buttons */
+.swiper-button-prev,
+.swiper-button-next {
+  width: 32px !important;
+  height: 42px !important;
+  background-color: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+  color: #073B78 !important;
+  box-shadow: none !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  z-index: 10 !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+}
+
+.swiper-button-prev {
+  left: 10px !important;
+}
+
+.swiper-button-next {
+  right: 10px !important;
+}
+
+.swiper-button-prev::after,
+.swiper-button-next::after {
+  font-size: 20px !important;
+  font-weight: 900 !important;
+}
+
+.swiper-button-prev:hover,
+.swiper-button-next:hover {
+  background-color: transparent !important;
+  color: #0B5CA8 !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+  transform: translateY(-50%) scale(1.2) !important;
+}
+
+/* Adjust sizes on mobile devices */
+@media (max-width: 768px) {
+  .swiper-button-prev,
+  .swiper-button-next {
+    width: 36px !important;
+    height: 36px !important;
+  }
+  .swiper-button-prev::after,
+  .swiper-button-next::after {
+    font-size: 12px !important;
+  }
+  .swiper-button-prev {
+    left: 4px !important;
+  }
+  .swiper-button-next {
+    right: 4px !important;
+  }
+}
+
+/* Card Carousels - Prevent navigation button overlap on card content */
+.swiper-card-carousel {
+  padding-left: 20px !important;
+  padding-right: 20px !important;
+}
+
+.swiper-card-carousel .swiper-button-prev {
+  left: 2px !important;
+}
+
+.swiper-card-carousel .swiper-button-next {
+  right: 2px !important;
+}
+
+@media (min-width: 1024px) {
+  .swiper-card-carousel {
+    padding-left: 56px !important;
+    padding-right: 56px !important;
+  }
+  .swiper-card-carousel .swiper-button-prev {
+    left: 8px !important;
+  }
+  .swiper-card-carousel .swiper-button-next {
+    right: 8px !important;
+  }
+}
+
+/* Hide navigation buttons on mobile/tablet for swipe UX, preventing overlap on screen edges */
+@media (max-width: 1024px) {
+  .swiper-card-carousel .swiper-button-prev,
+  .swiper-card-carousel .swiper-button-next {
+    display: none !important;
+  }
 }
 
 /* Infinite scroll animation for partners */

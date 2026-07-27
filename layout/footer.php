@@ -116,7 +116,7 @@
         </div>
         <div class="wa-card-body">
             <a href="https://wa.me/6285199802536?text=Halo%20Mafina%20Trans%2C%20saya%20ingin%20bertanya%20tentang%20sewa%20bus%20pariwisata." target="_blank" class="wa-admin-link">
-                <img src="../public/images/logo.png" alt="Admin">
+                <img src="../public/images/logo.webp" alt="Admin">
                 <div>
                     <div style="font-size: 11px; color: #888888;">Customer Service #1</div>
                     <div class="fw-bold" style="font-size: 14px;">Mafina Trans 01</div>
@@ -124,7 +124,7 @@
                 </div>
             </a>
             <a href="https://wa.me/6285199802536?text=Halo%20Mafina%20Trans%2C%20saya%20ingin%20bertanya%20tentang%20sewa%20bus%20pariwisata." target="_blank" class="wa-admin-link">
-                <img src="../public/images/logo.png" alt="Admin">
+                <img src="../public/images/logo.webp" alt="Admin">
                 <div>
                     <div style="font-size: 11px; color: #888;">Customer Service #2</div>
                     <div class="fw-bold" style="font-size: 14px;">Mafina Trans 02</div>
@@ -255,7 +255,7 @@
         </div>
         <div class="wa-card-body">
             <a href="https://wa.me/6285199802536?text=Halo%20Mafina%20Trans%2C%20saya%20ingin%20bertanya%20tentang%20sewa%20bus%20pariwisata." target="_blank" class="wa-admin-link">
-                <img src="../public/images/logo.png" alt="Admin">
+                <img src="../public/images/logo.webp" alt="Admin">
                 <div>
                     <div style="font-size: 11px; color: #888888;">Customer Service #1</div>
                     <div class="fw-bold" style="font-size: 14px;">Mafina Trans</div>
@@ -263,7 +263,7 @@
                 </div>
             </a>
             <a href="https://wa.me/6285199802536?text=Halo%20Mafina%20Trans%2C%20saya%20ingin%20bertanya%20tentang%20sewa%20bus%20pariwisata." target="_blank" class="wa-admin-link">
-                <img src="../public/images/logo.png" alt="Admin">
+                <img src="../public/images/logo.webp" alt="Admin">
                 <div>
                     <div style="font-size: 11px; color: #888;">Customer Service #2</div>
                     <div class="fw-bold" style="font-size: 14px;">Mafina Trans</div>

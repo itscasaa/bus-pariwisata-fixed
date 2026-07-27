@@ -20,15 +20,15 @@ if (!$id) {
 }
 
 try {
-    $stmt = mysqli_prepare($conn, "DELETE FROM price_list WHERE id = ?");
-    mysqli_stmt_bind_param($stmt, 'i', $id);
+    $stmt = db_prepare($conn, "DELETE FROM price_list WHERE id = ?");
+    db_stmt_bind_param($stmt, 'i', $id);
     
-    if (mysqli_stmt_execute($stmt)) {
+    if (db_stmt_execute($stmt)) {
         sendResponse('success', 'Destinasi berhasil dihapus.');
     } else {
         sendResponse('error', 'Gagal menghapus destinasi.');
     }
-    mysqli_stmt_close($stmt);
+    db_stmt_close($stmt);
 } catch (Exception $e) {
     sendResponse('error', 'Terjadi kesalahan sistem internal.', [], 500);
 }

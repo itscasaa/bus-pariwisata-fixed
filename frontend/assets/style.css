@@ -15,7 +15,7 @@
 
         /* Styling Section Pencarian mirip Beranda */
         .bg-search-custom { 
-            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('../public/images/bus1.jpeg');
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('../public/images/bus1.webp');
             background-color: var(--primary-navy); 
             background-size: cover;
             background-position: center;
@@ -70,7 +70,7 @@
          body { font-family: 'Poppins', sans-serif; }
         .hero-section {
             /* Perbaikan Path Gambar Background */
-            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('../public/images/bus3.jpeg');
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('../public/images/bus3.webp');
             background-size: cover;
             background-position: center;
             min-height: 500px;

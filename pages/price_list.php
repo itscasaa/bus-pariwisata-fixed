@@ -12,7 +12,7 @@ if (!$db) {
 // Fitur Pencarian
 $keyword = "";
 if (isset($_POST['cari'])) {
-    $keyword = mysqli_real_escape_string($db, $_POST['keyword']);
+    $keyword = db_escape($db, $_POST['keyword']);
 }
 ?>
 
@@ -147,10 +147,10 @@ if (isset($_POST['cari'])) {
                     }
                     $sql .= " ORDER BY nama_destinasi ASC";
                     
-                    $query = mysqli_query($db, $sql);
+                    $query = db_query($db, $sql);
                     
-                    if ($query && mysqli_num_rows($query) > 0) {
-                        while ($row = mysqli_fetch_array($query)) {
+                    if ($query && db_num_rows($query) > 0) {
+                        while ($row = db_fetch_array($query)) {
                     ?>
                     <tr>
                         <td class="fw-bold ps-4">

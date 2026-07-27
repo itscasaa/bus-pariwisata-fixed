@@ -30,14 +30,14 @@ try {
 
     // ── Single discount by ID ──────────────────────────────────────────────────
     if ($id > 0) {
-        $stmt = mysqli_prepare($conn,
+        $stmt = db_prepare($conn,
             "SELECT id, judul, badge, kategori, deskripsi, gambar, status, urutan, created_at 
              FROM paket_wisata WHERE id = ? LIMIT 1"
         );
-        mysqli_stmt_bind_param($stmt, 'i', $id);
-        mysqli_stmt_execute($stmt);
-        $result = mysqli_stmt_get_result($stmt);
-        $row    = mysqli_fetch_assoc($result);
+        db_stmt_bind_param($stmt, 'i', $id);
+        db_stmt_execute($stmt);
+        $result = db_stmt_get_result($stmt);
+        $row    = db_fetch_assoc($result);
 
         if (!$row) {
             http_response_code(404);
@@ -47,18 +47,18 @@ try {
             $response['status'] = 'success';
             $response['data']   = formatDiscount($row);
         }
-        mysqli_stmt_close($stmt);
+        db_stmt_close($stmt);
 
     // ── Semua diskon aktif ───────────────────────────────────────────────────
     } else {
-        $result = mysqli_query($conn,
+        $result = db_query($conn,
             "SELECT id, judul, badge, kategori, deskripsi, gambar, status, urutan, created_at
              FROM paket_wisata WHERE status = 'aktif'
              ORDER BY urutan ASC, id ASC"
         );
         if ($result === false) throw new Exception('Database query failed.');
         $data = [];
-        while ($row = mysqli_fetch_assoc($result)) {
+        while ($row = db_fetch_assoc($result)) {
             $data[] = formatDiscount($row);
         }
         http_response_code(200);
@@ -72,7 +72,7 @@ try {
 }
 
 echo json_encode($response, JSON_UNESCAPED_UNICODE);
-if (isset($conn) && $conn) mysqli_close($conn);
+if (isset($conn) && $conn) db_close($conn);
 
 // ── Helper: normalisasi semua path gambar → /images/... ──────────────────────
 function normalizeImagePath($path) {

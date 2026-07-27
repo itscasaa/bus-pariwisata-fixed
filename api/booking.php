@@ -54,23 +54,23 @@ if ($jumlah !== '' && !ctype_digit((string)$jumlah)) {
     respond('error', 'Field jumlah harus angka.', []);
 }
 
-$namaEsc = mysqli_real_escape_string($conn, $nama);
-$noHpEsc = mysqli_real_escape_string($conn, $no_hp);
-$emailEsc = mysqli_real_escape_string($conn, $email);
-$tanggalEsc = mysqli_real_escape_string($conn, $tanggal);
-$tujuanEsc = mysqli_real_escape_string($conn, $tujuan);
+$namaEsc = db_escape($conn, $nama);
+$noHpEsc = db_escape($conn, $no_hp);
+$emailEsc = db_escape($conn, $email);
+$tanggalEsc = db_escape($conn, $tanggal);
+$tujuanEsc = db_escape($conn, $tujuan);
 $jumlahEsc = ($jumlah === '' ? null : (int)$jumlah);
 
 $busIdEsc = $bus_id === '' ? null : (int)$bus_id;
 
 $tableHasBusId = false;
-$test = mysqli_query($conn, "SHOW COLUMNS FROM booking LIKE 'bus_id'");
-if ($test && mysqli_num_rows($test) > 0) {
+$test = db_query($conn, "SHOW COLUMNS FROM booking LIKE 'bus_id'");
+if ($test && db_num_rows($test) > 0) {
     $tableHasBusId = true;
 }
 
 if ($tableHasBusId) {
-    $stmt = mysqli_prepare($conn, "INSERT INTO booking (nama, no_hp, email, tanggal, tujuan, jumlah, bus_id) VALUES (?, ?, ?, ?, ?, ?, ?)");
+    $stmt = db_prepare($conn, "INSERT INTO booking (nama, no_hp, email, tanggal, tujuan, jumlah, bus_id) VALUES (?, ?, ?, ?, ?, ?, ?)");
     if ($stmt === false) {
         respond('error', 'Gagal menyiapkan query booking.', []);
     }
@@ -85,7 +85,7 @@ if ($tableHasBusId) {
         $busIdEsc
     );
 } else {
-    $stmt = mysqli_prepare($conn, "INSERT INTO booking (nama, no_hp, email, tanggal, tujuan, jumlah) VALUES (?, ?, ?, ?, ?, ?)");
+    $stmt = db_prepare($conn, "INSERT INTO booking (nama, no_hp, email, tanggal, tujuan, jumlah) VALUES (?, ?, ?, ?, ?, ?)");
     if ($stmt === false) {
         respond('error', 'Gagal menyiapkan query booking.', []);
     }

@@ -88,7 +88,7 @@ const NewsSection = () => {
               href={`https://wa.me/${siteData.whatsapp.number}?text=${encodeURIComponent('Halo Mafina Trans, saya ingin tahu info promo terbaru.')}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 bg-[#128C7E] hover:bg-[#0b655b] text-white font-bold px-6 py-3 rounded-xl transition-all duration-300 shadow-md hover:scale-105"
+              className="inline-flex items-center gap-2 bg-[#0B655B] hover:bg-[#084D45] text-white font-bold px-6 py-3 rounded-xl transition-all duration-300 shadow-md hover:scale-105"
             >
               <i className="fab fa-whatsapp text-lg"></i>
               Tanya Info Promo via WA
@@ -109,7 +109,7 @@ const NewsSection = () => {
                     src={item.gambar}
                     alt={item.judul}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                    onError={e => { e.target.onerror = null; e.target.src = '/images/bus4.jpeg'; }}
+                    onError={e => { e.target.onerror = null; e.target.src = '/images/bus4.webp'; }}
                   />
                 </div>
                 <div className="p-6 flex flex-col flex-1">

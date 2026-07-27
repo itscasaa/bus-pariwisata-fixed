@@ -28,12 +28,12 @@ if (!$username || !$password) {
 }
 
 try {
-    $stmt = mysqli_prepare($conn, "SELECT id, nama, username, password FROM admin_users WHERE username = ? LIMIT 1");
-    mysqli_stmt_bind_param($stmt, 's', $username);
-    mysqli_stmt_execute($stmt);
-    $result = mysqli_stmt_get_result($stmt);
-    $admin  = mysqli_fetch_assoc($result);
-    mysqli_stmt_close($stmt);
+    $stmt = db_prepare($conn, "SELECT id, nama, username, password FROM admin_users WHERE username = ? LIMIT 1");
+    db_stmt_bind_param($stmt, 's', $username);
+    db_stmt_execute($stmt);
+    $result = db_stmt_get_result($stmt);
+    $admin  = db_fetch_assoc($result);
+    db_stmt_close($stmt);
 
     if ($admin && password_verify($password, $admin['password'])) {
         // Generate Token

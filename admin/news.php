@@ -3,8 +3,8 @@ require_once 'config.php';
 cekLogin();
 $pageTitle = 'Kelola Berita';
 
-$news = mysqli_query($conn, "SELECT id, judul, status, created_at FROM news ORDER BY created_at DESC");
-$total = mysqli_num_rows($news);
+$news = db_query($conn, "SELECT id, judul, status, created_at FROM news ORDER BY created_at DESC");
+$total = db_num_rows($news);
 include 'layout_header.php';
 ?>
 
@@ -31,7 +31,7 @@ include 'layout_header.php';
         </tr>
       </thead>
       <tbody class="divide-y divide-gray-50">
-        <?php while ($n = mysqli_fetch_assoc($news)): ?>
+        <?php while ($n = db_fetch_assoc($news)): ?>
         <tr class="hover:bg-gray-50 transition-colors">
           <td class="px-5 py-3.5">
             <div class="flex items-center gap-3">

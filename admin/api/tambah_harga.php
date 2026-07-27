@@ -32,18 +32,18 @@ if (!$dest || !$durasi) {
 }
 
 try {
-    $stmt = mysqli_prepare($conn,
+    $stmt = db_prepare($conn,
         "INSERT INTO price_list (nama_destinasi, durasi, harga_hiace, harga_elf, harga_medium, harga_big)
          VALUES (?, ?, ?, ?, ?, ?)"
     );
-    mysqli_stmt_bind_param($stmt, 'ssiiii', $dest, $durasi, $hiace, $elf, $medium, $big);
+    db_stmt_bind_param($stmt, 'ssiiii', $dest, $durasi, $hiace, $elf, $medium, $big);
     
-    if (mysqli_stmt_execute($stmt)) {
+    if (db_stmt_execute($stmt)) {
         sendResponse('success', 'Harga destinasi berhasil ditambahkan.');
     } else {
         sendResponse('error', 'Gagal menambahkan harga destinasi.');
     }
-    mysqli_stmt_close($stmt);
+    db_stmt_close($stmt);
 } catch (Exception $e) {
     sendResponse('error', 'Terjadi kesalahan sistem internal.', [], 500);
 }

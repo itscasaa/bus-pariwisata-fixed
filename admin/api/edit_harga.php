@@ -37,18 +37,18 @@ if (!$dest || !$durasi) {
 }
 
 try {
-    $stmt = mysqli_prepare($conn,
+    $stmt = db_prepare($conn,
         "UPDATE price_list SET nama_destinasi = ?, durasi = ?, harga_hiace = ?, harga_elf = ?, harga_medium = ?, harga_big = ?
          WHERE id = ?"
     );
-    mysqli_stmt_bind_param($stmt, 'ssiiiii', $dest, $durasi, $hiace, $elf, $medium, $big, $id);
+    db_stmt_bind_param($stmt, 'ssiiiii', $dest, $durasi, $hiace, $elf, $medium, $big, $id);
     
-    if (mysqli_stmt_execute($stmt)) {
+    if (db_stmt_execute($stmt)) {
         sendResponse('success', 'Harga destinasi berhasil diperbarui.');
     } else {
         sendResponse('error', 'Gagal memperbarui harga destinasi.');
     }
-    mysqli_stmt_close($stmt);
+    db_stmt_close($stmt);
 } catch (Exception $e) {
     sendResponse('error', 'Terjadi kesalahan sistem internal.', [], 500);
 }

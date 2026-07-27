@@ -3,7 +3,7 @@ require_once 'config.php';
 cekLogin();
 $pageTitle = 'Kelola Armada';
 
-$buses = mysqli_query($conn, "SELECT id, nama_bus, tipe, kapasitas, harga_sewa, gambar_utama FROM bus ORDER BY id ASC");
+$buses = db_query($conn, "SELECT id, nama_bus, tipe, kapasitas, harga_sewa, gambar_utama FROM bus ORDER BY id ASC");
 include 'layout_header.php';
 ?>
 
@@ -33,7 +33,7 @@ include 'layout_header.php';
         </tr>
       </thead>
       <tbody class="divide-y divide-gray-50">
-        <?php while ($bus = mysqli_fetch_assoc($buses)): ?>
+        <?php while ($bus = db_fetch_assoc($buses)): ?>
         <tr class="hover:bg-gray-50 transition-colors">
           <td class="px-5 py-3.5">
             <div class="flex items-center gap-3">

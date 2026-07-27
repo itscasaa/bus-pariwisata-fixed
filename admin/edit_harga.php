@@ -5,7 +5,7 @@ cekLogin();
 $id = (int)($_GET['id'] ?? 0);
 if (!$id) { header('Location: price_list.php'); exit; }
 
-$p = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM price_list WHERE id=$id LIMIT 1"));
+$p = db_fetch_assoc(db_query($conn, "SELECT * FROM price_list WHERE id=$id LIMIT 1"));
 if (!$p) { setFlash('error', 'Data tidak ditemukan.'); header('Location: price_list.php'); exit; }
 
 $pageTitle = 'Edit Harga';
@@ -19,18 +19,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $big    = (int)($_POST['harga_big']    ?? 0);
 
     if ($dest && $durasi) {
-        $stmt = mysqli_prepare($conn,
+        $stmt = db_prepare($conn,
             "UPDATE price_list SET nama_destinasi=?, durasi=?, harga_hiace=?, harga_elf=?, harga_medium=?, harga_big=? WHERE id=?"
         );
-        mysqli_stmt_bind_param($stmt, 'ssiiiis', $dest, $durasi, $hiace, $elf, $medium, $big, $id);
+        db_stmt_bind_param($stmt, 'ssiiiis', $dest, $durasi, $hiace, $elf, $medium, $big, $id);
         // fix bind_param: id is int
-        mysqli_stmt_bind_param($stmt, 'ssiiiii', $dest, $durasi, $hiace, $elf, $medium, $big, $id);
-        if (mysqli_stmt_execute($stmt)) {
+        db_stmt_bind_param($stmt, 'ssiiiii', $dest, $durasi, $hiace, $elf, $medium, $big, $id);
+        if (db_stmt_execute($stmt)) {
             setFlash('success', 'Harga berhasil diperbarui!');
             header('Location: price_list.php');
             exit;
         } else {
-            $error = 'Gagal menyimpan: ' . mysqli_error($conn);
+            $error = 'Gagal menyimpan: ' . db_error($conn);
         }
     } else {
         $error = 'Nama destinasi dan durasi wajib diisi.';

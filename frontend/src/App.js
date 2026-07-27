@@ -1,6 +1,8 @@
 import React, { Suspense, lazy, useState, useEffect } from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar';
+import Lenis from 'lenis';
+import 'lenis/dist/lenis.css';
 import Hero from './components/Hero';
 import Features from './components/Features';
 import Destinations from './components/Destinations';
@@ -8,7 +10,8 @@ import PromoBanner from './components/PromoBanner'; // Static import because it 
 import Footer from './components/Footer';
 import WhatsAppButton from './components/WhatsAppButton';
 import API_BASE from './config/api';
-import MaintenancePage from './components/MaintenancePage';
+
+
 
 // Below-the-fold homepage components (Lazy loaded)
 const BusFleet = lazy(() => import('./components/BusFleet'));
@@ -26,6 +29,7 @@ const ArmadaPage = lazy(() => import('./components/ArmadaPage'));
 const KontakPage = lazy(() => import('./components/KontakPage'));
 const AdminDashboard = lazy(() => import('./components/AdminDashboard'));
 const AdminLogin = lazy(() => import('./components/AdminLogin'));
+const MaintenancePage = lazy(() => import('./components/MaintenancePage'));
 
 const AdminProtectedRoute = ({ children }) => {
   const token = localStorage.getItem('admin_token');
@@ -63,6 +67,43 @@ const App = () => {
   const [maintenance, setMaintenance] = useState(false);
   const [maintenanceMessage, setMaintenanceMessage] = useState('');
   const [loading, setLoading] = useState(true);
+  const location = useLocation();
+
+  useEffect(() => {
+    // Initialize Lenis smooth scroll
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      orientation: 'vertical',
+      gestureOrientation: 'vertical',
+      smoothWheel: true,
+      wheelMultiplier: 1,
+      touchMultiplier: 2,
+    });
+
+    function raf(time) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+
+    requestAnimationFrame(raf);
+
+    window.lenis = lenis;
+
+    return () => {
+      lenis.destroy();
+      window.lenis = null;
+    };
+  }, []);
+
+  useEffect(() => {
+    // Reset scroll position on route change
+    if (window.lenis) {
+      window.lenis.scrollTo(0, { immediate: true });
+    } else {
+      window.scrollTo(0, 0);
+    }
+  }, [location]);
 
   useEffect(() => {
     // Check if the current route is an admin page to allow admin access
@@ -100,7 +141,11 @@ const App = () => {
   }
 
   if (maintenance) {
-    return <MaintenancePage message={maintenanceMessage} />;
+    return (
+      <Suspense fallback={null}>
+        <MaintenancePage message={maintenanceMessage} />
+      </Suspense>
+    );
   }
 
   return (

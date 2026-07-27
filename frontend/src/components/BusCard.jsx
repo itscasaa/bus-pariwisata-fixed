@@ -79,7 +79,7 @@ const BusCard = ({ bus }) => {
             href={`https://wa.me/${siteData.whatsapp.number}?text=Halo%20Mafina%20Trans%2C%20saya%20ingin%20menanyakan%20sewa%20untuk%20armada%20${encodeURIComponent(bus.nama_bus)}%20kapasitas%20${bus.kapasitas}%20kursi${bus.diskon ? `%20dengan%20promo%20${encodeURIComponent(bus.diskon)}` : ''}.`}
             target="_blank"
             rel="noopener noreferrer"
-            className="bg-[#128C7E] hover:bg-[#0b655b] text-white font-bold text-xs py-2.5 rounded-xl text-center flex items-center justify-center gap-1.5 transition-all"
+            className="bg-[#0B655B] hover:bg-[#084D45] text-white font-bold text-xs py-2.5 rounded-xl text-center flex items-center justify-center gap-1.5 transition-all"
           >
             <i className="fab fa-whatsapp text-base"></i>
             Pesan Bus

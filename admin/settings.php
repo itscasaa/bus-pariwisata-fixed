@@ -12,7 +12,7 @@ $create_query = "CREATE TABLE IF NOT EXISTS settings (
     setting_key   VARCHAR(50)  NOT NULL PRIMARY KEY,
     setting_value TEXT         NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4";
-mysqli_query($conn, $create_query);
+db_query($conn, $create_query);
 
 $defaults = [
     'maintenance_mode' => '0',
@@ -20,17 +20,17 @@ $defaults = [
 ];
 
 foreach ($defaults as $key => $val) {
-    $stmt = mysqli_prepare($conn, "SELECT 1 FROM settings WHERE setting_key = ?");
-    mysqli_stmt_bind_param($stmt, 's', $key);
-    mysqli_stmt_execute($stmt);
-    mysqli_stmt_store_result($stmt);
-    if (mysqli_stmt_num_rows($stmt) === 0) {
-        $inst = mysqli_prepare($conn, "INSERT INTO settings (setting_key, setting_value) VALUES (?, ?)");
-        mysqli_stmt_bind_param($inst, 'ss', $key, $val);
-        mysqli_stmt_execute($inst);
-        mysqli_stmt_close($inst);
+    $stmt = db_prepare($conn, "SELECT 1 FROM settings WHERE setting_key = ?");
+    db_stmt_bind_param($stmt, 's', $key);
+    db_stmt_execute($stmt);
+    db_stmt_store_result($stmt);
+    if (db_stmt_num_rows($stmt) === 0) {
+        $inst = db_prepare($conn, "INSERT INTO settings (setting_key, setting_value) VALUES (?, ?)");
+        db_stmt_bind_param($inst, 'ss', $key, $val);
+        db_stmt_execute($inst);
+        db_stmt_close($inst);
     }
-    mysqli_stmt_close($stmt);
+    db_stmt_close($stmt);
 }
 
 // Handle form submission
@@ -39,16 +39,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $message = trim($_POST['maintenance_message'] ?? '');
 
     // Update maintenance mode
-    $stmt1 = mysqli_prepare($conn, "UPDATE settings SET setting_value = ? WHERE setting_key = 'maintenance_mode'");
-    mysqli_stmt_bind_param($stmt1, 's', $mode);
+    $stmt1 = db_prepare($conn, "UPDATE settings SET setting_value = ? WHERE setting_key = 'maintenance_mode'");
+    db_stmt_bind_param($stmt1, 's', $mode);
     $ok1 = mysqli_execute($stmt1);
-    mysqli_stmt_close($stmt1);
+    db_stmt_close($stmt1);
 
     // Update maintenance message
-    $stmt2 = mysqli_prepare($conn, "UPDATE settings SET setting_value = ? WHERE setting_key = 'maintenance_message'");
-    mysqli_stmt_bind_param($stmt2, 's', $message);
+    $stmt2 = db_prepare($conn, "UPDATE settings SET setting_value = ? WHERE setting_key = 'maintenance_message'");
+    db_stmt_bind_param($stmt2, 's', $message);
     $ok2 = mysqli_execute($stmt2);
-    mysqli_stmt_close($stmt2);
+    db_stmt_close($stmt2);
 
     if ($ok1 && $ok2) {
         setFlash('success', 'Pengaturan website berhasil diperbarui!');
@@ -61,9 +61,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 // Load current settings
-$result = mysqli_query($conn, "SELECT setting_key, setting_value FROM settings");
+$result = db_query($conn, "SELECT setting_key, setting_value FROM settings");
 $settings = [];
-while ($row = mysqli_fetch_assoc($result)) {
+while ($row = db_fetch_assoc($result)) {
     $settings[$row['setting_key']] = $row['setting_value'];
 }
 

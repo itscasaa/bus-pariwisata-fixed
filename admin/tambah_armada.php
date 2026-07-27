@@ -13,17 +13,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $fasilitas  = trim($_POST['fasilitas_json'] ?? '[]');
 
     if ($nama && $kapasitas && $harga) {
-        $stmt = mysqli_prepare($conn,
+        $stmt = db_prepare($conn,
             "INSERT INTO bus (nama_bus, tipe, kapasitas, harga_sewa, gambar_utama, deskripsi, fasilitas_json)
              VALUES (?, ?, ?, ?, ?, ?, ?)"
         );
-        mysqli_stmt_bind_param($stmt, 'ssiisss', $nama, $tipe, $kapasitas, $harga, $gambar, $deskripsi, $fasilitas);
-        if (mysqli_stmt_execute($stmt)) {
+        db_stmt_bind_param($stmt, 'ssiisss', $nama, $tipe, $kapasitas, $harga, $gambar, $deskripsi, $fasilitas);
+        if (db_stmt_execute($stmt)) {
             setFlash('success', 'Armada berhasil ditambahkan!');
             header('Location: armada.php');
             exit;
         } else {
-            $error = 'Gagal menyimpan: ' . mysqli_error($conn);
+            $error = 'Gagal menyimpan: ' . db_error($conn);
         }
     } else {
         $error = 'Nama bus, kapasitas, dan harga wajib diisi.';

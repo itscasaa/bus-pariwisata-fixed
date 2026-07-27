@@ -49,30 +49,30 @@ try {
     $keywordLike = '%' . $keyword . '%';
     
     // Prepare statement
-    $stmt = mysqli_prepare($conn, "SELECT id, nama_destinasi, durasi, harga_hiace, harga_elf, harga_medium, harga_big FROM price_list WHERE nama_destinasi LIKE ? ORDER BY nama_destinasi ASC");
+    $stmt = db_prepare($conn, "SELECT id, nama_destinasi, durasi, harga_hiace, harga_elf, harga_medium, harga_big FROM price_list WHERE nama_destinasi LIKE ? ORDER BY nama_destinasi ASC");
     
     if ($stmt === false) {
       throw new Exception('Failed to prepare statement.');
     }
 
     // Bind parameter
-    if (!mysqli_stmt_bind_param($stmt, 's', $keywordLike)) {
-      throw new Exception('Failed to bind parameters: ' . mysqli_stmt_error($stmt));
+    if (!db_stmt_bind_param($stmt, 's', $keywordLike)) {
+      throw new Exception('Failed to bind parameters: ' . db_stmt_error($stmt));
     }
 
     // Execute statement
-    if (!mysqli_stmt_execute($stmt)) {
-      throw new Exception('Failed to execute query: ' . mysqli_stmt_error($stmt));
+    if (!db_stmt_execute($stmt)) {
+      throw new Exception('Failed to execute query: ' . db_stmt_error($stmt));
     }
 
     // Get result
-    $result = mysqli_stmt_get_result($stmt);
+    $result = db_stmt_get_result($stmt);
     if ($result === false) {
-      throw new Exception('Failed to get result: ' . mysqli_stmt_error($stmt));
+      throw new Exception('Failed to get result: ' . db_stmt_error($stmt));
     }
 
     // Fetch all results
-    while ($data = mysqli_fetch_assoc($result)) {
+    while ($data = db_fetch_assoc($result)) {
       $prices[] = [
         'id' => (int)$data['id'],
         'nama_destinasi' => (string)$data['nama_destinasi'],
@@ -85,18 +85,18 @@ try {
     }
 
     // Close statement
-    mysqli_stmt_close($stmt);
+    db_stmt_close($stmt);
 
   } else {
     // Get all price list without filter
-    $query = mysqli_query($conn, "SELECT id, nama_destinasi, durasi, harga_hiace, harga_elf, harga_medium, harga_big FROM price_list ORDER BY id ASC");
+    $query = db_query($conn, "SELECT id, nama_destinasi, durasi, harga_hiace, harga_elf, harga_medium, harga_big FROM price_list ORDER BY id ASC");
 
     if ($query === false) {
       throw new Exception('Database query failed.');
     }
 
     // Fetch all results
-    while ($data = mysqli_fetch_assoc($query)) {
+    while ($data = db_fetch_assoc($query)) {
       $prices[] = [
         'id' => (int)$data['id'],
         'nama_destinasi' => (string)$data['nama_destinasi'],
@@ -128,6 +128,6 @@ echo json_encode($response, JSON_UNESCAPED_UNICODE);
 
 // Close database connection safely
 if (isset($conn) && is_object($conn)) {
-  mysqli_close($conn);
+  db_close($conn);
 }
 ?>

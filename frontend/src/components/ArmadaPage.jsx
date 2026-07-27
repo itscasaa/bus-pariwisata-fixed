@@ -36,7 +36,7 @@ const ArmadaPage = () => {
       768: { slidesPerView: 3 },
       1024: { slidesPerView: 4 },
     },
-    className: "pb-8 pt-2 px-1",
+    className: "pb-2 swiper-card-carousel",
   };
 
   useEffect(() => {
@@ -92,7 +92,7 @@ const ArmadaPage = () => {
       {/* Info strip */}
       <div className="bg-[#F3FAFF] border-b border-[#DDEAF6]">
         <div className="container mx-auto px-4 py-3 flex flex-wrap gap-x-6 gap-y-1 text-xs justify-center" style={{ color: '#10233F' }}>
-          <span><i className="fas fa-check-circle text-[#128C7E] mr-1"></i>Harga sudah termasuk: sewa bus, BBM, driver, helper &amp; asuransi jiwa</span>
+          <span><i className="fas fa-check-circle text-[#0B655B] mr-1"></i>Harga sudah termasuk: sewa bus, BBM, driver, helper &amp; asuransi jiwa</span>
           <span><i className="fas fa-times-circle text-red-500 mr-1"></i>Belum termasuk: toll, parkir, tips, tiket wisata &amp; kapal ferry</span>
         </div>
       </div>

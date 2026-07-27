@@ -10,10 +10,10 @@ $pageTitle = 'Pesan Masuk';
 // Tandai sudah dibaca
 if (isset($_GET['read'])) {
     $rid  = (int)$_GET['read'];
-    $stmt = mysqli_prepare($conn, "UPDATE pesan_masuk SET is_read = 1 WHERE id = ?");
-    mysqli_stmt_bind_param($stmt, 'i', $rid);
-    mysqli_stmt_execute($stmt);
-    mysqli_stmt_close($stmt);
+    $stmt = db_prepare($conn, "UPDATE pesan_masuk SET is_read = 1 WHERE id = ?");
+    db_stmt_bind_param($stmt, 'i', $rid);
+    db_stmt_execute($stmt);
+    db_stmt_close($stmt);
     header('Location: pesan.php'); exit;
 }
 
@@ -21,30 +21,30 @@ if (isset($_GET['read'])) {
 if (isset($_POST['action']) && $_POST['action'] === 'hapus') {
     $id   = (int)($_POST['id'] ?? 0);
     if ($id > 0) {
-        $stmt = mysqli_prepare($conn, "DELETE FROM pesan_masuk WHERE id = ?");
-        mysqli_stmt_bind_param($stmt, 'i', $id);
-        if (mysqli_stmt_execute($stmt)) setFlash('success', 'Pesan berhasil dihapus.');
+        $stmt = db_prepare($conn, "DELETE FROM pesan_masuk WHERE id = ?");
+        db_stmt_bind_param($stmt, 'i', $id);
+        if (db_stmt_execute($stmt)) setFlash('success', 'Pesan berhasil dihapus.');
         else setFlash('error', 'Gagal hapus pesan.');
-        mysqli_stmt_close($stmt);
+        db_stmt_close($stmt);
     }
     header('Location: pesan.php'); exit;
 }
 
 // Cek apakah kolom is_read ada
-$cols_q   = mysqli_query($conn, "SHOW COLUMNS FROM pesan_masuk");
+$cols_q   = db_query($conn, "SHOW COLUMNS FROM pesan_masuk");
 $cols_arr = [];
-while ($c = mysqli_fetch_assoc($cols_q)) $cols_arr[] = $c['Field'];
+while ($c = db_fetch_assoc($cols_q)) $cols_arr[] = $c['Field'];
 $has_is_read = in_array('is_read', $cols_arr);
 
 // Ambil semua pesan
-$pesan_list = mysqli_query($conn,
+$pesan_list = db_query($conn,
     "SELECT id, nama, email, judul, pesan" . ($has_is_read ? ", is_read" : ", 0 AS is_read") . ", created_at
      FROM pesan_masuk ORDER BY created_at DESC"
 );
 
 $total_unread = 0;
 if ($has_is_read) {
-    $r = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) as c FROM pesan_masuk WHERE is_read = 0"));
+    $r = db_fetch_assoc(db_query($conn, "SELECT COUNT(*) as c FROM pesan_masuk WHERE is_read = 0"));
     $total_unread = (int)$r['c'];
 }
 
@@ -58,14 +58,14 @@ include 'layout_header.php';
 <div class="bg-white rounded-xl shadow-sm border border-gray-100">
   <div class="px-5 py-4 border-b border-gray-100 flex items-center justify-between">
     <h2 class="font-bold text-gray-800 text-sm">Daftar Pesan Masuk</h2>
-    <span class="text-xs text-gray-400"><?= mysqli_num_rows($pesan_list) ?> pesan</span>
+    <span class="text-xs text-gray-400"><?= db_num_rows($pesan_list) ?> pesan</span>
   </div>
   <div class="divide-y divide-gray-50">
-    <?php if (mysqli_num_rows($pesan_list) === 0): ?>
+    <?php if (db_num_rows($pesan_list) === 0): ?>
     <p class="px-5 py-10 text-center text-gray-400 text-sm">Belum ada pesan masuk.</p>
     <?php endif; ?>
 
-    <?php while ($p = mysqli_fetch_assoc($pesan_list)): ?>
+    <?php while ($p = db_fetch_assoc($pesan_list)): ?>
     <div class="px-5 py-4 <?= !$p['is_read'] ? 'bg-blue-50/50' : '' ?>">
       <div class="flex items-start justify-between gap-4">
         <div class="flex-1 min-w-0">

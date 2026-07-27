@@ -24,11 +24,11 @@ $response = ['status' => 'error', 'message' => '', 'data' => []];
 try {
     // ── GET: list semua diskon ───────────────────────────────────────────────
     if ($method === 'GET') {
-        $result = mysqli_query($conn,
+        $result = db_query($conn,
             "SELECT id, judul, badge, kategori, durasi, deskripsi, gambar, status, urutan FROM paket_wisata ORDER BY urutan ASC, id ASC"
         );
         $data = [];
-        while ($row = mysqli_fetch_assoc($result)) {
+        while ($row = db_fetch_assoc($result)) {
             $data[] = [
                 'id'        => (int)$row['id'],
                 'judul'     => $row['judul'],
@@ -75,25 +75,25 @@ try {
 
             // Auto urutan jika 0
             if ($urutan === 0) {
-                $r = mysqli_query($conn, "SELECT MAX(urutan) as m FROM paket_wisata");
-                $urutan = ((int)mysqli_fetch_assoc($r)['m']) + 1;
+                $r = db_query($conn, "SELECT MAX(urutan) as m FROM paket_wisata");
+                $urutan = ((int)db_fetch_assoc($r)['m']) + 1;
             }
 
             $kategori = trim($_POST['kategori'] ?? $body['kategori'] ?? '');
             $durasi   = trim($_POST['durasi']   ?? $body['durasi']   ?? '');
             $harga    = 0;
 
-            $stmt = mysqli_prepare($conn,
+            $stmt = db_prepare($conn,
                 "INSERT INTO paket_wisata (judul, badge, kategori, durasi, harga, deskripsi, gambar, status, urutan)
                  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)"
             );
-            mysqli_stmt_bind_param($stmt, 'ssssisssi',
+            db_stmt_bind_param($stmt, 'ssssisssi',
                 $judul, $badge, $kategori, $durasi, $harga, $deskripsi, $gambar, $status, $urutan
             );
-            if (!mysqli_stmt_execute($stmt)) throw new Exception(mysqli_stmt_error($stmt));
+            if (!db_stmt_execute($stmt)) throw new Exception(db_stmt_error($stmt));
 
-            $newId = mysqli_insert_id($conn);
-            mysqli_stmt_close($stmt);
+            $newId = db_insert_id($conn);
+            db_stmt_close($stmt);
 
             $response['status']  = 'success';
             $response['message'] = 'Discount berhasil ditambahkan.';
@@ -125,16 +125,16 @@ try {
             $durasi   = trim($_POST['durasi']   ?? $body['durasi']   ?? '');
             $harga    = 0;
 
-            $stmt = mysqli_prepare($conn,
+            $stmt = db_prepare($conn,
                 "UPDATE paket_wisata
                  SET judul=?, badge=?, kategori=?, durasi=?, harga=?, deskripsi=?, gambar=?, status=?, urutan=?
                  WHERE id=?"
             );
-            mysqli_stmt_bind_param($stmt, 'ssssisssii',
+            db_stmt_bind_param($stmt, 'ssssisssii',
                 $judul, $badge, $kategori, $durasi, $harga, $deskripsi, $gambar, $status, $urutan, $id
             );
-            if (!mysqli_stmt_execute($stmt)) throw new Exception(mysqli_stmt_error($stmt));
-            mysqli_stmt_close($stmt);
+            if (!db_stmt_execute($stmt)) throw new Exception(db_stmt_error($stmt));
+            db_stmt_close($stmt);
 
             $response['status']  = 'success';
             $response['message'] = 'Discount berhasil diperbarui.';
@@ -144,10 +144,10 @@ try {
             $id = (int)($_POST['id'] ?? $body['id'] ?? 0);
             if (!$id) { $response['message'] = 'ID tidak valid.'; echo json_encode($response, JSON_UNESCAPED_UNICODE); exit; }
 
-            $stmt = mysqli_prepare($conn, "DELETE FROM paket_wisata WHERE id = ?");
-            mysqli_stmt_bind_param($stmt, 'i', $id);
-            if (!mysqli_stmt_execute($stmt)) throw new Exception(mysqli_stmt_error($stmt));
-            mysqli_stmt_close($stmt);
+            $stmt = db_prepare($conn, "DELETE FROM paket_wisata WHERE id = ?");
+            db_stmt_bind_param($stmt, 'i', $id);
+            if (!db_stmt_execute($stmt)) throw new Exception(db_stmt_error($stmt));
+            db_stmt_close($stmt);
 
             $response['status']  = 'success';
             $response['message'] = 'Discount berhasil dihapus.';
@@ -167,5 +167,5 @@ try {
 }
 
 echo json_encode($response, JSON_UNESCAPED_UNICODE);
-if (isset($conn) && $conn) mysqli_close($conn);
+if (isset($conn) && $conn) db_close($conn);
 ?>

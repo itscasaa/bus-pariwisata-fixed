@@ -279,7 +279,7 @@ const DiscountPage = () => {
                                       href={`https://wa.me/${siteData.whatsapp.number}?text=Halo%20Mafina%20Trans%2C%20saya%20tertarik%20dengan%20paket%20${encodeURIComponent(item.judul)}%20(${encodeURIComponent(item.badge || '')}).%20Bagaimana%20cara%20klaimnya%3F`}
                                       target="_blank"
                                       rel="noopener noreferrer"
-                                      className="bg-[#128C7E] hover:bg-[#0b655b] text-white font-bold text-[11px] py-2.5 rounded-xl text-center flex items-center justify-center gap-1 transition-all"
+                                      className="bg-[#0B655B] hover:bg-[#084D45] text-white font-bold text-[11px] py-2.5 rounded-xl text-center flex items-center justify-center gap-1 transition-all"
                                     >
                                       <i className="fab fa-whatsapp"></i>
                                       <span>Pesan via WA</span>

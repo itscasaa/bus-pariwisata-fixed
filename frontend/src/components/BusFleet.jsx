@@ -10,7 +10,6 @@ const FALLBACK_BUSES = [
   { name: 'Wong Kudus', tipe: 'Medium Bus', kapasitas: 31 },
   { name: 'William', tipe: 'Big Bus', kapasitas: 59 },
   { name: 'White Horse', tipe: 'Medium Bus', kapasitas: 31 },
-  { name: 'Starbus', tipe: 'Big Bus', kapasitas: 45 },
   { name: 'Blue Star', tipe: 'Big Bus', kapasitas: 59 }
 ];
 
@@ -65,7 +64,7 @@ const BusFleet = () => {
       768: { slidesPerView: 3 },
       1024: { slidesPerView: 4 },
     },
-    className: "pb-2",
+    className: "pb-2 swiper-card-carousel",
   };
 
   const renderLiveGrid = () => (
@@ -97,7 +96,7 @@ const BusFleet = () => {
               href={`https://wa.me/6285199802536?text=Halo%20Mafina%20Trans%2C%20saya%20ingin%20tanya%20sewa%20bus%20pariwisata.`}
               target="_blank"
               rel="noopener noreferrer"
-              className="w-full bg-[#128C7E] hover:bg-[#0b655b] text-white font-bold text-xs py-2.5 rounded-xl text-center flex items-center justify-center gap-1.5 transition-all"
+              className="w-full bg-[#0B655B] hover:bg-[#084D45] text-white font-bold text-xs py-2.5 rounded-xl text-center flex items-center justify-center gap-1.5 transition-all"
             >
               <i className="fab fa-whatsapp"></i>
               Tanya Harga
@@ -188,7 +187,7 @@ const BusFleet = () => {
                         href={`https://wa.me/6285199802536?text=Halo%20Mafina%20Trans%2C%20saya%20ingin%20tanya%20sewa%20bus%20pariwisata.`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="w-full bg-[#128C7E] hover:bg-[#0b655b] text-white font-bold text-xs py-2.5 rounded-xl text-center flex items-center justify-center gap-1.5 transition-all"
+                        className="w-full bg-[#0B655B] hover:bg-[#084D45] text-white font-bold text-xs py-2.5 rounded-xl text-center flex items-center justify-center gap-1.5 transition-all"
                       >
                         <i className="fab fa-whatsapp"></i>
                         Tanya Harga

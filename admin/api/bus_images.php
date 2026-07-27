@@ -27,13 +27,13 @@ if (!$bus_id) {
 // ── GET: Ambil daftar galeri untuk bus_id ────────────────────────────────────
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     try {
-        $stmt = mysqli_prepare($conn, "SELECT id, path, label, tipe_gambar, urutan, is_cover, created_at FROM bus_images WHERE bus_id = ? ORDER BY urutan ASC, id ASC");
-        mysqli_stmt_bind_param($stmt, 'i', $bus_id);
-        mysqli_stmt_execute($stmt);
-        $result = mysqli_stmt_get_result($stmt);
+        $stmt = db_prepare($conn, "SELECT id, path, label, tipe_gambar, urutan, is_cover, created_at FROM bus_images WHERE bus_id = ? ORDER BY urutan ASC, id ASC");
+        db_stmt_bind_param($stmt, 'i', $bus_id);
+        db_stmt_execute($stmt);
+        $result = db_stmt_get_result($stmt);
         
         $images = [];
-        while ($row = mysqli_fetch_assoc($result)) {
+        while ($row = db_fetch_assoc($result)) {
             // Normalisasi path agar frontend dapat memuat dengan benar
             $row['id'] = (int)$row['id'];
             $row['is_cover'] = (int)$row['is_cover'];
@@ -60,7 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             
             $images[] = $row;
         }
-        mysqli_stmt_close($stmt);
+        db_stmt_close($stmt);
         sendResponse('success', 'Galeri berhasil diambil.', $images);
     } catch (Exception $e) {
         sendResponse('error', 'Gagal memuat galeri: ' . $e->getMessage(), [], 500);
@@ -83,13 +83,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $label = $_POST['label'] ?? $_GET['label'] ?? $input['label'] ?? '';
         
         // Ambit urutan tertinggi saat ini
-        $urutan_stmt = mysqli_prepare($conn, "SELECT COALESCE(MAX(urutan), 0) AS max_u FROM bus_images WHERE bus_id = ?");
-        mysqli_stmt_bind_param($urutan_stmt, 'i', $bus_id);
-        mysqli_stmt_execute($urutan_stmt);
-        $urutan_res = mysqli_stmt_get_result($urutan_stmt);
-        $urutan_row = mysqli_fetch_assoc($urutan_res);
+        $urutan_stmt = db_prepare($conn, "SELECT COALESCE(MAX(urutan), 0) AS max_u FROM bus_images WHERE bus_id = ?");
+        db_stmt_bind_param($urutan_stmt, 'i', $bus_id);
+        db_stmt_execute($urutan_stmt);
+        $urutan_res = db_stmt_get_result($urutan_stmt);
+        $urutan_row = db_fetch_assoc($urutan_res);
         $max_urutan = (int)$urutan_row['max_u'];
-        mysqli_stmt_close($urutan_stmt);
+        db_stmt_close($urutan_stmt);
         
         $uploaded_paths = [];
         
@@ -143,36 +143,36 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $current_urutan = $max_urutan + $idx + 1;
             
             // Cek apakah bus ini sudah punya cover image di bus_images atau gambar_utama di bus
-            $cover_check = mysqli_query($conn, "SELECT COUNT(*) as count FROM bus_images WHERE bus_id = $bus_id AND is_cover = 1");
-            $cover_row = mysqli_fetch_assoc($cover_check);
+            $cover_check = db_query($conn, "SELECT COUNT(*) as count FROM bus_images WHERE bus_id = $bus_id AND is_cover = 1");
+            $cover_row = db_fetch_assoc($cover_check);
             $has_cover = (int)$cover_row['count'] > 0;
             
-            $bus_cover_check = mysqli_prepare($conn, "SELECT gambar_utama FROM bus WHERE id = ? LIMIT 1");
-            mysqli_stmt_bind_param($bus_cover_check, 'i', $bus_id);
-            mysqli_stmt_execute($bus_cover_check);
-            $bus_cover_res = mysqli_stmt_get_result($bus_cover_check);
-            $bus_cover_row = mysqli_fetch_assoc($bus_cover_res);
+            $bus_cover_check = db_prepare($conn, "SELECT gambar_utama FROM bus WHERE id = ? LIMIT 1");
+            db_stmt_bind_param($bus_cover_check, 'i', $bus_id);
+            db_stmt_execute($bus_cover_check);
+            $bus_cover_res = db_stmt_get_result($bus_cover_check);
+            $bus_cover_row = db_fetch_assoc($bus_cover_res);
             $bus_has_main = !empty($bus_cover_row['gambar_utama']);
-            mysqli_stmt_close($bus_cover_check);
+            db_stmt_close($bus_cover_check);
             
             // Jika belum punya cover image sama sekali, jadikan gambar pertama ini sebagai cover
             $is_cover = (!$has_cover && !$bus_has_main && $inserted_count === 0) ? 1 : 0;
             
-            $stmt = mysqli_prepare($conn, "INSERT INTO bus_images (bus_id, path, label, tipe_gambar, urutan, is_cover) VALUES (?, ?, ?, ?, ?, ?)");
-            mysqli_stmt_bind_param($stmt, 'isssii', $bus_id, $path, $label, $tipe_gambar, $current_urutan, $is_cover);
+            $stmt = db_prepare($conn, "INSERT INTO bus_images (bus_id, path, label, tipe_gambar, urutan, is_cover) VALUES (?, ?, ?, ?, ?, ?)");
+            db_stmt_bind_param($stmt, 'isssii', $bus_id, $path, $label, $tipe_gambar, $current_urutan, $is_cover);
             
-            if (mysqli_stmt_execute($stmt)) {
+            if (db_stmt_execute($stmt)) {
                 $inserted_count++;
                 
                 // Jika dijadikan cover, update juga kolom gambar_utama di tabel bus
                 if ($is_cover === 1) {
-                    $update_bus = mysqli_prepare($conn, "UPDATE bus SET gambar_utama = ? WHERE id = ?");
-                    mysqli_stmt_bind_param($update_bus, 'si', $path, $bus_id);
-                    mysqli_stmt_execute($update_bus);
-                    mysqli_stmt_close($update_bus);
+                    $update_bus = db_prepare($conn, "UPDATE bus SET gambar_utama = ? WHERE id = ?");
+                    db_stmt_bind_param($update_bus, 'si', $path, $bus_id);
+                    db_stmt_execute($update_bus);
+                    db_stmt_close($update_bus);
                 }
             }
-            mysqli_stmt_close($stmt);
+            db_stmt_close($stmt);
         }
         
         sendResponse('success', "$inserted_count gambar berhasil ditambahkan ke galeri.");
@@ -186,12 +186,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         
         // Ambil info gambar dulu untuk validasi bus_id dan path
-        $stmt = mysqli_prepare($conn, "SELECT path FROM bus_images WHERE id = ? AND bus_id = ? LIMIT 1");
-        mysqli_stmt_bind_param($stmt, 'ii', $image_id, $bus_id);
-        mysqli_stmt_execute($stmt);
-        $res = mysqli_stmt_get_result($stmt);
-        $image = mysqli_fetch_assoc($res);
-        mysqli_stmt_close($stmt);
+        $stmt = db_prepare($conn, "SELECT path FROM bus_images WHERE id = ? AND bus_id = ? LIMIT 1");
+        db_stmt_bind_param($stmt, 'ii', $image_id, $bus_id);
+        db_stmt_execute($stmt);
+        $res = db_stmt_get_result($stmt);
+        $image = db_fetch_assoc($res);
+        db_stmt_close($stmt);
         
         if (!$image) {
             sendResponse('error', 'Gambar tidak ditemukan atau bukan milik armada ini.');
@@ -199,22 +199,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         
         // Mulai transaksi mini / update manual
         // Set all other images cover flag to 0
-        $stmt1 = mysqli_prepare($conn, "UPDATE bus_images SET is_cover = 0 WHERE bus_id = ?");
-        mysqli_stmt_bind_param($stmt1, 'i', $bus_id);
-        mysqli_stmt_execute($stmt1);
-        mysqli_stmt_close($stmt1);
+        $stmt1 = db_prepare($conn, "UPDATE bus_images SET is_cover = 0 WHERE bus_id = ?");
+        db_stmt_bind_param($stmt1, 'i', $bus_id);
+        db_stmt_execute($stmt1);
+        db_stmt_close($stmt1);
         
         // Set selected image cover flag to 1
-        $stmt2 = mysqli_prepare($conn, "UPDATE bus_images SET is_cover = 1 WHERE id = ? AND bus_id = ?");
-        mysqli_stmt_bind_param($stmt2, 'ii', $image_id, $bus_id);
-        mysqli_stmt_execute($stmt2);
-        mysqli_stmt_close($stmt2);
+        $stmt2 = db_prepare($conn, "UPDATE bus_images SET is_cover = 1 WHERE id = ? AND bus_id = ?");
+        db_stmt_bind_param($stmt2, 'ii', $image_id, $bus_id);
+        db_stmt_execute($stmt2);
+        db_stmt_close($stmt2);
         
         // Update gambar_utama di tabel bus
-        $stmt3 = mysqli_prepare($conn, "UPDATE bus SET gambar_utama = ? WHERE id = ?");
-        mysqli_stmt_bind_param($stmt3, 'si', $image['path'], $bus_id);
-        mysqli_stmt_execute($stmt3);
-        mysqli_stmt_close($stmt3);
+        $stmt3 = db_prepare($conn, "UPDATE bus SET gambar_utama = ? WHERE id = ?");
+        db_stmt_bind_param($stmt3, 'si', $image['path'], $bus_id);
+        db_stmt_execute($stmt3);
+        db_stmt_close($stmt3);
         
         sendResponse('success', 'Gambar cover armada berhasil diperbarui.');
     }
@@ -227,12 +227,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         
         // Ambil info gambar
-        $stmt = mysqli_prepare($conn, "SELECT path, is_cover FROM bus_images WHERE id = ? AND bus_id = ? LIMIT 1");
-        mysqli_stmt_bind_param($stmt, 'ii', $image_id, $bus_id);
-        mysqli_stmt_execute($stmt);
-        $res = mysqli_stmt_get_result($stmt);
-        $image = mysqli_fetch_assoc($res);
-        mysqli_stmt_close($stmt);
+        $stmt = db_prepare($conn, "SELECT path, is_cover FROM bus_images WHERE id = ? AND bus_id = ? LIMIT 1");
+        db_stmt_bind_param($stmt, 'ii', $image_id, $bus_id);
+        db_stmt_execute($stmt);
+        $res = db_stmt_get_result($stmt);
+        $image = db_fetch_assoc($res);
+        db_stmt_close($stmt);
         
         if (!$image) {
             sendResponse('error', 'Gambar tidak ditemukan.');
@@ -244,22 +244,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         
         // Cek juga di tabel bus
-        $bus_stmt = mysqli_prepare($conn, "SELECT gambar_utama FROM bus WHERE id = ? LIMIT 1");
-        mysqli_stmt_bind_param($bus_stmt, 'i', $bus_id);
-        mysqli_stmt_execute($bus_stmt);
-        $bus_res = mysqli_stmt_get_result($bus_stmt);
-        $bus_row = mysqli_fetch_assoc($bus_res);
-        mysqli_stmt_close($bus_stmt);
+        $bus_stmt = db_prepare($conn, "SELECT gambar_utama FROM bus WHERE id = ? LIMIT 1");
+        db_stmt_bind_param($bus_stmt, 'i', $bus_id);
+        db_stmt_execute($bus_stmt);
+        $bus_res = db_stmt_get_result($bus_stmt);
+        $bus_row = db_fetch_assoc($bus_res);
+        db_stmt_close($bus_stmt);
         
         if ($bus_row && $bus_row['gambar_utama'] === $image['path']) {
             sendResponse('error', 'Gambar cover utama armada tidak boleh dihapus. Silakan tetapkan gambar lain sebagai cover terlebih dahulu.');
         }
         
         // Hapus dari database
-        $del_stmt = mysqli_prepare($conn, "DELETE FROM bus_images WHERE id = ? AND bus_id = ?");
-        mysqli_stmt_bind_param($del_stmt, 'ii', $image_id, $bus_id);
-        $deleted = mysqli_stmt_execute($del_stmt);
-        mysqli_stmt_close($del_stmt);
+        $del_stmt = db_prepare($conn, "DELETE FROM bus_images WHERE id = ? AND bus_id = ?");
+        db_stmt_bind_param($del_stmt, 'ii', $image_id, $bus_id);
+        $deleted = db_stmt_execute($del_stmt);
+        db_stmt_close($del_stmt);
         
         if ($deleted) {
             // Hapus file fisik dari disk
@@ -287,13 +287,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         
         $success_count = 0;
         foreach ($image_ids as $index => $id) {
-            $stmt = mysqli_prepare($conn, "UPDATE bus_images SET urutan = ? WHERE id = ? AND bus_id = ?");
+            $stmt = db_prepare($conn, "UPDATE bus_images SET urutan = ? WHERE id = ? AND bus_id = ?");
             $urutan = $index + 1;
-            mysqli_stmt_bind_param($stmt, 'iii', $urutan, $id, $bus_id);
-            if (mysqli_stmt_execute($stmt)) {
+            db_stmt_bind_param($stmt, 'iii', $urutan, $id, $bus_id);
+            if (db_stmt_execute($stmt)) {
                 $success_count++;
             }
-            mysqli_stmt_close($stmt);
+            db_stmt_close($stmt);
         }
         
         sendResponse('success', "Urutan $success_count gambar berhasil disimpan.");
@@ -309,15 +309,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $tipe_gambar = $_POST['tipe_gambar'] ?? $input['tipe_gambar'] ?? 'other';
         $label = $_POST['label'] ?? $input['label'] ?? '';
         
-        $stmt = mysqli_prepare($conn, "UPDATE bus_images SET tipe_gambar = ?, label = ? WHERE id = ? AND bus_id = ?");
-        mysqli_stmt_bind_param($stmt, 'ssii', $tipe_gambar, $label, $image_id, $bus_id);
+        $stmt = db_prepare($conn, "UPDATE bus_images SET tipe_gambar = ?, label = ? WHERE id = ? AND bus_id = ?");
+        db_stmt_bind_param($stmt, 'ssii', $tipe_gambar, $label, $image_id, $bus_id);
         
-        if (mysqli_stmt_execute($stmt)) {
+        if (db_stmt_execute($stmt)) {
             sendResponse('success', 'Informasi gambar berhasil diperbarui.');
         } else {
             sendResponse('error', 'Gagal memperbarui informasi gambar.');
         }
-        mysqli_stmt_close($stmt);
+        db_stmt_close($stmt);
     }
     
     sendResponse('error', 'Action tidak valid atau tidak didukung.');

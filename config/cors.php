@@ -5,15 +5,16 @@
 // ============================================================
 
 $allowed_origins = [
-    'https://mafinatrans.duckdns.org',
-    'https://adminmafina.duckdns.org',
+    'https://mafinatrans.com',
+    'https://www.mafinatrans.com',
+    'https://admin.mafinatrans.com',
     'http://localhost:3000',
     'http://localhost',
     'http://127.0.0.1'
 ];
 
 $origin = $_SERVER['HTTP_ORIGIN'] ?? '';
-$allowed_origin = 'https://mafinatrans.duckdns.org'; // Default fallback
+$allowed_origin = 'https://mafinatrans.com'; // Default fallback
 
 if (in_array($origin, $allowed_origins)) {
     $allowed_origin = $origin;

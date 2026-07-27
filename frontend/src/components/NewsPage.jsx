@@ -166,7 +166,7 @@ const NewsPage = () => {
                         src={item.gambar}
                         alt={item.judul}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                        onError={e => { e.target.onerror = null; e.target.src = '/images/bus4.jpeg'; }}
+                        onError={e => { e.target.onerror = null; e.target.src = '/images/bus4.webp'; }}
                       />
                       <div className="absolute top-4 left-4 bg-[#0B5CA8]/90 backdrop-blur-sm text-white text-[10px] font-extrabold uppercase tracking-wider px-3 py-1.5 rounded-full">
                         Info Trans

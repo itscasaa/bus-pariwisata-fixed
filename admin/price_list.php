@@ -5,12 +5,12 @@ $pageTitle = 'Kelola Price List';
 
 $keyword = trim($_GET['q'] ?? '');
 if ($keyword) {
-    $like = '%' . mysqli_real_escape_string($conn, $keyword) . '%';
-    $prices = mysqli_query($conn, "SELECT * FROM price_list WHERE nama_destinasi LIKE '$like' ORDER BY id ASC");
+    $like = '%' . db_escape($conn, $keyword) . '%';
+    $prices = db_query($conn, "SELECT * FROM price_list WHERE nama_destinasi LIKE '$like' ORDER BY id ASC");
 } else {
-    $prices = mysqli_query($conn, "SELECT * FROM price_list ORDER BY id ASC");
+    $prices = db_query($conn, "SELECT * FROM price_list ORDER BY id ASC");
 }
-$total = mysqli_num_rows($prices);
+$total = db_num_rows($prices);
 
 include 'layout_header.php';
 ?>
@@ -52,7 +52,7 @@ include 'layout_header.php';
         </tr>
       </thead>
       <tbody class="divide-y divide-gray-50">
-        <?php while ($p = mysqli_fetch_assoc($prices)): ?>
+        <?php while ($p = db_fetch_assoc($prices)): ?>
         <tr class="hover:bg-gray-50 transition-colors">
           <td class="px-5 py-3 font-semibold text-gray-800 max-w-xs">
             <div class="flex items-start gap-2">

@@ -5,7 +5,7 @@ cekLogin();
 $id = (int)($_GET['id'] ?? 0);
 if (!$id) { header('Location: news.php'); exit; }
 
-$n = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM news WHERE id=$id LIMIT 1"));
+$n = db_fetch_assoc(db_query($conn, "SELECT * FROM news WHERE id=$id LIMIT 1"));
 if (!$n) { setFlash('error', 'Berita tidak ditemukan.'); header('Location: news.php'); exit; }
 
 $pageTitle = 'Edit Berita';
@@ -17,16 +17,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $status = in_array($_POST['status'], ['publish','draft']) ? $_POST['status'] : 'publish';
 
     if ($judul && $konten) {
-        $stmt = mysqli_prepare($conn,
+        $stmt = db_prepare($conn,
             "UPDATE news SET judul=?, konten=?, gambar=?, status=? WHERE id=?"
         );
-        mysqli_stmt_bind_param($stmt, 'ssssi', $judul, $konten, $gambar, $status, $id);
-        if (mysqli_stmt_execute($stmt)) {
+        db_stmt_bind_param($stmt, 'ssssi', $judul, $konten, $gambar, $status, $id);
+        if (db_stmt_execute($stmt)) {
             setFlash('success', 'Berita berhasil diperbarui!');
             header('Location: news.php');
             exit;
         } else {
-            $error = 'Gagal menyimpan: ' . mysqli_error($conn);
+            $error = 'Gagal menyimpan: ' . db_error($conn);
         }
     } else {
         $error = 'Judul dan konten wajib diisi.';

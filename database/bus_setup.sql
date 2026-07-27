@@ -41,27 +41,27 @@ CREATE TABLE bus_images (
 -- ------------------------------------------------------------
 INSERT INTO bus (id, nama_bus, tipe, kapasitas, harga_sewa, gambar_utama, deskripsi, fasilitas) VALUES
 (1, 'Zahra Ayu',   'big_bus',    45, 4500000,
- 'bus1/bu1.jpeg',
+ 'bus1/bu1.webp',
  'Bus besar Zahra Ayu dengan kapasitas 45 kursi, cocok untuk rombongan besar.',
  '["AC", "Reclining Seat", "Audio System", "Bagasi Luas"]'),
 
 (2, 'Wong Kudus',  'medium_bus', 30, 3000000,
- 'bus2/mini_bus2.jpeg',
+ 'bus2/mini_bus2.webp',
  'Bus medium Wong Kudus nyaman untuk perjalanan grup sedang.',
  '["AC", "Reclining Seat", "Audio System", "Bantal & Selimut"]'),
 
 (3, 'William',     'big_bus',    45, 4500000,
- 'bus3/bus3.jpeg',
+ 'bus3/bus3.webp',
  'Bus besar William dengan interior modern dan bangku premium.',
  '["AC", "Reclining Seat", "TV/Monitor", "Audio System", "Bagasi Luas"]'),
 
 (4, 'White Horse', 'big_bus',    45, 5000000,
- 'bus4/bus4.jpeg',
+ 'bus4/bus4.webp',
  'Bus besar White Horse dilengkapi dispenser air minum untuk perjalanan jauh.',
  '["AC", "Reclining Seat", "TV/Monitor", "Dispenser Air", "Audio System", "Bagasi Luas"]'),
 
 (5, 'Starbus',     'medium_bus', 30, 3500000,
- 'bus5/bus5.jpeg',
+ 'bus5/bus5.webp',
  'Bus medium Starbus dengan desain elegan dan bangku yang luas.',
  '["AC", "Reclining Seat", "Audio System", "Bantal & Selimut", "Bagasi Luas"]');
 
@@ -71,42 +71,42 @@ INSERT INTO bus (id, nama_bus, tipe, kapasitas, harga_sewa, gambar_utama, deskri
 
 -- Bus 1 - Zahra Ayu
 INSERT INTO bus_images (bus_id, path, label, urutan) VALUES
-(1, 'bus1/bu1.jpeg',             'Eksterior Bus',   0),
-(1, 'bus1/bangku_depan.jpeg',    'Bangku Depan',    1),
-(1, 'bus1/bangku_belakang.jpeg', 'Bangku Belakang', 2);
+(1, 'bus1/bu1.webp',             'Eksterior Bus',   0),
+(1, 'bus1/bangku_depan.webp',    'Bangku Depan',    1),
+(1, 'bus1/bangku_belakang.webp', 'Bangku Belakang', 2);
 
 -- Bus 2 - Wong Kudus
 INSERT INTO bus_images (bus_id, path, label, urutan) VALUES
-(2, 'bus2/mini_bus2.jpeg',        'Eksterior Bus',   0),
-(2, 'bus2/bangku_depan.jpeg',     'Bangku Depan',    1),
-(2, 'bus2/bangku_depan2.jpeg',    'Bangku Depan 2',  2),
-(2, 'bus2/bangku_belakang.jpeg',  'Bangku Belakang', 3),
-(2, 'bus2/supir.jpeg',            'Area Supir',      4);
+(2, 'bus2/mini_bus2.webp',        'Eksterior Bus',   0),
+(2, 'bus2/bangku_depan.webp',     'Bangku Depan',    1),
+(2, 'bus2/bangku_depan2.webp',    'Bangku Depan 2',  2),
+(2, 'bus2/bangku_belakang.webp',  'Bangku Belakang', 3),
+(2, 'bus2/supir.webp',            'Area Supir',      4);
 
 -- Bus 3 - William
 INSERT INTO bus_images (bus_id, path, label, urutan) VALUES
-(3, 'bus3/bus3.jpeg',             'Eksterior Bus',   0),
-(3, 'bus3/bangku_depan.jpeg',     'Bangku Depan',    1),
-(3, 'bus3/bangku_depan1.jpeg',    'Bangku Depan 1',  2),
-(3, 'bus3/bangku_depan2.jpeg',    'Bangku Depan 2',  3),
-(3, 'bus3/bangku_belakang.jpeg',  'Bangku Belakang', 4);
+(3, 'bus3/bus3.webp',             'Eksterior Bus',   0),
+(3, 'bus3/bangku_depan.webp',     'Bangku Depan',    1),
+(3, 'bus3/bangku_depan1.webp',    'Bangku Depan 1',  2),
+(3, 'bus3/bangku_depan2.webp',    'Bangku Depan 2',  3),
+(3, 'bus3/bangku_belakang.webp',  'Bangku Belakang', 4);
 
 -- Bus 4 - White Horse
 INSERT INTO bus_images (bus_id, path, label, urutan) VALUES
-(4, 'bus4/bus4.jpeg',              'Eksterior Bus',     0),
-(4, 'bus4/bangku_depan.jpeg',      'Bangku Depan',      1),
-(4, 'bus4/bangku_belakang.jpeg',   'Bangku Belakang',   2),
-(4, 'bus4/bangku_belakang2.jpeg',  'Bangku Belakang 2', 3),
-(4, 'bus4/dispenser.jpeg',         'Dispenser Air',     4);
+(4, 'bus4/bus4.webp',              'Eksterior Bus',     0),
+(4, 'bus4/bangku_depan.webp',      'Bangku Depan',      1),
+(4, 'bus4/bangku_belakang.webp',   'Bangku Belakang',   2),
+(4, 'bus4/bangku_belakang2.webp',  'Bangku Belakang 2', 3),
+(4, 'bus4/dispenser.webp',         'Dispenser Air',     4);
 
 -- Bus 5 - Starbus
 INSERT INTO bus_images (bus_id, path, label, urutan) VALUES
-(5, 'bus5/bus5.jpeg',              'Eksterior Bus',     0),
-(5, 'bus5/depan_bus5.jpeg',        'Depan Bus',         1),
-(5, 'bus5/bangku_depan.jpeg',      'Bangku Depan',      2),
-(5, 'bus5/bangku_depan2.jpeg',     'Bangku Depan 2',    3),
-(5, 'bus5/bangku_belakang.jpeg',   'Bangku Belakang',   4),
-(5, 'bus5/bangku_belakang2.jpeg',  'Bangku Belakang 2', 5);
+(5, 'bus5/bus5.webp',              'Eksterior Bus',     0),
+(5, 'bus5/depan_bus5.webp',        'Depan Bus',         1),
+(5, 'bus5/bangku_depan.webp',      'Bangku Depan',      2),
+(5, 'bus5/bangku_depan2.webp',     'Bangku Depan 2',    3),
+(5, 'bus5/bangku_belakang.webp',   'Bangku Belakang',   4),
+(5, 'bus5/bangku_belakang2.webp',  'Bangku Belakang 2', 5);
 
 -- ------------------------------------------------------------
 -- Verifikasi hasil

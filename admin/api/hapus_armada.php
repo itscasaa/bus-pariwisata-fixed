@@ -20,15 +20,15 @@ if (!$id) {
 }
 
 try {
-    $stmt = mysqli_prepare($conn, "DELETE FROM bus WHERE id = ?");
-    mysqli_stmt_bind_param($stmt, 'i', $id);
+    $stmt = db_prepare($conn, "DELETE FROM bus WHERE id = ?");
+    db_stmt_bind_param($stmt, 'i', $id);
     
-    if (mysqli_stmt_execute($stmt)) {
+    if (db_stmt_execute($stmt)) {
         sendResponse('success', 'Armada berhasil dihapus.');
     } else {
         sendResponse('error', 'Gagal menghapus armada.');
     }
-    mysqli_stmt_close($stmt);
+    db_stmt_close($stmt);
 } catch (Exception $e) {
     sendResponse('error', 'Terjadi kesalahan sistem internal.', [], 500);
 }

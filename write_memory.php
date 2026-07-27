@@ -63,11 +63,11 @@ $memory = [
       "Topan/" => "Unknown - needs investigation"
     ],
     "imageStructure" => [
-      "frontend/assets/images/bus1/" => ["bu1.jpeg","bangku_depan.jpeg","bangku_belakang.jpeg"],
-      "frontend/assets/images/bus2/" => ["mini_bus2.jpeg","bangku_depan.jpeg","bangku_depan2.jpeg","bangku_belakang.jpeg","supir.jpeg"],
-      "frontend/assets/images/bus3/" => ["bus3.jpeg","bangku_depan.jpeg","bangku_depan1.jpeg","bangku_depan2.jpeg","bangku_belakang.jpeg"],
-      "frontend/assets/images/bus4/" => ["bus4.jpeg","bangku_depan.jpeg","bangku_belakang.jpeg","bangku_belakang2.jpeg","dispenser.jpeg"],
-      "frontend/assets/images/bus5/" => ["bus5.jpeg","depan_bus5.jpeg","bangku_depan.jpeg","bangku_depan2.jpeg","bangku_belakang.jpeg","bangku_belakang2.jpeg"]
+      "frontend/assets/images/bus1/" => ["bu1.webp","bangku_depan.webp","bangku_belakang.webp"],
+      "frontend/assets/images/bus2/" => ["mini_bus2.webp","bangku_depan.webp","bangku_depan2.webp","bangku_belakang.webp","supir.webp"],
+      "frontend/assets/images/bus3/" => ["bus3.webp","bangku_depan.webp","bangku_depan1.webp","bangku_depan2.webp","bangku_belakang.webp"],
+      "frontend/assets/images/bus4/" => ["bus4.webp","bangku_depan.webp","bangku_belakang.webp","bangku_belakang2.webp","dispenser.webp"],
+      "frontend/assets/images/bus5/" => ["bus5.webp","depan_bus5.webp","bangku_depan.webp","bangku_depan2.webp","bangku_belakang.webp","bangku_belakang2.webp"]
     ],
     "databaseFiles" => [
       "database/bus_setup.sql" => "Setup awal tabel bus (referensi)",
@@ -83,11 +83,11 @@ $memory = [
         "columns" => ["id (PK AI)","nama_bus","tipe","kapasitas","harga_sewa","gambar_utama","deskripsi","fasilitas_json","created_at"],
         "note" => "Kolom gambar lama di-CHANGE jadi gambar_utama via ALTER. fasilitas_json = JSON array string.",
         "data" => [
-          ["id"=>1,"nama_bus"=>"Zahra Ayu","tipe"=>"big_bus","kapasitas"=>45,"gambar_utama"=>"bus1/bu1.jpeg"],
-          ["id"=>2,"nama_bus"=>"Wong Kudus","tipe"=>"medium_bus","kapasitas"=>30,"gambar_utama"=>"bus2/mini_bus2.jpeg"],
-          ["id"=>3,"nama_bus"=>"William","tipe"=>"big_bus","kapasitas"=>45,"gambar_utama"=>"bus3/bus3.jpeg"],
-          ["id"=>4,"nama_bus"=>"White Horse","tipe"=>"big_bus","kapasitas"=>45,"gambar_utama"=>"bus4/bus4.jpeg"],
-          ["id"=>5,"nama_bus"=>"Starbus","tipe"=>"medium_bus","kapasitas"=>30,"gambar_utama"=>"bus5/bus5.jpeg"]
+          ["id"=>1,"nama_bus"=>"Zahra Ayu","tipe"=>"big_bus","kapasitas"=>45,"gambar_utama"=>"bus1/bu1.webp"],
+          ["id"=>2,"nama_bus"=>"Wong Kudus","tipe"=>"medium_bus","kapasitas"=>30,"gambar_utama"=>"bus2/mini_bus2.webp"],
+          ["id"=>3,"nama_bus"=>"William","tipe"=>"big_bus","kapasitas"=>45,"gambar_utama"=>"bus3/bus3.webp"],
+          ["id"=>4,"nama_bus"=>"White Horse","tipe"=>"big_bus","kapasitas"=>45,"gambar_utama"=>"bus4/bus4.webp"],
+          ["id"=>5,"nama_bus"=>"Starbus","tipe"=>"medium_bus","kapasitas"=>30,"gambar_utama"=>"bus5/bus5.webp"]
         ],
         "fasilitas_lengkap" => ["Seat 3-2","2 Unit LCD TV","Dispenser","AC","Audio Set","Android Entertainment System","Karaoke + Microphone","Cooler Box","Port USB","Kompartemen Bagasi Atas + Bawah","Lampu Baca"]
       ],

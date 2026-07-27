@@ -53,17 +53,17 @@ function makeSlug($str) {
 $slug = makeSlug($judul);
 
 try {
-    $stmt = mysqli_prepare($conn,
+    $stmt = db_prepare($conn,
         "UPDATE news SET judul = ?, slug = ?, konten = ?, gambar = ?, status = ? WHERE id = ?"
     );
-    mysqli_stmt_bind_param($stmt, 'sssssi', $judul, $slug, $konten, $gambar, $status, $id);
+    db_stmt_bind_param($stmt, 'sssssi', $judul, $slug, $konten, $gambar, $status, $id);
     
-    if (mysqli_stmt_execute($stmt)) {
+    if (db_stmt_execute($stmt)) {
         sendResponse('success', 'Berita berhasil diperbarui.');
     } else {
         sendResponse('error', 'Gagal memperbarui berita.');
     }
-    mysqli_stmt_close($stmt);
+    db_stmt_close($stmt);
 } catch (Exception $e) {
     sendResponse('error', 'Terjadi kesalahan sistem internal.', [], 500);
 }

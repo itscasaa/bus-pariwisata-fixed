@@ -11,16 +11,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $slug    = makeSlug($judul);
 
     if ($judul && $konten) {
-        $stmt = mysqli_prepare($conn,
+        $stmt = db_prepare($conn,
             "INSERT INTO news (judul, slug, konten, gambar, status) VALUES (?, ?, ?, ?, ?)"
         );
-        mysqli_stmt_bind_param($stmt, 'sssss', $judul, $slug, $konten, $gambar, $status);
-        if (mysqli_stmt_execute($stmt)) {
+        db_stmt_bind_param($stmt, 'sssss', $judul, $slug, $konten, $gambar, $status);
+        if (db_stmt_execute($stmt)) {
             setFlash('success', 'Berita berhasil dipublikasikan!');
             header('Location: news.php');
             exit;
         } else {
-            $error = 'Gagal menyimpan: ' . mysqli_error($conn);
+            $error = 'Gagal menyimpan: ' . db_error($conn);
         }
     } else {
         $error = 'Judul dan konten wajib diisi.';

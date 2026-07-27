@@ -193,7 +193,7 @@ const KontakPage = () => {
                     href={waUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center justify-center gap-2 bg-[#128C7E] hover:bg-[#0b655b] text-white font-extrabold py-3.5 px-4 rounded-2xl transition shadow-sm text-sm"
+                    className="flex items-center justify-center gap-2 bg-[#0B655B] hover:bg-[#084D45] text-white font-extrabold py-3.5 px-4 rounded-2xl transition shadow-sm text-sm"
                   >
                     <i className="fab fa-whatsapp text-lg"></i>
                     Chat WhatsApp Sekarang
@@ -231,7 +231,7 @@ const KontakPage = () => {
                 {/* Alerts */}
                 {success && (
                   <div className="flex gap-3 bg-green-50 border border-green-200 text-green-800 p-4 rounded-xl mb-6 text-sm items-start">
-                    <i className="fas fa-check-circle text-lg text-[#128C7E] mt-0.5 flex-shrink-0"></i>
+                    <i className="fas fa-check-circle text-lg text-[#0B655B] mt-0.5 flex-shrink-0"></i>
                     <div>{success}</div>
                   </div>
                 )}

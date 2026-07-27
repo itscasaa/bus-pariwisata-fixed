@@ -20,10 +20,13 @@ echo "Copying backend PHP files and APIs..."
 sudo mkdir -p /var/www/bus-pariwisata/api
 sudo mkdir -p /var/www/bus-pariwisata/admin/api
 sudo mkdir -p /var/www/bus-pariwisata/config
+sudo rm -rf /var/www/bus-pariwisata/images/*
 sudo mkdir -p /var/www/bus-pariwisata/images
 sudo cp -r /var/www/bus_pariwisata/api/* /var/www/bus-pariwisata/api/
 sudo cp -r /var/www/bus_pariwisata/admin/* /var/www/bus-pariwisata/admin/
 sudo cp -r /var/www/bus_pariwisata/config/* /var/www/bus-pariwisata/config/
+sudo cp -r /var/www/bus_pariwisata/images/* /var/www/bus-pariwisata/images/
+sudo cp -r /var/www/bus_pariwisata/frontend/public/images/* /var/www/bus-pariwisata/images/
 
 # 5. Copy root and images .htaccess files for Apache hardening
 echo "Deploying Apache .htaccess protection files..."

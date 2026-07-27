@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { API_ADM } from '../config/api';
-import logoImg from '../assets/logo.png';
+import logoImg from '../assets/logo.webp';
 
 const Login = () => {
   const navigate = useNavigate();

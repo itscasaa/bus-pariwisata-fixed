@@ -10,6 +10,56 @@ test.describe('API - Admin Endpoints Security & Protection', () => {
     validToken = await loginAndGetToken(request, baseUrl);
   });
 
+  test.afterAll(async ({ request }) => {
+    // 1. Clean up created buses
+    try {
+      const busRes = await request.get(`${baseUrl}/api/buses.php`);
+      if (busRes.status() === 200) {
+        const body = await busRes.json();
+        if (body.data && Array.isArray(body.data)) {
+          const testBuses = body.data.filter((b: any) => b.nama_bus === 'Test Bus Unit');
+          for (const bus of testBuses) {
+            await request.get(`${baseUrl}/admin/api/hapus_armada.php?id=${bus.id}`, {
+              headers: { 'Authorization': `Bearer ${validToken}` }
+            });
+          }
+        }
+      }
+    } catch (e) {}
+
+    // 2. Clean up created price list routes
+    try {
+      const priceRes = await request.get(`${baseUrl}/api/price_list.php`);
+      if (priceRes.status() === 200) {
+        const body = await priceRes.json();
+        if (body.data && Array.isArray(body.data)) {
+          const testPrices = body.data.filter((p: any) => p.nama_destinasi === 'Test Destinasi');
+          for (const price of testPrices) {
+            await request.get(`${baseUrl}/admin/api/hapus_harga.php?id=${price.id}`, {
+              headers: { 'Authorization': `Bearer ${validToken}` }
+            });
+          }
+        }
+      }
+    } catch (e) {}
+
+    // 3. Clean up created news
+    try {
+      const newsRes = await request.get(`${baseUrl}/api/news.php`);
+      if (newsRes.status() === 200) {
+        const body = await newsRes.json();
+        if (body.data && Array.isArray(body.data)) {
+          const testNews = body.data.filter((n: any) => n.judul === 'Test Judul');
+          for (const news of testNews) {
+            await request.get(`${baseUrl}/admin/api/hapus_news.php?id=${news.id}`, {
+              headers: { 'Authorization': `Bearer ${validToken}` }
+            });
+          }
+        }
+      }
+    } catch (e) {}
+  });
+
   const adminEndpoints = [
     { name: 'Tambah Armada', path: '/admin/api/tambah_armada.php', method: 'POST' },
     { name: 'Edit Armada', path: '/admin/api/edit_armada.php', method: 'POST' },
